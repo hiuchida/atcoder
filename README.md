@@ -1,5 +1,6 @@
 # atcoder
 
+- abc090_b(05min) B - Palindromic Numbers
 - abc091_b(10min) B - Two Colors Card Game
 - abc092_b(10min) B - Chocolate
 - abc093_b(10min) B - Small and Large Integers
