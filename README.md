@@ -1,5 +1,6 @@
 # atcoder
 
+- abc088_b(10min) B - Card Game for Two
 - abc089_b(05min) B - Hina Arare
 - abc090_b(05min) B - Palindromic Numbers
 - abc091_b(10min) B - Two Colors Card Game
