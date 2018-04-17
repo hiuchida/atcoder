@@ -19,7 +19,56 @@ public class Main {
 	void solve() {
 		List<Point> lr = new ArrayList<>();
 		List<Point> lb = new ArrayList<>();
-		PointComparator pc = new PointComparator();
+		PointComparator pcr = new PointComparator(1); // for r
+		PointComparator pcb = new PointComparator(2); // for b
+		int n = readNum();
+		for (int i = 0; i < n; i++) {
+			int[] ia = readNums();
+			lr.add(new Point(ia[0], ia[1]));
+		}
+		for (int i = 0; i < n; i++) {
+			int[] ia = readNums();
+			lb.add(new Point(ia[0], ia[1]));
+		}
+		Collections.sort(lr, pcr);
+		Collections.sort(lb, pcb);
+		int ans = 0;
+		for (int i = 0; i < lb.size(); i++) {
+			Point b = lb.get(i);
+			for (int j = 0; j < lr.size(); j++) {
+				Point r = lr.get(j);
+				if (r.x < b.x && r.y < b.y) {
+					ans++;
+					lr.remove(j);
+					break;
+				}
+			}
+		}
+		pln(ans);
+	}
+
+	class PointComparator implements Comparator<Point> {
+		int mode;
+
+		public PointComparator(int mode) {
+			this.mode = mode;
+		}
+
+		public int compare(Point p1, Point p2) {
+			switch (mode) {
+			case 1:
+				return -1 * Integer.compare(p1.y, p2.y);
+			case 2:
+				return 1 * Integer.compare(p1.x, p2.x);
+			}
+			throw new IllegalStateException();
+		}
+	}
+
+	void solve2() {
+		List<Point> lr = new ArrayList<>();
+		List<Point> lb = new ArrayList<>();
+		PointComparator1 pc = new PointComparator1();
 		PointComparator2 pc2 = new PointComparator2();
 		int n = readNum();
 		for (int i = 0; i < n; i++) {
@@ -30,14 +79,14 @@ public class Main {
 			int[] ia = readNums();
 			lb.add(new Point(ia[0], ia[1]));
 		}
-		int ans = dfs(new ArrayList<>(lr), new ArrayList<>(lb));
+		int ans = dfs2(new ArrayList<>(lr), new ArrayList<>(lb));
 		pln(ans);
 	}
 
-	int dfs(List<Point> lr, List<Point> lb) {
+	int dfs2(List<Point> lr, List<Point> lb) {
 		if (lr.size() == 0)
 			return 0;
-		PointComparator pc = new PointComparator();
+		PointComparator1 pc = new PointComparator1();
 		Point r = lr.get(0);
 		int max = 0;
 		for (int j = 0; j < lb.size(); j++) {
@@ -53,7 +102,7 @@ public class Main {
 			List<Point> nlb = new ArrayList<>(lb);
 			nlr.remove(0);
 			nlb.remove(j);
-			ans += dfs(nlr, nlb);
+			ans += dfs2(nlr, nlb);
 			if (max < ans)
 				max = ans;
 		}
@@ -63,7 +112,7 @@ public class Main {
 	void solve1() {
 		List<Point> lr = new ArrayList<>();
 		List<Point> lb = new ArrayList<>();
-		PointComparator pc = new PointComparator();
+		PointComparator1 pc = new PointComparator1();
 		PointComparator2 pc2 = new PointComparator2();
 		int n = readNum();
 		for (int i = 0; i < n; i++) {
@@ -92,7 +141,7 @@ public class Main {
 		pln(ans);
 	}
 
-	class PointComparator implements Comparator<Point> {
+	class PointComparator1 implements Comparator<Point> {
 		public int compare(Point p1, Point p2) {
 			if (p1.x == p2.x && p1.y == p2.y) {
 				return 0;
