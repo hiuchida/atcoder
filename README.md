@@ -2,6 +2,7 @@
 
 - abc078_a(01min) A - HEX
 
+- abc076_b(05min) B - Addition and Multiplication
 - abc077_b(05min) B - Around Square
 - abc078_b(05min) B - ISU
 - abc079_b(05min) B - Lucas Number
