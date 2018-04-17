@@ -12,6 +12,7 @@
 - abc093_b(10min) B - Small and Large Integers
 - abc094_b(10min) B - Toll Gates
 
+- arc092_a(NG:60min) C - 2D Plane 2N Points
 - arc093_a(15min) C - Traveling Plan
 - arc094_a(20min) C - Same Integers
 - arc095_a(40min) C - Many Medians
