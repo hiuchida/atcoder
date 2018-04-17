@@ -1,5 +1,6 @@
 # atcoder
 
+- abc079_b(05min) B - Lucas Number
 - abc080_b(05min) B - Harshad Number
 - abc081_b(05min) B - Shift only
 - abc082_b(05min) B - Two Anagrams
