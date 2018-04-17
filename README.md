@@ -1,5 +1,6 @@
 # atcoder
 
+- abc082_b(05min) B - Two Anagrams
 - abc083_b(05min) B - Some Sums
 - abc084_b(10min) B - Postal Code
 - abc085_b(05min) B - Kagami Mochi
