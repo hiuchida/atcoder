@@ -2,6 +2,7 @@
 
 - abc078_a(01min) A - HEX
 
+- abc073_b(05min) B - Theater
 - abc074_b(10min) B - Collecting Balls (Easy Version)
 - abc075_b(10min) B - Minesweeper
 - abc076_b(05min) B - Addition and Multiplication
