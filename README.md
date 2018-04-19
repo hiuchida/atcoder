@@ -2,6 +2,7 @@
 
 - abc078_a(01min) A - HEX
 
+- abc074_b(10min) B - Collecting Balls (Easy Version)
 - abc075_b(10min) B - Minesweeper
 - abc076_b(05min) B - Addition and Multiplication
 - abc077_b(05min) B - Around Square
