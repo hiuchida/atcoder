@@ -30,3 +30,4 @@
 - arc093_a(15min) C - Traveling Plan
 - arc094_a(20min) C - Same Integers
 - arc095_a(40min) C - Many Medians
+- arc096_a(12min) C - Half and Half
