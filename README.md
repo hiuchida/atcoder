@@ -25,6 +25,7 @@
 - abc092_b(10min) B - Chocolate
 - abc093_b(10min) B - Small and Large Integers
 - abc094_b(10min) B - Toll Gates
+- abc095_b(10min) B - Bitter Alchemy
 
 - arc092_a(NG:60min) C - 2D Plane 2N Points
 - arc093_a(15min) C - Traveling Plan
