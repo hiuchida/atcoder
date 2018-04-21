@@ -30,6 +30,7 @@
 - abc088_c(14min) C - Takahashi's Information
 - abc089_c(08min) C - March
 
+- arc089_a(11min) C - Traveling
 - arc090_a(10min) C - Candies
 - arc091_a(34min) C - Flip,Flip, and Flip......
 - arc092_a(NG:60min) C - 2D Plane 2N Points
