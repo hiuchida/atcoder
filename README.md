@@ -27,6 +27,7 @@
 - abc094_b(10min) B - Toll Gates
 - abc095_b(10min) B - Bitter Alchemy
 
+- abc088_c(14min) C - Takahashi's Information
 - abc089_c(08min) C - March
 
 - arc090_a(10min) C - Candies
