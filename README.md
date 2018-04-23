@@ -2,6 +2,7 @@
 
 - abc078_a(01min) A - HEX
 
+- abc068_b(06min) B - Break Number
 - abc069_b(02min) B - i18n
 - abc070_b(04min) B - Two Switches
 - abc071_b(05min) B - Not Found
