@@ -35,6 +35,7 @@
 - abc088_c(14min) C - Takahashi's Information
 - abc089_c(08min) C - March
 
+- arc086_a(15min) C - Not so Diverse
 - arc087_a(08min) C - Good Sequence
 - arc088_a(15min) C - Multiple Gift
 - arc089_a(11min) C - Traveling
