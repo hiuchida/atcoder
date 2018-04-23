@@ -35,6 +35,7 @@
 - abc088_c(14min) C - Takahashi's Information
 - abc089_c(08min) C - March
 
+- arc088_a(15min) C - Multiple Gift
 - arc089_a(11min) C - Traveling
 - arc090_a(10min) C - Candies
 - arc091_a(34min) C - Flip,Flip, and Flip......
