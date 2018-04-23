@@ -2,6 +2,7 @@
 
 - abc078_a(01min) A - HEX
 
+- abc070_b(04min) B - Two Switches
 - abc071_b(05min) B - Not Found
 - abc072_b(05min) B - OddString
 - abc073_b(05min) B - Theater
