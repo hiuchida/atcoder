@@ -15,17 +15,17 @@ public class Main {
 	void solve() {
 		int n = readNum();
 		int[] ia = readNums();
-		int[] ary = new int[n+2];
-		for (int i=0; i<n; i++) {
-			ary[i+1] = ia[i];
+		int[] ary = new int[n + 2];
+		for (int i = 0; i < n; i++) {
+			ary[i + 1] = ia[i];
 		}
 		int ans = 0;
-		for (int i=1; i<=n+1; i++) {
-			ans += abs(ary[i] - ary[i-1]);
+		for (int i = 1; i <= n + 1; i++) {
+			ans += abs(ary[i] - ary[i - 1]);
 		}
-		for (int i=1; i<=n; i++) {
-			int ao = abs(ary[i] - ary[i-1]) + abs(ary[i+1] - ary[i]);
-			int an = abs(ary[i+1] - ary[i-1]);
+		for (int i = 1; i <= n; i++) {
+			int ao = abs(ary[i] - ary[i - 1]) + abs(ary[i + 1] - ary[i]);
+			int an = abs(ary[i + 1] - ary[i - 1]);
 			pln(ans - ao + an);
 		}
 	}
@@ -33,7 +33,7 @@ public class Main {
 	int abs(int a) {
 		return (a >= 0) ? a : -a;
 	}
-	
+
 	int pint(String s) {
 		return Integer.parseInt(s);
 	}
