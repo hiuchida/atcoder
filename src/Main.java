@@ -1,5 +1,3 @@
-package arc093.a;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,28 +8,37 @@ public class Main {
 	final int _intMin = Integer.MIN_VALUE;
 	final long _longMax = Long.MAX_VALUE; // =9223372036854775807L>10^18
 	final long _longMin = Long.MIN_VALUE;
-	static boolean bElapsed = false;
 
 	void solve() {
-		int n = readNum();
-		int[] ia = readNums();
-		int[] ary = new int[n + 2];
-		for (int i = 0; i < n; i++) {
-			ary[i + 1] = ia[i];
-		}
-		int ans = 0;
-		for (int i = 1; i <= n + 1; i++) {
-			ans += abs(ary[i] - ary[i - 1]);
-		}
-		for (int i = 1; i <= n; i++) {
-			int ao = abs(ary[i] - ary[i - 1]) + abs(ary[i + 1] - ary[i]);
-			int an = abs(ary[i + 1] - ary[i - 1]);
-			pln(ans - ao + an);
-		}
+		String line = readLine();
+		pln(line);
 	}
 
+	// -----------------------------------------------------
+	// 2018/04/25 r1
+	// -----------------------------------------------------
 	int abs(int a) {
 		return (a >= 0) ? a : -a;
+	}
+
+	long abs(long a) {
+		return (a >= 0) ? a : -a;
+	}
+
+	int max(int a, int b) {
+		return (a > b) ? a : b;
+	}
+
+	long max(long a, long b) {
+		return (a > b) ? a : b;
+	}
+
+	int min(int a, int b) {
+		return (a < b) ? a : b;
+	}
+
+	long min(long a, long b) {
+		return (a < b) ? a : b;
 	}
 
 	int pint(String s) {
@@ -55,6 +62,11 @@ public class Main {
 		return pint(line);
 	}
 
+	long readLong() {
+		String line = readLine();
+		return plong(line);
+	}
+
 	String[] readFlds() {
 		String line = readLine();
 		return line.split(" ");
@@ -63,9 +75,16 @@ public class Main {
 	int[] readNums() {
 		String[] flds = readFlds();
 		int[] nums = new int[flds.length];
-		for (int i = 0; i < flds.length; i++) {
+		for (int i = 0; i < flds.length; i++)
 			nums[i] = pint(flds[i]);
-		}
+		return nums;
+	}
+
+	long[] readLongs() {
+		String[] flds = readFlds();
+		long[] nums = new long[flds.length];
+		for (int i = 0; i < flds.length; i++)
+			nums[i] = plong(flds[i]);
 		return nums;
 	}
 
@@ -103,6 +122,7 @@ public class Main {
 
 	static BufferedReader _in;
 	static PrintWriter _out;
+	static boolean _bElapsed = false;
 
 	public static void main(String[] args) {
 		long start = System.currentTimeMillis();
@@ -111,8 +131,7 @@ public class Main {
 		new Main().solve();
 		_out.flush();
 		long end = System.currentTimeMillis();
-		if (bElapsed) {
+		if (_bElapsed)
 			System.err.println((end - start) + "ms");
-		}
 	}
 }
