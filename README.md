@@ -2,6 +2,7 @@
 
 - abc078_a(01min) A - HEX
 
+- abc065_b(09min) B - Trained?
 - abc066_b(10min) B - ss
 - abc067_b(03min) B - Snake Toy
 - abc068_b(06min) B - Break Number
