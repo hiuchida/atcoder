@@ -17,19 +17,15 @@ public class Main {
 		int[] ia = readNums();
 		int ans = 0;
 		while (true) {
-			boolean bBreak = false;
 			for (int i = 0; i < n; i++) {
 				if (ia[i] % 2 > 0) {
-					bBreak = true;
-					break;
+					pln(ans);
+					return;
 				}
 				ia[i] /= 2;
 			}
-			if (bBreak)
-				break;
 			ans++;
 		}
-		pln(ans);
 	}
 
 	int pint(String s) {
