@@ -15,7 +15,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/04/25 r1
+	// 2018/04/26 r2
 	// -----------------------------------------------------
 	int abs(int a) {
 		return (a >= 0) ? a : -a;
@@ -118,6 +118,16 @@ public class Main {
 
 	void pln(String s) {
 		_out.println(s);
+	}
+
+	void pln(int[] ia) {
+		for (int i = 0; i < ia.length; i++)
+			pln(ia[i]);
+	}
+
+	void pln(long[] la) {
+		for (int i = 0; i < la.length; i++)
+			pln(la[i]);
 	}
 
 	static BufferedReader _in;
