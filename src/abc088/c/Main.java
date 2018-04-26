@@ -20,33 +20,20 @@ public class Main {
 				map[i][j] = ia[j];
 			}
 		}
-		int d1 = map[0][1] - map[0][0];
-		int d2 = map[1][1] - map[1][0];
-		int d3 = map[2][1] - map[2][0];
-		if (d1 != d2 || d2 != d3) {
-			pln("No");
-			return;
+		int[][] delta = new int[4][3];
+		for (int i = 0; i < 3; i++) {
+			delta[0][i] = map[i][1] - map[i][0];
+			delta[1][i] = map[i][2] - map[i][1];
+			delta[2][i] = map[1][i] - map[0][i];
+			delta[3][i] = map[2][i] - map[1][i];
 		}
-		d1 = map[0][2] - map[0][1];
-		d2 = map[1][2] - map[1][1];
-		d3 = map[2][2] - map[2][1];
-		if (d1 != d2 || d2 != d3) {
-			pln("No");
-			return;
-		}
-		d1 = map[1][0] - map[0][0];
-		d2 = map[1][1] - map[0][1];
-		d3 = map[1][2] - map[0][2];
-		if (d1 != d2 || d2 != d3) {
-			pln("No");
-			return;
-		}
-		d1 = map[2][0] - map[1][0];
-		d2 = map[2][1] - map[1][1];
-		d3 = map[2][2] - map[1][2];
-		if (d1 != d2 || d2 != d3) {
-			pln("No");
-			return;
+		for (int j = 0; j < 4; j++) {
+			for (int i = 0; i < 2; i++) {
+				if (delta[j][i] != delta[j][i + 1]) {
+					pln("No");
+					return;
+				}
+			}
 		}
 		pln("Yes");
 	}
