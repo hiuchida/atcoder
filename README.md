@@ -59,5 +59,6 @@
 
 - arc096_b(NG:78min) D - Static Sushi
 
+- agc007_a(24min) A - Shik and Stone
 - agc008_a(32min) A - Simple Calculator
 - agc022_a(155min) A - Diverse Word
