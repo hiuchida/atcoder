@@ -2,6 +2,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class Main {
 	final int _intMax = Integer.MAX_VALUE; // =2147483647>10^9
@@ -15,8 +18,32 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/04/28 r9
+	// 2018/04/29 r10
 	// -----------------------------------------------------
+	class Counter<K> {
+		Map<K, Integer> map = new HashMap<>();
+
+		public void add(K key) {
+			Integer cnt = map.get(key);
+			if (cnt == null)
+				map.put(key, 1);
+			else
+				map.put(key, cnt + 1);
+		}
+
+		public int get(K key) {
+			Integer cnt = map.get(key);
+			if (cnt == null)
+				return 0;
+			else
+				return cnt;
+		}
+
+		public Set<K> keySet() {
+			return map.keySet();
+		}
+	}
+
 	int abs(int a) {
 		return (a >= 0) ? a : -a;
 	}

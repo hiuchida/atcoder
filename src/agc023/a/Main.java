@@ -18,49 +18,48 @@ public class Main {
 		int n = readNum();
 		int[] ia = readNums();
 		long[] ib = new long[n + 1];
-		Counter c = new Counter();
+		Counter<Long> c = new Counter<>();
 		for (int i = 0; i < n; i++) {
 			ib[i + 1] = ib[i] + ia[i];
 			c.add(ib[i]);
 		}
 		c.add(ib[n]);
 		long ans = 0;
-		for (Object o : c.keySet()) {
-			long v = c.get(o);
-			if (v > 1) {
+		for (Long key : c.keySet()) {
+			long v = c.get(key);
+			if (v > 1)
 				ans += v * (v - 1) / 2;
-			}
 		}
 		pln(ans);
 	}
 
-	class Counter {
-		Map<Object, Integer> map = new HashMap<>();
+	// -----------------------------------------------------
+	// 2018/04/29 r10
+	// -----------------------------------------------------
+	class Counter<K> {
+		Map<K, Integer> map = new HashMap<>();
 
-		public void add(Object o) {
-			Integer v = map.get(o);
-			if (v == null)
-				map.put(o, 1);
+		public void add(K key) {
+			Integer cnt = map.get(key);
+			if (cnt == null)
+				map.put(key, 1);
 			else
-				map.put(o, v + 1);
+				map.put(key, cnt + 1);
 		}
 
-		public int get(Object o) {
-			Integer v = map.get(o);
-			if (v == null)
+		public int get(K key) {
+			Integer cnt = map.get(key);
+			if (cnt == null)
 				return 0;
 			else
-				return v;
+				return cnt;
 		}
 
-		public Set<Object> keySet() {
+		public Set<K> keySet() {
 			return map.keySet();
 		}
 	}
 
-	// -----------------------------------------------------
-	// 2018/04/28 r9
-	// -----------------------------------------------------
 	int abs(int a) {
 		return (a >= 0) ? a : -a;
 	}
