@@ -64,3 +64,4 @@
 - agc007_a(24min) A - Shik and Stone
 - agc008_a(32min) A - Simple Calculator
 - agc022_a(155min) A - Diverse Word
+- agc023_a(NG:186min) A - Zero-Sum Ranges
