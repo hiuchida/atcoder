@@ -15,7 +15,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/04/28 r7
+	// 2018/04/28 r8
 	// -----------------------------------------------------
 	int abs(int a) {
 		return (a >= 0) ? a : -a;
@@ -39,6 +39,10 @@ public class Main {
 
 	long min(long a, long b) {
 		return (a < b) ? a : b;
+	}
+
+	int sqrt(long a) {
+		return (int) Math.sqrt(a);
 	}
 
 	int pint(String s) {
