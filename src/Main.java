@@ -15,7 +15,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/04/28 r8
+	// 2018/04/28 r9
 	// -----------------------------------------------------
 	int abs(int a) {
 		return (a >= 0) ? a : -a;
@@ -39,6 +39,12 @@ public class Main {
 
 	long min(long a, long b) {
 		return (a < b) ? a : b;
+	}
+
+	int reed(long a, int n) {
+		while (n-- > 0)
+			a /= 10;
+		return (int) (a % 10);
 	}
 
 	int sqrt(long a) {
