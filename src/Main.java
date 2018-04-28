@@ -15,7 +15,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/04/26 r2
+	// 2018/04/28 r3
 	// -----------------------------------------------------
 	int abs(int a) {
 		return (a >= 0) ? a : -a;
@@ -86,6 +86,10 @@ public class Main {
 		for (int i = 0; i < flds.length; i++)
 			nums[i] = plong(flds[i]);
 		return nums;
+	}
+
+	void pln() {
+		_out.println();
 	}
 
 	void p(char c) {

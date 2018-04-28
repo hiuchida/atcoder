@@ -18,22 +18,22 @@ public class Main {
 		for (int i = 0; i < w + 2; i++) {
 			p("#");
 		}
-		pln("");
+		pln();
 		for (int i = 0; i < h; i++) {
 			String line = readLine();
 			p("#");
 			p(line);
 			p("#");
-			pln("");
+			pln();
 		}
 		for (int i = 0; i < w + 2; i++) {
 			p("#");
 		}
-		pln("");
+		pln();
 	}
 
 	// -----------------------------------------------------
-	// 2018/04/26 r2
+	// 2018/04/28 r3
 	// -----------------------------------------------------
 	int abs(int a) {
 		return (a >= 0) ? a : -a;
@@ -104,6 +104,10 @@ public class Main {
 		for (int i = 0; i < flds.length; i++)
 			nums[i] = plong(flds[i]);
 		return nums;
+	}
+
+	void pln() {
+		_out.println();
 	}
 
 	void p(char c) {
