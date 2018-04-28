@@ -15,7 +15,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/04/28 r3
+	// 2018/04/28 r4
 	// -----------------------------------------------------
 	int abs(int a) {
 		return (a >= 0) ? a : -a;
@@ -118,6 +118,10 @@ public class Main {
 
 	void p(String s) {
 		_out.print(s);
+	}
+
+	void p(String s, int idx) {
+		_out.print(s.charAt(idx));
 	}
 
 	void pln(String s) {
