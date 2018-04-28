@@ -58,3 +58,5 @@
 - arc096_a(12min) C - Half and Half
 
 - arc096_b(NG:78min) D - Static Sushi
+
+- agc022_a(155min) A - Diverse Word
