@@ -10,12 +10,12 @@ public class Main {
 	final long _longMin = Long.MIN_VALUE;
 
 	void solve() {
-		String line = readLine();
-		pln(line);
+		String s = readLine();
+		pln(s);
 	}
 
 	// -----------------------------------------------------
-	// 2018/04/28 r4
+	// 2018/04/28 r5
 	// -----------------------------------------------------
 	int abs(int a) {
 		return (a >= 0) ? a : -a;
@@ -88,54 +88,66 @@ public class Main {
 		return nums;
 	}
 
-	void pln() {
+	Main pln() {
 		_out.println();
+		return this;
 	}
 
-	void p(char c) {
+	Main p(char c) {
 		_out.print(c);
+		return this;
 	}
 
-	void pln(char c) {
+	Main pln(char c) {
 		_out.println(c);
+		return this;
 	}
 
-	void p(double d) {
+	Main p(double d) {
 		_out.print(d);
+		return this;
 	}
 
-	void pln(double d) {
+	Main pln(double d) {
 		_out.println(d);
+		return this;
 	}
 
-	void p(long l) {
+	Main p(long l) {
 		_out.print(l);
+		return this;
 	}
 
-	void pln(long l) {
+	Main pln(long l) {
 		_out.println(l);
+		return this;
 	}
 
-	void p(String s) {
+	Main p(String s) {
 		_out.print(s);
+		return this;
 	}
 
-	void p(String s, int idx) {
+	Main p(String s, int idx) {
 		_out.print(s.charAt(idx));
+		return this;
 	}
 
-	void pln(String s) {
+	Main pln(String s) {
 		_out.println(s);
+		return this;
 	}
 
-	void pln(int[] ia) {
+	Main pln(int[] ia) {
 		for (int i = 0; i < ia.length; i++)
-			pln(ia[i]);
+			_out.println(ia[i]);
+		return this;
 	}
 
-	void pln(long[] la) {
+	Main pln(long[] la) {
 		for (int i = 0; i < la.length; i++)
-			pln(la[i]);
+			_out.println(la[i]);
+		return this;
 	}
 
 	static BufferedReader _in;
