@@ -59,6 +59,7 @@
 
 - arc096_b(NG:78min) D - Static Sushi
 
+- agc005_a(05min) A - STring
 - agc006_a(06min) A - Prefix and Suffix
 - agc007_a(24min) A - Shik and Stone
 - agc008_a(32min) A - Simple Calculator
