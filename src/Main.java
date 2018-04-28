@@ -15,7 +15,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/04/28 r6
+	// 2018/04/28 r7
 	// -----------------------------------------------------
 	int abs(int a) {
 		return (a >= 0) ? a : -a;
@@ -109,6 +109,12 @@ public class Main {
 
 	Main p(char c) {
 		_out.print(c);
+		return this;
+	}
+
+	Main p(char c, int n) {
+		for (int i = 0; i < n; i++)
+			p(c);
 		return this;
 	}
 

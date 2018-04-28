@@ -15,22 +15,16 @@ public class Main {
 		int[] ia = readNums();
 		int h = ia[0];
 		int w = ia[1];
-		for (int i = 0; i < w + 2; i++) {
-			p("#");
-		}
-		pln();
+		p('#', w + 2).pln();
 		for (int i = 0; i < h; i++) {
 			String s = readLine();
-			p("#").p(s).p("#").pln();
+			p('#').p(s).p('#').pln();
 		}
-		for (int i = 0; i < w + 2; i++) {
-			p("#");
-		}
-		pln();
+		p('#', w + 2).pln();
 	}
 
 	// -----------------------------------------------------
-	// 2018/04/28 r5
+	// 2018/04/28 r7
 	// -----------------------------------------------------
 	int abs(int a) {
 		return (a >= 0) ? a : -a;
@@ -95,11 +89,25 @@ public class Main {
 		return nums;
 	}
 
+	int[] readNums(int n) {
+		int[] nums = new int[n];
+		for (int i = 0; i < n; i++)
+			nums[i] = readNum();
+		return nums;
+	}
+
 	long[] readLongs() {
 		String[] flds = readFlds();
 		long[] nums = new long[flds.length];
 		for (int i = 0; i < flds.length; i++)
 			nums[i] = plong(flds[i]);
+		return nums;
+	}
+
+	long[] readLongs(int n) {
+		long[] nums = new long[n];
+		for (int i = 0; i < n; i++)
+			nums[i] = readLong();
 		return nums;
 	}
 
@@ -110,6 +118,12 @@ public class Main {
 
 	Main p(char c) {
 		_out.print(c);
+		return this;
+	}
+
+	Main p(char c, int n) {
+		for (int i = 0; i < n; i++)
+			p(c);
 		return this;
 	}
 
