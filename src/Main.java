@@ -15,6 +15,8 @@ public class Main {
 	final int _intMin = Integer.MIN_VALUE;
 	final long _longMax = Long.MAX_VALUE; // =9223372036854775807L>10^18
 	final long _longMin = Long.MIN_VALUE;
+	final char[] _azAry = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+			's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 
 	void solve() {
 		String s = readLine();
@@ -22,8 +24,15 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/04/29 r12
+	// 2018/04/29 r13
 	// -----------------------------------------------------
+	List<Character> getazList() {
+		List<Character> list = new ArrayList<>();
+		for (char ch : _azAry)
+			list.add(ch);
+		return list;
+	}
+
 	class Counter<K> {
 		Map<K, Integer> map = new HashMap<>();
 
