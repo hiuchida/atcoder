@@ -2,7 +2,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -18,7 +22,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/04/29 r10
+	// 2018/04/29 r11
 	// -----------------------------------------------------
 	class Counter<K> {
 		Map<K, Integer> map = new HashMap<>();
@@ -41,6 +45,82 @@ public class Main {
 
 		public Set<K> keySet() {
 			return map.keySet();
+		}
+	}
+
+	class IntList {
+		class Info {
+			int idx;
+			int val;
+
+			public Info(int idx, int val) {
+				this.idx = idx;
+				this.val = val;
+			}
+
+			public String toString() {
+				return "(" + idx + ", " + val + ")";
+			}
+		}
+
+		class InfoComparator implements Comparator<Info> {
+			boolean bAsc;
+
+			public InfoComparator(boolean bAsc) {
+				this.bAsc = bAsc;
+			}
+
+			public int compare(Info o1, Info o2) {
+				int sign = bAsc ? 1 : -1;
+				if (o1.val < o2.val)
+					return -1 * sign;
+				else if (o1.val > o2.val)
+					return 1 * sign;
+				return 0;
+			}
+		}
+
+		List<Info> list = new ArrayList<>();
+		InfoComparator asc = new InfoComparator(true);
+		InfoComparator desc = new InfoComparator(false);
+
+		public void add(int val) {
+			list.add(new Info(list.size(), val));
+		}
+
+		public void add(int idx, int val) {
+			list.add(new Info(idx, val));
+		}
+
+		public int getIdx(int idx) {
+			return list.get(idx).idx;
+		}
+
+		public int getVal(int idx) {
+			return list.get(idx).val;
+		}
+
+		public int getLastVal() {
+			return list.get(list.size() - 1).val;
+		}
+
+		public void remove(int idx) {
+			list.remove(idx);
+		}
+
+		public void removeLast() {
+			list.remove(list.size() - 1);
+		}
+
+		public int size() {
+			return list.size();
+		}
+
+		public void sort(boolean bAsc) {
+			if (bAsc)
+				Collections.sort(list, asc);
+			else
+				Collections.sort(list, desc);
 		}
 	}
 

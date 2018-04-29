@@ -5,11 +5,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class Main {
@@ -17,29 +18,25 @@ public class Main {
 	final int _intMin = Integer.MIN_VALUE;
 	final long _longMax = Long.MAX_VALUE; // =9223372036854775807L>10^18
 	final long _longMin = Long.MIN_VALUE;
-	static boolean bElapsed = false;
 
 	void solve() {
 		int n = readNum();
 		int[] ia = readNums();
-		List<Info> l = new ArrayList<>();
-		for (int i = 0; i < n; i++) {
-			l.add(new Info(i, ia[i]));
-		}
-		Collections.sort(l, new InfoComp());
+		IntList il = new IntList();
+		for (int i = 0; i < n; i++)
+			il.add(ia[i]);
+		il.sort(true);
 		// M M
 		// M-1 M
 		// M M-1
 		Set<Integer> s1 = new HashSet<>();
 		Set<Integer> s2 = new HashSet<>();
-		for (int i = 0; i < n / 2; i++) {
-			s1.add(l.get(i).idx);
-		}
-		for (int i = n / 2; i < n; i++) {
-			s2.add(l.get(i).idx);
-		}
-		int m1 = l.get(n / 2).val;
-		int m2 = l.get(n / 2 - 1).val;
+		for (int i = 0; i < n / 2; i++)
+			s1.add(il.getIdx(i));
+		for (int i = n / 2; i < n; i++)
+			s2.add(il.getIdx(i));
+		int m1 = il.getVal(n / 2);
+		int m2 = il.getVal(n / 2 - 1);
 		for (int i = 0; i < n; i++) {
 			if (s1.contains(i))
 				pln(m1);
@@ -48,65 +45,141 @@ public class Main {
 		}
 	}
 
-	void solve1() {
-		int n = readNum();
-		int[] ia = readNums();
-		for (int i = 0; i < n; i++) {
-			int[] na = new int[n - 1];
-			int ni = 0;
-			for (int j = 0; j < n; j++) {
-				if (i != j) {
-					na[ni++] = ia[j];
-				}
-			}
-			Arrays.sort(na);
-			int mi = (n - 1) / 2;
-			pln(na[mi]);
+	// -----------------------------------------------------
+	// 2018/04/29 r11
+	// -----------------------------------------------------
+	class Counter<K> {
+		Map<K, Integer> map = new HashMap<>();
+
+		public void add(K key) {
+			Integer cnt = map.get(key);
+			if (cnt == null)
+				map.put(key, 1);
+			else
+				map.put(key, cnt + 1);
+		}
+
+		public int get(K key) {
+			Integer cnt = map.get(key);
+			if (cnt == null)
+				return 0;
+			else
+				return cnt;
+		}
+
+		public Set<K> keySet() {
+			return map.keySet();
 		}
 	}
 
-	class Info implements Comparable<Info> {
-		int idx;
-		int val;
+	class IntList {
+		class Info {
+			int idx;
+			int val;
 
-		public Info(int idx, int val) {
-			this.idx = idx;
-			this.val = val;
-		}
-
-		public int compareTo(Info o) {
-			if (idx < o.idx)
-				return -1;
-			else if (idx > o.idx)
-				return 1;
-			return 0;
-		}
-
-		public boolean equals(Object o) {
-			if (o instanceof Info) {
-				Info that = (Info) o;
-				return 0 == compareTo(that);
+			public Info(int idx, int val) {
+				this.idx = idx;
+				this.val = val;
 			}
-			return false;
+
+			public String toString() {
+				return "(" + idx + ", " + val + ")";
+			}
 		}
 
-		public int hashCode() {
-			return idx + (val * 31);
+		class InfoComparator implements Comparator<Info> {
+			boolean bAsc;
+
+			public InfoComparator(boolean bAsc) {
+				this.bAsc = bAsc;
+			}
+
+			public int compare(Info o1, Info o2) {
+				int sign = bAsc ? 1 : -1;
+				if (o1.val < o2.val)
+					return -1 * sign;
+				else if (o1.val > o2.val)
+					return 1 * sign;
+				return 0;
+			}
 		}
 
-		public String toString() {
-			return "(" + idx + ", " + val + ")";
+		List<Info> list = new ArrayList<>();
+		InfoComparator asc = new InfoComparator(true);
+		InfoComparator desc = new InfoComparator(false);
+
+		public void add(int val) {
+			list.add(new Info(list.size(), val));
+		}
+
+		public void add(int idx, int val) {
+			list.add(new Info(idx, val));
+		}
+
+		public int getIdx(int idx) {
+			return list.get(idx).idx;
+		}
+
+		public int getVal(int idx) {
+			return list.get(idx).val;
+		}
+
+		public int getLastVal() {
+			return list.get(list.size() - 1).val;
+		}
+
+		public void remove(int idx) {
+			list.remove(idx);
+		}
+
+		public void removeLast() {
+			list.remove(list.size() - 1);
+		}
+
+		public int size() {
+			return list.size();
+		}
+
+		public void sort(boolean bAsc) {
+			if (bAsc)
+				Collections.sort(list, asc);
+			else
+				Collections.sort(list, desc);
 		}
 	}
 
-	class InfoComp implements Comparator<Info> {
-		public int compare(Info o1, Info o2) {
-			if (o1.val < o2.val)
-				return -1;
-			else if (o1.val > o2.val)
-				return 1;
-			return 0;
-		}
+	int abs(int a) {
+		return (a >= 0) ? a : -a;
+	}
+
+	long abs(long a) {
+		return (a >= 0) ? a : -a;
+	}
+
+	int max(int a, int b) {
+		return (a > b) ? a : b;
+	}
+
+	long max(long a, long b) {
+		return (a > b) ? a : b;
+	}
+
+	int min(int a, int b) {
+		return (a < b) ? a : b;
+	}
+
+	long min(long a, long b) {
+		return (a < b) ? a : b;
+	}
+
+	int reed(long a, int n) {
+		while (n-- > 0)
+			a /= 10;
+		return (int) (a % 10);
+	}
+
+	int sqrt(long a) {
+		return (int) Math.sqrt(a);
 	}
 
 	int pint(String s) {
@@ -130,6 +203,11 @@ public class Main {
 		return pint(line);
 	}
 
+	long readLong() {
+		String line = readLine();
+		return plong(line);
+	}
+
 	String[] readFlds() {
 		String line = readLine();
 		return line.split(" ");
@@ -138,46 +216,104 @@ public class Main {
 	int[] readNums() {
 		String[] flds = readFlds();
 		int[] nums = new int[flds.length];
-		for (int i = 0; i < flds.length; i++) {
+		for (int i = 0; i < flds.length; i++)
 			nums[i] = pint(flds[i]);
-		}
 		return nums;
 	}
 
-	void p(char c) {
+	int[] readNums(int n) {
+		int[] nums = new int[n];
+		for (int i = 0; i < n; i++)
+			nums[i] = readNum();
+		return nums;
+	}
+
+	long[] readLongs() {
+		String[] flds = readFlds();
+		long[] nums = new long[flds.length];
+		for (int i = 0; i < flds.length; i++)
+			nums[i] = plong(flds[i]);
+		return nums;
+	}
+
+	long[] readLongs(int n) {
+		long[] nums = new long[n];
+		for (int i = 0; i < n; i++)
+			nums[i] = readLong();
+		return nums;
+	}
+
+	Main pln() {
+		_out.println();
+		return this;
+	}
+
+	Main p(char c) {
 		_out.print(c);
+		return this;
 	}
 
-	void pln(char c) {
+	Main p(char c, int n) {
+		for (int i = 0; i < n; i++)
+			p(c);
+		return this;
+	}
+
+	Main pln(char c) {
 		_out.println(c);
+		return this;
 	}
 
-	void p(double d) {
+	Main p(double d) {
 		_out.print(d);
+		return this;
 	}
 
-	void pln(double d) {
+	Main pln(double d) {
 		_out.println(d);
+		return this;
 	}
 
-	void p(long l) {
+	Main p(long l) {
 		_out.print(l);
+		return this;
 	}
 
-	void pln(long l) {
+	Main pln(long l) {
 		_out.println(l);
+		return this;
 	}
 
-	void p(String s) {
+	Main p(String s) {
 		_out.print(s);
+		return this;
 	}
 
-	void pln(String s) {
+	Main p(String s, int idx) {
+		_out.print(s.charAt(idx));
+		return this;
+	}
+
+	Main pln(String s) {
 		_out.println(s);
+		return this;
+	}
+
+	Main pln(int[] ia) {
+		for (int i = 0; i < ia.length; i++)
+			_out.println(ia[i]);
+		return this;
+	}
+
+	Main pln(long[] la) {
+		for (int i = 0; i < la.length; i++)
+			_out.println(la[i]);
+		return this;
 	}
 
 	static BufferedReader _in;
 	static PrintWriter _out;
+	static boolean _bElapsed = false;
 
 	public static void main(String[] args) {
 		long start = System.currentTimeMillis();
@@ -186,8 +322,7 @@ public class Main {
 		new Main().solve();
 		_out.flush();
 		long end = System.currentTimeMillis();
-		if (bElapsed) {
+		if (_bElapsed)
 			System.err.println((end - start) + "ms");
-		}
 	}
 }

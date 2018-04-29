@@ -19,72 +19,27 @@ public class Main {
 	final long _longMin = Long.MIN_VALUE;
 
 	void solve() {
-		Counter<Integer> c = new Counter<>();
 		int[] ia = readNums();
 		int n = ia[0];
 		int k = ia[1];
 		int[] ib = readNums();
+		Counter<Integer> c = new Counter<>();
 		for (int i = 0; i < n; i++)
 			c.add(ib[i]);
-		List<Info> l = new ArrayList<>();
+		IntList il = new IntList();
 		for (Integer key : c.keySet())
-			l.add(new Info(key, c.get(key)));
-		Collections.sort(l, new InfoComp());
-		Collections.reverse(l);
+			il.add(key, c.get(key));
+		il.sort(false);
 		int ans = 0;
-		while (l.size() > k) {
-			ans += l.get(l.size() - 1).val;
-			l.remove(l.size() - 1);
+		while (il.size() > k) {
+			ans += il.getLastVal();
+			il.removeLast();
 		}
 		pln(ans);
 	}
 
-	class Info implements Comparable<Info> {
-		int idx;
-		int val;
-
-		public Info(int idx, int val) {
-			this.idx = idx;
-			this.val = val;
-		}
-
-		public int compareTo(Info o) {
-			if (idx < o.idx)
-				return -1;
-			else if (idx > o.idx)
-				return 1;
-			return 0;
-		}
-
-		public boolean equals(Object o) {
-			if (o instanceof Info) {
-				Info that = (Info) o;
-				return 0 == compareTo(that);
-			}
-			return false;
-		}
-
-		public int hashCode() {
-			return idx + (val * 31);
-		}
-
-		public String toString() {
-			return "(" + idx + ", " + val + ")";
-		}
-	}
-
-	class InfoComp implements Comparator<Info> {
-		public int compare(Info o1, Info o2) {
-			if (o1.val < o2.val)
-				return -1;
-			else if (o1.val > o2.val)
-				return 1;
-			return 0;
-		}
-	}
-
 	// -----------------------------------------------------
-	// 2018/04/29 r10
+	// 2018/04/29 r11
 	// -----------------------------------------------------
 	class Counter<K> {
 		Map<K, Integer> map = new HashMap<>();
@@ -107,6 +62,82 @@ public class Main {
 
 		public Set<K> keySet() {
 			return map.keySet();
+		}
+	}
+
+	class IntList {
+		class Info {
+			int idx;
+			int val;
+
+			public Info(int idx, int val) {
+				this.idx = idx;
+				this.val = val;
+			}
+
+			public String toString() {
+				return "(" + idx + ", " + val + ")";
+			}
+		}
+
+		class InfoComparator implements Comparator<Info> {
+			boolean bAsc;
+
+			public InfoComparator(boolean bAsc) {
+				this.bAsc = bAsc;
+			}
+
+			public int compare(Info o1, Info o2) {
+				int sign = bAsc ? 1 : -1;
+				if (o1.val < o2.val)
+					return -1 * sign;
+				else if (o1.val > o2.val)
+					return 1 * sign;
+				return 0;
+			}
+		}
+
+		List<Info> list = new ArrayList<>();
+		InfoComparator asc = new InfoComparator(true);
+		InfoComparator desc = new InfoComparator(false);
+
+		public void add(int val) {
+			list.add(new Info(list.size(), val));
+		}
+
+		public void add(int idx, int val) {
+			list.add(new Info(idx, val));
+		}
+
+		public int getIdx(int idx) {
+			return list.get(idx).idx;
+		}
+
+		public int getVal(int idx) {
+			return list.get(idx).val;
+		}
+
+		public int getLastVal() {
+			return list.get(list.size() - 1).val;
+		}
+
+		public void remove(int idx) {
+			list.remove(idx);
+		}
+
+		public void removeLast() {
+			list.remove(list.size() - 1);
+		}
+
+		public int size() {
+			return list.size();
+		}
+
+		public void sort(boolean bAsc) {
+			if (bAsc)
+				Collections.sort(list, asc);
+			else
+				Collections.sort(list, desc);
 		}
 	}
 
