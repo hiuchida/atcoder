@@ -5,45 +5,40 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class Main {
 	final int _intMax = Integer.MAX_VALUE; // =2147483647>10^9
 	final int _intMin = Integer.MIN_VALUE;
 	final long _longMax = Long.MAX_VALUE; // =9223372036854775807L>10^18
 	final long _longMin = Long.MIN_VALUE;
+	final char[] _azAry = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+			's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 
 	void solve() {
-		List<Integer> la = new ArrayList<>();
-		List<Integer> lb = new ArrayList<>();
-		List<Integer> lc = new ArrayList<>();
 		int n = readNum();
 		int[] ia = readNums();
-		for (int i = 0; i < ia.length; i++) {
-			la.add(ia[i]);
-		}
-		Collections.sort(la);
+		Arrays.sort(ia);
 		int[] ib = readNums();
-		for (int i = 0; i < ib.length; i++) {
-			lb.add(ib[i]);
-		}
-		Collections.sort(lb);
+		Arrays.sort(ib);
 		int[] ic = readNums();
-		for (int i = 0; i < ic.length; i++) {
-			lc.add(ic[i]);
-		}
-		Collections.sort(lc);
+		Arrays.sort(ic);
 		long ans = 0;
 		int pre = -1;
 		long precnt = -1;
-		for (int i = 0; i < lb.size(); i++) {
-			int v = lb.get(i);
+		for (int i = 0; i < n; i++) {
+			int v = ib[i];
 			if (pre >= 0 && pre == v) {
 				ans += precnt;
 			} else {
-				long cnta = smallSearch(la, v);
-				long cntc = bigSearch(lc, v);
+				long cnta = smallSearch(ia, v);
+				long cntc = bigSearch(ic, v);
 				ans += cnta * cntc;
 				pre = v;
 				precnt = cnta * cntc;
@@ -52,175 +47,228 @@ public class Main {
 		pln(ans);
 	}
 
-	int smallSearch(List<Integer> list, int v) {
+	int smallSearch(int[] ia, int v) {
 		int l = 0;
-		int r = list.size() - 1;
+		int r = ia.length - 1;
 		while (l <= r) {
 			int m = (l + r) / 2;
-			int vv = list.get(m);
-			if (v <= vv)
+			if (v <= ia[m])
 				r = m - 1;
 			else
 				l = m + 1;
 		}
-		if (l >= list.size())
-			l = list.size() - 1;
-		while (l >= 0 && list.get(l) >= v)
+		if (l >= ia.length)
+			l = ia.length - 1;
+		while (l >= 0 && ia[l] >= v)
 			l--;
 		return l + 1;
 	}
 
-	int bigSearch(List<Integer> list, int v) {
+	int bigSearch(int[] ia, int v) {
 		int l = 0;
-		int r = list.size() - 1;
+		int r = ia.length - 1;
 		while (l <= r) {
 			int m = (l + r) / 2;
-			int vv = list.get(m);
-			if (vv <= v - 1)
+			if (ia[m] <= v - 1)
 				l = m + 1;
 			else
 				r = m - 1;
 		}
 		if (r < 0)
 			r = 0;
-		while (r < list.size() && list.get(r) <= v)
+		while (r < ia.length && ia[r] <= v)
 			r++;
-		return list.size() - r;
-	}
-
-	void solve3() {
-		List<Integer> la = new ArrayList<>();
-		List<Integer> lb = new ArrayList<>();
-		List<Integer> lc = new ArrayList<>();
-		int n = readNum();
-		int[] ia = readNums();
-		for (int i = 0; i < ia.length; i++) {
-			la.add(ia[i]);
-		}
-		Collections.sort(la);
-		int[] ib = readNums();
-		for (int i = 0; i < ib.length; i++) {
-			if (la.get(0) < ib[i])
-				lb.add(ib[i]);
-		}
-		Collections.sort(lb);
-		int[] ic = readNums();
-		for (int i = 0; i < ic.length; i++) {
-			if (lb.get(0) < ic[i])
-				lc.add(ic[i]);
-		}
-		Collections.sort(lc);
-		for (int i = lb.size() - 1; i >= 0; i--) {
-			if (lc.get(lc.size() - 1) <= lb.get(i))
-				lb.remove(i);
-			else
-				break;
-		}
-		for (int i = la.size() - 1; i >= 0; i--) {
-			if (lb.get(lb.size() - 1) <= la.get(i))
-				la.remove(i);
-			else
-				break;
-		}
-		long ans = 0;
-		for (int i = 0; i < la.size(); i++) {
-			int p = la.get(i);
-			for (int j = 0; j < lb.size(); j++) {
-				int q = lb.get(j);
-				if (p < q) {
-					for (int k = 0; k < lc.size(); k++) {
-						int r = lc.get(k);
-						if (q < r) {
-							ans += lc.size() - k;
-							break;
-						}
-					}
-				}
-			}
-		}
-		pln(ans);
-	}
-
-	void solve2() {
-		List<Integer> la = new ArrayList<>();
-		List<Integer> lb = new ArrayList<>();
-		List<Integer> lc = new ArrayList<>();
-		int n = readNum();
-		int[] ia = readNums();
-		for (int i = 0; i < ia.length; i++) {
-			la.add(ia[i]);
-		}
-		Collections.sort(la);
-		int[] ib = readNums();
-		for (int i = 0; i < ib.length; i++) {
-			lb.add(ib[i]);
-		}
-		Collections.sort(lb);
-		int[] ic = readNums();
-		for (int i = 0; i < ic.length; i++) {
-			lc.add(ic[i]);
-		}
-		Collections.sort(lc);
-		long ans = 0;
-		for (int i = 0; i < la.size(); i++) {
-			int p = la.get(i);
-			for (int j = 0; j < lb.size(); j++) {
-				int q = lb.get(j);
-				if (p < q) {
-					for (int k = 0; k < lc.size(); k++) {
-						int r = lc.get(k);
-						if (q < r) {
-							ans += lc.size() - k;
-							break;
-						}
-					}
-				}
-			}
-		}
-		pln(ans);
-	}
-
-	void solve1() {
-		List<Integer> la = new ArrayList<>();
-		List<Integer> lb = new ArrayList<>();
-		List<Integer> lc = new ArrayList<>();
-		int n = readNum();
-		int[] ia = readNums();
-		for (int i = 0; i < ia.length; i++) {
-			la.add(ia[i]);
-		}
-		Collections.sort(la);
-		int[] ib = readNums();
-		for (int i = 0; i < ib.length; i++) {
-			lb.add(ib[i]);
-		}
-		Collections.sort(lb);
-		int[] ic = readNums();
-		for (int i = 0; i < ic.length; i++) {
-			lc.add(ic[i]);
-		}
-		Collections.sort(lc);
-		long ans = 0;
-		for (int i = 0; i < la.size(); i++) {
-			int p = la.get(i);
-			for (int j = 0; j < lb.size(); j++) {
-				int q = lb.get(j);
-				if (p < q) {
-					for (int k = 0; k < lc.size(); k++) {
-						int r = lc.get(k);
-						if (q < r) {
-							ans++;
-						}
-					}
-				}
-			}
-		}
-		pln(ans);
+		return ia.length - r;
 	}
 
 	// -----------------------------------------------------
-	// 2018/04/25 r1
+	// 2018/04/29 r14
 	// -----------------------------------------------------
+	List<Character> getazList() {
+		List<Character> list = new ArrayList<>();
+		for (char ch : _azAry)
+			list.add(ch);
+		return list;
+	}
+
+	int getDx(int idx) {
+		int[] dx = { 0, 1, 1, 1, 0, -1, -1, -1 };
+		return dx[idx];
+	}
+
+	int getDy(int idx) {
+		int[] dy = { -1, -1, 0, 1, 1, 1, 0, -1 };
+		return dy[idx];
+	}
+
+	class Counter<K> {
+		Map<K, Integer> map = new HashMap<>();
+
+		public void add(K key) {
+			Integer cnt = map.get(key);
+			if (cnt == null)
+				map.put(key, 1);
+			else
+				map.put(key, cnt + 1);
+		}
+
+		public int get(K key) {
+			Integer cnt = map.get(key);
+			if (cnt == null)
+				return 0;
+			else
+				return cnt;
+		}
+
+		public Set<K> keySet() {
+			return map.keySet();
+		}
+	}
+
+	class IntList {
+		class Info {
+			int idx;
+			int val;
+
+			public Info(int idx, int val) {
+				this.idx = idx;
+				this.val = val;
+			}
+
+			public String toString() {
+				return "(" + idx + ", " + val + ")";
+			}
+		}
+
+		class InfoComparator implements Comparator<Info> {
+			boolean bAsc;
+
+			public InfoComparator(boolean bAsc) {
+				this.bAsc = bAsc;
+			}
+
+			public int compare(Info o1, Info o2) {
+				int sign = bAsc ? 1 : -1;
+				if (o1.val < o2.val)
+					return -1 * sign;
+				else if (o1.val > o2.val)
+					return 1 * sign;
+				return 0;
+			}
+		}
+
+		List<Info> list = new ArrayList<>();
+		InfoComparator asc = new InfoComparator(true);
+		InfoComparator desc = new InfoComparator(false);
+
+		public void add(int val) {
+			list.add(new Info(list.size(), val));
+		}
+
+		public void add(int idx, int val) {
+			list.add(new Info(idx, val));
+		}
+
+		public int getIdx(int idx) {
+			return list.get(idx).idx;
+		}
+
+		public int getVal(int idx) {
+			return list.get(idx).val;
+		}
+
+		public int getLastVal() {
+			return list.get(list.size() - 1).val;
+		}
+
+		public void remove(int idx) {
+			list.remove(idx);
+		}
+
+		public void removeLast() {
+			list.remove(list.size() - 1);
+		}
+
+		public int size() {
+			return list.size();
+		}
+
+		public void sort(boolean bAsc) {
+			if (bAsc)
+				Collections.sort(list, asc);
+			else
+				Collections.sort(list, desc);
+		}
+	}
+
+	class Point {
+		int x;
+		int y;
+
+		public Point(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+
+		public Point(Point pt) {
+			this.x = pt.x;
+			this.y = pt.y;
+		}
+
+		public boolean equals(Object o) {
+			if (o instanceof Point) {
+				Point that = (Point) o;
+				return (x == that.x) && (y == that.y);
+			}
+			return false;
+		}
+
+		public int hashCode() {
+			return x + (y * 31);
+		}
+
+		public String toString() {
+			return "(" + x + ", " + y + ")";
+		}
+	}
+
+	class PointComparator implements Comparator<Point> {
+		int mode;
+
+		public PointComparator(int prop, boolean bAsc) {
+			switch (prop) {
+			case 1:
+				if (bAsc)
+					this.mode = 11;
+				else
+					this.mode = 12;
+				break;
+			case 2:
+				if (bAsc)
+					this.mode = 21;
+				else
+					this.mode = 22;
+				break;
+			default:
+				throw new RuntimeException();
+			}
+		}
+
+		public int compare(Point p1, Point p2) {
+			switch (mode) {
+			case 11:
+				return 1 * Integer.compare(p1.x, p2.x);
+			case 12:
+				return -1 * Integer.compare(p1.x, p2.x);
+			case 21:
+				return 1 * Integer.compare(p1.y, p2.y);
+			case 22:
+				return -1 * Integer.compare(p1.y, p2.y);
+			}
+			throw new IllegalStateException();
+		}
+	}
+
 	int abs(int a) {
 		return (a >= 0) ? a : -a;
 	}
@@ -243,6 +291,16 @@ public class Main {
 
 	long min(long a, long b) {
 		return (a < b) ? a : b;
+	}
+
+	int reed(long a, int n) {
+		while (n-- > 0)
+			a /= 10;
+		return (int) (a % 10);
+	}
+
+	int sqrt(long a) {
+		return (int) Math.sqrt(a);
 	}
 
 	int pint(String s) {
@@ -284,6 +342,13 @@ public class Main {
 		return nums;
 	}
 
+	int[] readNums(int n) {
+		int[] nums = new int[n];
+		for (int i = 0; i < n; i++)
+			nums[i] = readNum();
+		return nums;
+	}
+
 	long[] readLongs() {
 		String[] flds = readFlds();
 		long[] nums = new long[flds.length];
@@ -292,36 +357,79 @@ public class Main {
 		return nums;
 	}
 
-	void p(char c) {
+	long[] readLongs(int n) {
+		long[] nums = new long[n];
+		for (int i = 0; i < n; i++)
+			nums[i] = readLong();
+		return nums;
+	}
+
+	Main pln() {
+		_out.println();
+		return this;
+	}
+
+	Main p(char c) {
 		_out.print(c);
+		return this;
 	}
 
-	void pln(char c) {
+	Main p(char c, int n) {
+		for (int i = 0; i < n; i++)
+			p(c);
+		return this;
+	}
+
+	Main pln(char c) {
 		_out.println(c);
+		return this;
 	}
 
-	void p(double d) {
+	Main p(double d) {
 		_out.print(d);
+		return this;
 	}
 
-	void pln(double d) {
+	Main pln(double d) {
 		_out.println(d);
+		return this;
 	}
 
-	void p(long l) {
+	Main p(long l) {
 		_out.print(l);
+		return this;
 	}
 
-	void pln(long l) {
+	Main pln(long l) {
 		_out.println(l);
+		return this;
 	}
 
-	void p(String s) {
+	Main p(String s) {
 		_out.print(s);
+		return this;
 	}
 
-	void pln(String s) {
+	Main p(String s, int idx) {
+		_out.print(s.charAt(idx));
+		return this;
+	}
+
+	Main pln(String s) {
 		_out.println(s);
+		return this;
+	}
+
+	Main pln(int[] ia) {
+		for (int i = 0; i < ia.length; i++)
+			_out.println(ia[i]);
+		return this;
+	}
+
+	Main pln(long[] la) {
+		for (int i = 0; i < la.length; i++)
+			_out.println(la[i]);
+		return this;
 	}
 
 	static BufferedReader _in;
