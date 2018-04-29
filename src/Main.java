@@ -24,13 +24,23 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/04/29 r13
+	// 2018/04/29 r14
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
 		for (char ch : _azAry)
 			list.add(ch);
 		return list;
+	}
+
+	int getDx(int idx) {
+		int[] dx = { 0, 1, 1, 1, 0, -1, -1, -1 };
+		return dx[idx];
+	}
+
+	int getDy(int idx) {
+		int[] dy = { -1, -1, 0, 1, 1, 1, 0, -1 };
+		return dy[idx];
 	}
 
 	class Counter<K> {
