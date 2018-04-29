@@ -1,14 +1,2 @@
-cd ..\..\..
-md tmp
-del tmp\*.txt
-java -cp bin abc082.b.Main < data\in\abc082\b\q1.txt > tmp\q1.txt
-java -cp bin abc082.b.Main < data\in\abc082\b\q2.txt > tmp\q2.txt
-java -cp bin abc082.b.Main < data\in\abc082\b\q3.txt > tmp\q3.txt
-java -cp bin abc082.b.Main < data\in\abc082\b\q4.txt > tmp\q4.txt
-java -cp bin abc082.b.Main < data\in\abc082\b\q5.txt > tmp\q5.txt
-fc tmp\q1.txt data\out\abc082\b\q1.txt
-fc tmp\q2.txt data\out\abc082\b\q2.txt
-fc tmp\q3.txt data\out\abc082\b\q3.txt
-fc tmp\q4.txt data\out\abc082\b\q4.txt
-fc tmp\q5.txt data\out\abc082\b\q5.txt
+call ..\..\run.bat abc082 b
 pause
