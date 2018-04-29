@@ -7,7 +7,10 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class Main {
 	final int _intMax = Integer.MAX_VALUE; // =2147483647>10^9
@@ -19,8 +22,8 @@ public class Main {
 	void solve() {
 		List<Point> lr = new ArrayList<>();
 		List<Point> lb = new ArrayList<>();
-		PointComparator pcr = new PointComparator(1); // for r
-		PointComparator pcb = new PointComparator(2); // for b
+		PointComparator pcr = new PointComparator(2, false);
+		PointComparator pcb = new PointComparator(1, true);
 		int n = readNum();
 		for (int i = 0; i < n; i++) {
 			int[] ia = readNums();
@@ -47,120 +50,106 @@ public class Main {
 		pln(ans);
 	}
 
-	class PointComparator implements Comparator<Point> {
-		int mode;
+	// -----------------------------------------------------
+	// 2018/04/29 r12
+	// -----------------------------------------------------
+	class Counter<K> {
+		Map<K, Integer> map = new HashMap<>();
 
-		public PointComparator(int mode) {
-			this.mode = mode;
+		public void add(K key) {
+			Integer cnt = map.get(key);
+			if (cnt == null)
+				map.put(key, 1);
+			else
+				map.put(key, cnt + 1);
 		}
 
-		public int compare(Point p1, Point p2) {
-			switch (mode) {
-			case 1:
-				return -1 * Integer.compare(p1.y, p2.y);
-			case 2:
-				return 1 * Integer.compare(p1.x, p2.x);
-			}
-			throw new IllegalStateException();
-		}
-	}
-
-	void solve2() {
-		List<Point> lr = new ArrayList<>();
-		List<Point> lb = new ArrayList<>();
-		PointComparator1 pc = new PointComparator1();
-		PointComparator2 pc2 = new PointComparator2();
-		int n = readNum();
-		for (int i = 0; i < n; i++) {
-			int[] ia = readNums();
-			lr.add(new Point(ia[0], ia[1]));
-		}
-		for (int i = 0; i < n; i++) {
-			int[] ia = readNums();
-			lb.add(new Point(ia[0], ia[1]));
-		}
-		int ans = dfs2(new ArrayList<>(lr), new ArrayList<>(lb));
-		pln(ans);
-	}
-
-	int dfs2(List<Point> lr, List<Point> lb) {
-		if (lr.size() == 0)
-			return 0;
-		PointComparator1 pc = new PointComparator1();
-		Point r = lr.get(0);
-		int max = 0;
-		for (int j = 0; j < lb.size(); j++) {
-			Point b = lb.get(j);
-			if (pc.compare(r, b) >= 0) {
-				continue;
-			}
-			int ans = 0;
-			if (pc.compare(r, b) < 0) {
-				ans++;
-			}
-			List<Point> nlr = new ArrayList<>(lr);
-			List<Point> nlb = new ArrayList<>(lb);
-			nlr.remove(0);
-			nlb.remove(j);
-			ans += dfs2(nlr, nlb);
-			if (max < ans)
-				max = ans;
-		}
-		return max;
-	}
-
-	void solve1() {
-		List<Point> lr = new ArrayList<>();
-		List<Point> lb = new ArrayList<>();
-		PointComparator1 pc = new PointComparator1();
-		PointComparator2 pc2 = new PointComparator2();
-		int n = readNum();
-		for (int i = 0; i < n; i++) {
-			int[] ia = readNums();
-			lr.add(new Point(ia[0], ia[1]));
-		}
-		for (int i = 0; i < n; i++) {
-			int[] ia = readNums();
-			lb.add(new Point(ia[0], ia[1]));
-		}
-		Collections.sort(lr, pc2);
-		Collections.sort(lb, pc2);
-		int ans = 0;
-		for (int i = lb.size() - 1; i >= 0; i--) {
-			Point b = lb.get(i);
-			for (int j = lr.size() - 1; j >= 0; j--) {
-				Point r = lr.get(j);
-				if (pc.compare(r, b) < 0) {
-					ans++;
-					lb.remove(i);
-					lr.remove(j);
-					break;
-				}
-			}
-		}
-		pln(ans);
-	}
-
-	class PointComparator1 implements Comparator<Point> {
-		public int compare(Point p1, Point p2) {
-			if (p1.x == p2.x && p1.y == p2.y) {
+		public int get(K key) {
+			Integer cnt = map.get(key);
+			if (cnt == null)
 				return 0;
-			} else if (p1.x < p2.x && p1.y < p2.y) {
-				return -1;
-			}
-			return 1;
+			else
+				return cnt;
+		}
+
+		public Set<K> keySet() {
+			return map.keySet();
 		}
 	}
 
-	class PointComparator2 implements Comparator<Point> {
-		public int compare(Point p1, Point p2) {
-			int r1 = p1.x * p1.x + p1.y * p1.y;
-			int r2 = p2.x * p2.x + p2.y * p2.y;
-			if (r1 == r2)
+	class IntList {
+		class Info {
+			int idx;
+			int val;
+
+			public Info(int idx, int val) {
+				this.idx = idx;
+				this.val = val;
+			}
+
+			public String toString() {
+				return "(" + idx + ", " + val + ")";
+			}
+		}
+
+		class InfoComparator implements Comparator<Info> {
+			boolean bAsc;
+
+			public InfoComparator(boolean bAsc) {
+				this.bAsc = bAsc;
+			}
+
+			public int compare(Info o1, Info o2) {
+				int sign = bAsc ? 1 : -1;
+				if (o1.val < o2.val)
+					return -1 * sign;
+				else if (o1.val > o2.val)
+					return 1 * sign;
 				return 0;
-			else if (r1 < r2)
-				return -1;
-			return 1;
+			}
+		}
+
+		List<Info> list = new ArrayList<>();
+		InfoComparator asc = new InfoComparator(true);
+		InfoComparator desc = new InfoComparator(false);
+
+		public void add(int val) {
+			list.add(new Info(list.size(), val));
+		}
+
+		public void add(int idx, int val) {
+			list.add(new Info(idx, val));
+		}
+
+		public int getIdx(int idx) {
+			return list.get(idx).idx;
+		}
+
+		public int getVal(int idx) {
+			return list.get(idx).val;
+		}
+
+		public int getLastVal() {
+			return list.get(list.size() - 1).val;
+		}
+
+		public void remove(int idx) {
+			list.remove(idx);
+		}
+
+		public void removeLast() {
+			list.remove(list.size() - 1);
+		}
+
+		public int size() {
+			return list.size();
+		}
+
+		public void sort(boolean bAsc) {
+			if (bAsc)
+				Collections.sort(list, asc);
+			else
+				Collections.sort(list, desc);
 		}
 	}
 
@@ -195,6 +184,77 @@ public class Main {
 		}
 	}
 
+	class PointComparator implements Comparator<Point> {
+		int mode;
+
+		public PointComparator(int prop, boolean bAsc) {
+			switch (prop) {
+			case 1:
+				if (bAsc)
+					this.mode = 11;
+				else
+					this.mode = 12;
+				break;
+			case 2:
+				if (bAsc)
+					this.mode = 21;
+				else
+					this.mode = 22;
+				break;
+			default:
+				throw new RuntimeException();
+			}
+		}
+
+		public int compare(Point p1, Point p2) {
+			switch (mode) {
+			case 11:
+				return 1 * Integer.compare(p1.x, p2.x);
+			case 12:
+				return -1 * Integer.compare(p1.x, p2.x);
+			case 21:
+				return 1 * Integer.compare(p1.y, p2.y);
+			case 22:
+				return -1 * Integer.compare(p1.y, p2.y);
+			}
+			throw new IllegalStateException();
+		}
+	}
+
+	int abs(int a) {
+		return (a >= 0) ? a : -a;
+	}
+
+	long abs(long a) {
+		return (a >= 0) ? a : -a;
+	}
+
+	int max(int a, int b) {
+		return (a > b) ? a : b;
+	}
+
+	long max(long a, long b) {
+		return (a > b) ? a : b;
+	}
+
+	int min(int a, int b) {
+		return (a < b) ? a : b;
+	}
+
+	long min(long a, long b) {
+		return (a < b) ? a : b;
+	}
+
+	int reed(long a, int n) {
+		while (n-- > 0)
+			a /= 10;
+		return (int) (a % 10);
+	}
+
+	int sqrt(long a) {
+		return (int) Math.sqrt(a);
+	}
+
 	int pint(String s) {
 		return Integer.parseInt(s);
 	}
@@ -216,6 +276,11 @@ public class Main {
 		return pint(line);
 	}
 
+	long readLong() {
+		String line = readLine();
+		return plong(line);
+	}
+
 	String[] readFlds() {
 		String line = readLine();
 		return line.split(" ");
@@ -224,46 +289,104 @@ public class Main {
 	int[] readNums() {
 		String[] flds = readFlds();
 		int[] nums = new int[flds.length];
-		for (int i = 0; i < flds.length; i++) {
+		for (int i = 0; i < flds.length; i++)
 			nums[i] = pint(flds[i]);
-		}
 		return nums;
 	}
 
-	void p(char c) {
+	int[] readNums(int n) {
+		int[] nums = new int[n];
+		for (int i = 0; i < n; i++)
+			nums[i] = readNum();
+		return nums;
+	}
+
+	long[] readLongs() {
+		String[] flds = readFlds();
+		long[] nums = new long[flds.length];
+		for (int i = 0; i < flds.length; i++)
+			nums[i] = plong(flds[i]);
+		return nums;
+	}
+
+	long[] readLongs(int n) {
+		long[] nums = new long[n];
+		for (int i = 0; i < n; i++)
+			nums[i] = readLong();
+		return nums;
+	}
+
+	Main pln() {
+		_out.println();
+		return this;
+	}
+
+	Main p(char c) {
 		_out.print(c);
+		return this;
 	}
 
-	void pln(char c) {
+	Main p(char c, int n) {
+		for (int i = 0; i < n; i++)
+			p(c);
+		return this;
+	}
+
+	Main pln(char c) {
 		_out.println(c);
+		return this;
 	}
 
-	void p(double d) {
+	Main p(double d) {
 		_out.print(d);
+		return this;
 	}
 
-	void pln(double d) {
+	Main pln(double d) {
 		_out.println(d);
+		return this;
 	}
 
-	void p(long l) {
+	Main p(long l) {
 		_out.print(l);
+		return this;
 	}
 
-	void pln(long l) {
+	Main pln(long l) {
 		_out.println(l);
+		return this;
 	}
 
-	void p(String s) {
+	Main p(String s) {
 		_out.print(s);
+		return this;
 	}
 
-	void pln(String s) {
+	Main p(String s, int idx) {
+		_out.print(s.charAt(idx));
+		return this;
+	}
+
+	Main pln(String s) {
 		_out.println(s);
+		return this;
+	}
+
+	Main pln(int[] ia) {
+		for (int i = 0; i < ia.length; i++)
+			_out.println(ia[i]);
+		return this;
+	}
+
+	Main pln(long[] la) {
+		for (int i = 0; i < la.length; i++)
+			_out.println(la[i]);
+		return this;
 	}
 
 	static BufferedReader _in;
 	static PrintWriter _out;
+	static boolean _bElapsed = false;
 
 	public static void main(String[] args) {
 		long start = System.currentTimeMillis();
@@ -272,8 +395,7 @@ public class Main {
 		new Main().solve();
 		_out.flush();
 		long end = System.currentTimeMillis();
-		if (bElapsed) {
+		if (_bElapsed)
 			System.err.println((end - start) + "ms");
-		}
 	}
 }

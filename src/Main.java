@@ -22,7 +22,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/04/29 r11
+	// 2018/04/29 r12
 	// -----------------------------------------------------
 	class Counter<K> {
 		Map<K, Integer> map = new HashMap<>();
@@ -121,6 +121,74 @@ public class Main {
 				Collections.sort(list, asc);
 			else
 				Collections.sort(list, desc);
+		}
+	}
+
+	class Point {
+		int x;
+		int y;
+
+		public Point(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+
+		public Point(Point pt) {
+			this.x = pt.x;
+			this.y = pt.y;
+		}
+
+		public boolean equals(Object o) {
+			if (o instanceof Point) {
+				Point that = (Point) o;
+				return (x == that.x) && (y == that.y);
+			}
+			return false;
+		}
+
+		public int hashCode() {
+			return x + (y * 31);
+		}
+
+		public String toString() {
+			return "(" + x + ", " + y + ")";
+		}
+	}
+
+	class PointComparator implements Comparator<Point> {
+		int mode;
+
+		public PointComparator(int prop, boolean bAsc) {
+			switch (prop) {
+			case 1:
+				if (bAsc)
+					this.mode = 11;
+				else
+					this.mode = 12;
+				break;
+			case 2:
+				if (bAsc)
+					this.mode = 21;
+				else
+					this.mode = 22;
+				break;
+			default:
+				throw new RuntimeException();
+			}
+		}
+
+		public int compare(Point p1, Point p2) {
+			switch (mode) {
+			case 11:
+				return 1 * Integer.compare(p1.x, p2.x);
+			case 12:
+				return -1 * Integer.compare(p1.x, p2.x);
+			case 21:
+				return 1 * Integer.compare(p1.y, p2.y);
+			case 22:
+				return -1 * Integer.compare(p1.y, p2.y);
+			}
+			throw new IllegalStateException();
 		}
 	}
 
