@@ -2,6 +2,7 @@
 
 - abc078_a(01min) A - HEX
 
+- abc044_b(03min) B - 美しい文字列 / Beautiful Strings
 - abc045_b(12min) B - 3人でカードゲームイージー / Card Game for Three (ABC Edit)
 - abc046_b(03min) B - AtCoDeerくんとボール色塗り / Painting Balls with AtCoDeer
 - abc047_b(10min) B - すぬけ君の塗り絵 2 イージー / Snuke's Coloring 2 (ABC Edit)
