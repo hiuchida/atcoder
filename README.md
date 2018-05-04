@@ -2,6 +2,7 @@
 
 - abc078_a(01min) A - HEX
 
+- abc040_b(05min) B - □□□□□
 - abc041_b(03min) B - 直方体
 - abc042_b(03min) B - 文字列大好きいろはちゃんイージー / Iroha Loves Strings (ABC Edition)
 - abc043_b(04min) B - バイナリハックイージー / Unhappy Hacking (ABC Edit)
