@@ -24,7 +24,7 @@ public class Main {
 	void solve() {
 		int[] ia = readNums();
 		int h = ia[0];
-		int w = ia[1];
+		// int w = ia[1];
 		for (int i = 0; i < h; i++) {
 			String s = readLine();
 			pln(s);
