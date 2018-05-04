@@ -2,6 +2,7 @@
 
 - abc078_a(01min) A - HEX
 
+- abc049_b(02min) B - ‚½‚Ä‚È‚ª / Thin
 - abc050_b(07min) B - Contest with Drinks Easy
 - abc051_b(10min) B - Sum of Three Integers
 - abc052_b(04min) B - Increment Decrement
