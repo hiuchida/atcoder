@@ -2,6 +2,7 @@
 
 - abc078_a(01min) A - HEX
 
+- abc047_b(10min) B - すぬけ君の塗り絵 2 イージー / Snuke's Coloring 2 (ABC Edit)
 - abc048_b(09min) B - Between a and b ...
 - abc049_b(02min) B - たてなが / Thin
 - abc050_b(07min) B - Contest with Drinks Easy
