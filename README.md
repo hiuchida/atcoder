@@ -2,6 +2,7 @@
 
 - abc078_a(01min) A - HEX
 
+- abc039_b(04min) B - エージェント高橋君
 - abc040_b(05min) B - □□□□□
 - abc041_b(03min) B - 直方体
 - abc042_b(03min) B - 文字列大好きいろはちゃんイージー / Iroha Loves Strings (ABC Edition)
