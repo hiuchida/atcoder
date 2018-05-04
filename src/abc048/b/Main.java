@@ -26,12 +26,8 @@ public class Main {
 		long a = la[0];
 		long b = la[1];
 		long x = la[2];
-		long aa = (a / x) * x;
-		long bb = (b / x) * x;
-		while (aa < a)
-			aa += x;
-		while (bb > b)
-			bb -= x;
+		long aa = ceil(a, x);
+		long bb = floor(b, x);
 		if (aa > bb)
 			pln(0);
 		else
@@ -39,7 +35,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/04 r16
+	// 2018/05/04 r17
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -286,6 +282,20 @@ public class Main {
 
 	long abs(long a) {
 		return (a >= 0) ? a : -a;
+	}
+
+	long ceil(long a, long b) {
+		if (a < 0) {
+			return -1 * floor(-a, b);
+		}
+		return ((a + b - 1) / b) * b;
+	}
+
+	long floor(long a, long b) {
+		if (a < 0) {
+			return -1 * ceil(-a, b);
+		}
+		return (a / b) * b;
 	}
 
 	int max(int a, int b) {

@@ -25,7 +25,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/04 r16
+	// 2018/05/04 r17
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -272,6 +272,20 @@ public class Main {
 
 	long abs(long a) {
 		return (a >= 0) ? a : -a;
+	}
+
+	long ceil(long a, long b) {
+		if (a < 0) {
+			return -1 * floor(-a, b);
+		}
+		return ((a + b - 1) / b) * b;
+	}
+
+	long floor(long a, long b) {
+		if (a < 0) {
+			return -1 * ceil(-a, b);
+		}
+		return (a / b) * b;
 	}
 
 	int max(int a, int b) {
