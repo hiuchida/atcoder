@@ -2,6 +2,7 @@
 
 - abc078_a(01min) A - HEX
 
+- abc046_b(03min) B - AtCoDeerくんとボール色塗り / Painting Balls with AtCoDeer
 - abc047_b(10min) B - すぬけ君の塗り絵 2 イージー / Snuke's Coloring 2 (ABC Edit)
 - abc048_b(09min) B - Between a and b ...
 - abc049_b(02min) B - たてなが / Thin
