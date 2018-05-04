@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,25 +21,23 @@ public class Main {
 	final char[] _azAry = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
 			's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 
-	boolean[][] map;
+	Bitmap map;
 
 	void solve() {
 		int[] ia = readNums();
 		int h = ia[0];
 		int w = ia[1];
-		map = new boolean[h + 2][w + 2];
+		map = new Bitmap(w, h);
 		for (int y = 1; y <= h; y++) {
-			String line = readLine();
-			if (line == null)
-				break;
+			String s = readLine();
 			for (int x = 1; x <= w; x++) {
-				if (line.charAt(x - 1) == '#')
-					map[y][x] = true;
+				if (s.charAt(x - 1) == '#')
+					map.set(x, y, true);
 			}
 		}
 		for (int y = 1; y <= h; y++) {
 			for (int x = 1; x <= w; x++) {
-				if (map[y][x])
+				if (map.is(x, y))
 					p("#");
 				else
 					p(count9(x, y));
@@ -55,11 +54,11 @@ public class Main {
 	}
 
 	int count(int x, int y) {
-		return map[y][x] ? 1 : 0;
+		return map.is(x, y) ? 1 : 0;
 	}
 
 	// -----------------------------------------------------
-	// 2018/04/29 r14
+	// 2018/05/04 r16
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -76,6 +75,26 @@ public class Main {
 	int getDy(int idx) {
 		int[] dy = { -1, -1, 0, 1, 1, 1, 0, -1 };
 		return dy[idx];
+	}
+
+	class Bitmap {
+		int mx;
+		int my;
+		boolean[][] map;
+
+		public Bitmap(int mx, int my) {
+			this.mx = mx;
+			this.my = my;
+			map = new boolean[my + 2][mx + 2];
+		}
+
+		public boolean is(int x, int y) {
+			return map[y][x];
+		}
+
+		public void set(int x, int y, boolean b) {
+			map[y][x] = b;
+		}
 	}
 
 	class Counter<K> {
@@ -200,6 +219,10 @@ public class Main {
 			return false;
 		}
 
+		public long getManhattanDistance(Point pt) {
+			return abs((long) pt.x - this.x) + abs((long) pt.y - this.y);
+		}
+
 		public int hashCode() {
 			return x + (y * 31);
 		}
@@ -209,40 +232,70 @@ public class Main {
 		}
 	}
 
-	class PointComparator implements Comparator<Point> {
-		int mode;
+	class PointList implements Iterable<Point> {
+		class PointComparator implements Comparator<Point> {
+			int mode;
 
-		public PointComparator(int prop, boolean bAsc) {
-			switch (prop) {
-			case 1:
-				if (bAsc)
-					this.mode = 11;
-				else
-					this.mode = 12;
-				break;
-			case 2:
-				if (bAsc)
-					this.mode = 21;
-				else
-					this.mode = 22;
-				break;
-			default:
-				throw new RuntimeException();
+			public PointComparator(int prop, boolean bAsc) {
+				switch (prop) {
+				case 1:
+					if (bAsc)
+						this.mode = 11;
+					else
+						this.mode = 12;
+					break;
+				case 2:
+					if (bAsc)
+						this.mode = 21;
+					else
+						this.mode = 22;
+					break;
+				default:
+					throw new RuntimeException();
+				}
+			}
+
+			public int compare(Point p1, Point p2) {
+				switch (mode) {
+				case 11:
+					return 1 * Integer.compare(p1.x, p2.x);
+				case 12:
+					return -1 * Integer.compare(p1.x, p2.x);
+				case 21:
+					return 1 * Integer.compare(p1.y, p2.y);
+				case 22:
+					return -1 * Integer.compare(p1.y, p2.y);
+				}
+				throw new IllegalStateException();
 			}
 		}
 
-		public int compare(Point p1, Point p2) {
-			switch (mode) {
-			case 11:
-				return 1 * Integer.compare(p1.x, p2.x);
-			case 12:
-				return -1 * Integer.compare(p1.x, p2.x);
-			case 21:
-				return 1 * Integer.compare(p1.y, p2.y);
-			case 22:
-				return -1 * Integer.compare(p1.y, p2.y);
-			}
-			throw new IllegalStateException();
+		List<Point> list = new ArrayList<>();
+
+		public void add(int x, int y) {
+			list.add(new Point(x, y));
+		}
+
+		public Point get(int idx) {
+			return list.get(idx);
+		}
+
+		@Override
+		public Iterator<Point> iterator() {
+			return list.iterator();
+		}
+
+		public void remove(int idx) {
+			list.remove(idx);
+		}
+
+		public int size() {
+			return list.size();
+		}
+
+		public void sort(int prop, boolean bAsc) {
+			PointComparator c = new PointComparator(prop, bAsc);
+			Collections.sort(list, c);
 		}
 	}
 

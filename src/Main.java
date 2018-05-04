@@ -25,7 +25,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/04 r15
+	// 2018/05/04 r16
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -42,6 +42,26 @@ public class Main {
 	int getDy(int idx) {
 		int[] dy = { -1, -1, 0, 1, 1, 1, 0, -1 };
 		return dy[idx];
+	}
+
+	class Bitmap {
+		int mx;
+		int my;
+		boolean[][] map;
+
+		public Bitmap(int mx, int my) {
+			this.mx = mx;
+			this.my = my;
+			map = new boolean[my + 2][mx + 2];
+		}
+
+		public boolean is(int x, int y) {
+			return map[y][x];
+		}
+
+		public void set(int x, int y, boolean b) {
+			map[y][x] = b;
+		}
 	}
 
 	class Counter<K> {

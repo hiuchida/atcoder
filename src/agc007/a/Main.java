@@ -4,33 +4,43 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class Main {
 	final int _intMax = Integer.MAX_VALUE; // =2147483647>10^9
 	final int _intMin = Integer.MIN_VALUE;
 	final long _longMax = Long.MAX_VALUE; // =9223372036854775807L>10^18
 	final long _longMin = Long.MIN_VALUE;
+	final char[] _azAry = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+			's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 
 	int h;
 	int w;
-	boolean[][] map;
+	Bitmap map;
 
 	void solve() {
 		int[] ia = readNums();
 		h = ia[0];
 		w = ia[1];
-		map = new boolean[h + 2][w + 2];
-		for (int i = 0; i < h; i++) {
+		map = new Bitmap(w, h);
+		for (int y = 1; y <= h; y++) {
 			String s = readLine();
-			for (int j = 0; j < w; j++) {
-				if (s.charAt(j) == '#')
-					map[i + 1][j + 1] = true;
+			for (int x = 1; x <= w; x++) {
+				if (s.charAt(x - 1) == '#')
+					map.set(x, y, true);
 			}
 		}
 		search(1, 1);
-		for (int i = 0; i < h; i++) {
-			for (int j = 0; j < w; j++) {
-				if (map[i + 1][j + 1]) {
+		for (int y = 1; y <= h; y++) {
+			for (int x = 1; x <= w; x++) {
+				if (map.is(x, y)) {
 					pln("Impossible");
 					return;
 				}
@@ -41,13 +51,13 @@ public class Main {
 
 	void search(int x, int y) {
 		while (true) {
-			if (map[y][x])
-				map[y][x] = false;
+			if (map.is(x, y))
+				map.set(x, y, false);
 			if (x == w && y == h)
 				break;
-			if (map[y][x + 1])
+			if (map.is(x + 1, y))
 				x++;
-			else if (map[y + 1][x])
+			else if (map.is(x, y + 1))
 				y++;
 			else
 				break;
@@ -55,8 +65,247 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/04/28 r9
+	// 2018/05/04 r16
 	// -----------------------------------------------------
+	List<Character> getazList() {
+		List<Character> list = new ArrayList<>();
+		for (char ch : _azAry)
+			list.add(ch);
+		return list;
+	}
+
+	int getDx(int idx) {
+		int[] dx = { 0, 1, 1, 1, 0, -1, -1, -1 };
+		return dx[idx];
+	}
+
+	int getDy(int idx) {
+		int[] dy = { -1, -1, 0, 1, 1, 1, 0, -1 };
+		return dy[idx];
+	}
+
+	class Bitmap {
+		int mx;
+		int my;
+		boolean[][] map;
+
+		public Bitmap(int mx, int my) {
+			this.mx = mx;
+			this.my = my;
+			map = new boolean[my + 2][mx + 2];
+		}
+
+		public boolean is(int x, int y) {
+			return map[y][x];
+		}
+
+		public void set(int x, int y, boolean b) {
+			map[y][x] = b;
+		}
+	}
+
+	class Counter<K> {
+		Map<K, Integer> map = new HashMap<>();
+
+		public void add(K key) {
+			Integer cnt = map.get(key);
+			if (cnt == null)
+				map.put(key, 1);
+			else
+				map.put(key, cnt + 1);
+		}
+
+		public int get(K key) {
+			Integer cnt = map.get(key);
+			if (cnt == null)
+				return 0;
+			else
+				return cnt;
+		}
+
+		public Set<K> keySet() {
+			return map.keySet();
+		}
+	}
+
+	class IntList {
+		class Info {
+			int idx;
+			int val;
+
+			public Info(int idx, int val) {
+				this.idx = idx;
+				this.val = val;
+			}
+
+			public String toString() {
+				return "(" + idx + ", " + val + ")";
+			}
+		}
+
+		class InfoComparator implements Comparator<Info> {
+			boolean bAsc;
+
+			public InfoComparator(boolean bAsc) {
+				this.bAsc = bAsc;
+			}
+
+			public int compare(Info o1, Info o2) {
+				int sign = bAsc ? 1 : -1;
+				if (o1.val < o2.val)
+					return -1 * sign;
+				else if (o1.val > o2.val)
+					return 1 * sign;
+				return 0;
+			}
+		}
+
+		List<Info> list = new ArrayList<>();
+		InfoComparator asc = new InfoComparator(true);
+		InfoComparator desc = new InfoComparator(false);
+
+		public void add(int val) {
+			list.add(new Info(list.size(), val));
+		}
+
+		public void add(int idx, int val) {
+			list.add(new Info(idx, val));
+		}
+
+		public int getIdx(int idx) {
+			return list.get(idx).idx;
+		}
+
+		public int getVal(int idx) {
+			return list.get(idx).val;
+		}
+
+		public int getLastVal() {
+			return list.get(list.size() - 1).val;
+		}
+
+		public void remove(int idx) {
+			list.remove(idx);
+		}
+
+		public void removeLast() {
+			list.remove(list.size() - 1);
+		}
+
+		public int size() {
+			return list.size();
+		}
+
+		public void sort(boolean bAsc) {
+			if (bAsc)
+				Collections.sort(list, asc);
+			else
+				Collections.sort(list, desc);
+		}
+	}
+
+	class Point {
+		int x;
+		int y;
+
+		public Point(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+
+		public Point(Point pt) {
+			this.x = pt.x;
+			this.y = pt.y;
+		}
+
+		public boolean equals(Object o) {
+			if (o instanceof Point) {
+				Point that = (Point) o;
+				return (x == that.x) && (y == that.y);
+			}
+			return false;
+		}
+
+		public long getManhattanDistance(Point pt) {
+			return abs((long) pt.x - this.x) + abs((long) pt.y - this.y);
+		}
+
+		public int hashCode() {
+			return x + (y * 31);
+		}
+
+		public String toString() {
+			return "(" + x + ", " + y + ")";
+		}
+	}
+
+	class PointList implements Iterable<Point> {
+		class PointComparator implements Comparator<Point> {
+			int mode;
+
+			public PointComparator(int prop, boolean bAsc) {
+				switch (prop) {
+				case 1:
+					if (bAsc)
+						this.mode = 11;
+					else
+						this.mode = 12;
+					break;
+				case 2:
+					if (bAsc)
+						this.mode = 21;
+					else
+						this.mode = 22;
+					break;
+				default:
+					throw new RuntimeException();
+				}
+			}
+
+			public int compare(Point p1, Point p2) {
+				switch (mode) {
+				case 11:
+					return 1 * Integer.compare(p1.x, p2.x);
+				case 12:
+					return -1 * Integer.compare(p1.x, p2.x);
+				case 21:
+					return 1 * Integer.compare(p1.y, p2.y);
+				case 22:
+					return -1 * Integer.compare(p1.y, p2.y);
+				}
+				throw new IllegalStateException();
+			}
+		}
+
+		List<Point> list = new ArrayList<>();
+
+		public void add(int x, int y) {
+			list.add(new Point(x, y));
+		}
+
+		public Point get(int idx) {
+			return list.get(idx);
+		}
+
+		@Override
+		public Iterator<Point> iterator() {
+			return list.iterator();
+		}
+
+		public void remove(int idx) {
+			list.remove(idx);
+		}
+
+		public int size() {
+			return list.size();
+		}
+
+		public void sort(int prop, boolean bAsc) {
+			PointComparator c = new PointComparator(prop, bAsc);
+			Collections.sort(list, c);
+		}
+	}
+
 	int abs(int a) {
 		return (a >= 0) ? a : -a;
 	}
