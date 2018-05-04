@@ -2,6 +2,7 @@
 
 - abc078_a(01min) A - HEX
 
+- abc051_b(10min) B - Sum of Three Integers
 - abc052_b(04min) B - Increment Decrement
 - abc053_b(05min) B - A to Z String
 - abc054_b(10min) B - Template Matching
