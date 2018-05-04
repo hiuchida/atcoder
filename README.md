@@ -2,6 +2,7 @@
 
 - abc078_a(01min) A - HEX
 
+- abc042_b(03min) B - 文字列大好きいろはちゃんイージー / Iroha Loves Strings (ABC Edition)
 - abc043_b(04min) B - バイナリハックイージー / Unhappy Hacking (ABC Edit)
 - abc044_b(03min) B - 美しい文字列 / Beautiful Strings
 - abc045_b(12min) B - 3人でカードゲームイージー / Card Game for Three (ABC Edit)
