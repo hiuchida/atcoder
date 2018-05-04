@@ -2,6 +2,7 @@
 
 - abc078_a(01min) A - HEX
 
+- abc055_b(03min) B - Training Camp
 - abc056_b(05min) B - NarrowRectanglesEasy
 - abc057_b(11min) B - Checkpoints
 - abc058_b(03min) B - æˆæ
