@@ -1,6 +1,7 @@
 # atcoder
 
 - abc078_a(01min) A - HEX
+- abc096_a(09min) A - Day of Takahashi
 
 - abc039_b(04min) B - エージェント高橋君
 - abc040_b(05min) B - □□□□□
@@ -60,6 +61,7 @@
 - abc094_b(10min) B - Toll Gates
 - abc095_b(10min) B - Bitter Alchemy
 
+- abc075_c(20min) C - Bridge
 - abc076_c(16min) C - Dubious Document 2
 - abc079_c(12min) C - Train Ticket
 - abc080_c(48min) C - Shopping Street
