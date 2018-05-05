@@ -24,14 +24,12 @@ public class Main {
 	void solve() {
 		int n = readNum();
 		String[] sa = readLines(n);
-		Counter<String> ca = new Counter<>();
-		for (String s : sa)
-			ca.add(s);
+		StrList sla = new StrList(sa);
+		Counter<String> ca = new Counter<>(sla);
 		int m = readNum();
 		String[] sb = readLines(m);
-		Counter<String> cb = new Counter<>();
-		for (String s : sb)
-			cb.add(s);
+		StrList slb = new StrList(sb);
+		Counter<String> cb = new Counter<>(slb);
 		int ans = 0;
 		for (String key : ca.keySet()) {
 			int va = ca.get(key);
@@ -42,7 +40,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/05 r24
+	// 2018/05/05 r25
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -358,6 +356,22 @@ public class Main {
 		public void sort(int prop, boolean bAsc) {
 			PointComparator c = new PointComparator(prop, bAsc);
 			Collections.sort(list, c);
+		}
+	}
+
+	class StrList implements Iterable<String> {
+		List<String> list = new ArrayList<>();
+
+		public StrList() {
+		}
+
+		public StrList(String[] sa) {
+			for (int i = 0; i < sa.length; i++)
+				list.add(sa[i]);
+		}
+
+		public Iterator<String> iterator() {
+			return list.iterator();
 		}
 	}
 

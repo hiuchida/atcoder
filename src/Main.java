@@ -25,7 +25,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/05 r24
+	// 2018/05/05 r25
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -341,6 +341,22 @@ public class Main {
 		public void sort(int prop, boolean bAsc) {
 			PointComparator c = new PointComparator(prop, bAsc);
 			Collections.sort(list, c);
+		}
+	}
+
+	class StrList implements Iterable<String> {
+		List<String> list = new ArrayList<>();
+
+		public StrList() {
+		}
+
+		public StrList(String[] sa) {
+			for (int i = 0; i < sa.length; i++)
+				list.add(sa[i]);
+		}
+
+		public Iterator<String> iterator() {
+			return list.iterator();
 		}
 	}
 
