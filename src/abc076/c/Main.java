@@ -24,18 +24,18 @@ public class Main {
 	void solve() {
 		String s = readLine();
 		String t = readLine();
-		List<String> list = new ArrayList<>();
+		StrList sl = new StrList();
 		for (int i = 0; i < s.length(); i++) {
 			String ss = s.substring(i);
 			if (comp(ss, t)) {
-				list.add(repl(s, i, t));
+				sl.add(repl(s, i, t));
 			}
 		}
-		if (list.size() == 0)
+		if (sl.size() == 0)
 			pln("UNRESTORABLE");
 		else {
-			Collections.sort(list);
-			pln(list.get(0));
+			sl.sort(true);
+			pln(sl.get(0));
 		}
 	}
 
@@ -69,7 +69,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/05 r25
+	// 2018/05/05 r26
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -389,7 +389,21 @@ public class Main {
 	}
 
 	class StrList implements Iterable<String> {
+		class StrComparator implements Comparator<String> {
+			int sign;
+
+			public StrComparator(boolean bAsc) {
+				sign = bAsc ? 1 : -1;
+			}
+
+			public int compare(String o1, String o2) {
+				return sign * o1.compareTo(o2);
+			}
+		}
+
 		List<String> list = new ArrayList<>();
+		StrComparator asc = new StrComparator(true);
+		StrComparator desc = new StrComparator(false);
 
 		public StrList() {
 		}
@@ -399,8 +413,27 @@ public class Main {
 				list.add(sa[i]);
 		}
 
+		public void add(String s) {
+			list.add(s);
+		}
+
+		public String get(int idx) {
+			return list.get(idx);
+		}
+
 		public Iterator<String> iterator() {
 			return list.iterator();
+		}
+
+		public int size() {
+			return list.size();
+		}
+
+		public void sort(boolean bAsc) {
+			if (bAsc)
+				Collections.sort(list, asc);
+			else
+				Collections.sort(list, desc);
 		}
 	}
 

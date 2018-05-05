@@ -40,7 +40,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/05 r25
+	// 2018/05/05 r26
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -360,7 +360,21 @@ public class Main {
 	}
 
 	class StrList implements Iterable<String> {
+		class StrComparator implements Comparator<String> {
+			int sign;
+
+			public StrComparator(boolean bAsc) {
+				sign = bAsc ? 1 : -1;
+			}
+
+			public int compare(String o1, String o2) {
+				return sign * o1.compareTo(o2);
+			}
+		}
+
 		List<String> list = new ArrayList<>();
+		StrComparator asc = new StrComparator(true);
+		StrComparator desc = new StrComparator(false);
 
 		public StrList() {
 		}
@@ -370,8 +384,27 @@ public class Main {
 				list.add(sa[i]);
 		}
 
+		public void add(String s) {
+			list.add(s);
+		}
+
+		public String get(int idx) {
+			return list.get(idx);
+		}
+
 		public Iterator<String> iterator() {
 			return list.iterator();
+		}
+
+		public int size() {
+			return list.size();
+		}
+
+		public void sort(boolean bAsc) {
+			if (bAsc)
+				Collections.sort(list, asc);
+			else
+				Collections.sort(list, desc);
 		}
 	}
 
