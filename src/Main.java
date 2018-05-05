@@ -25,7 +25,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/05 r19
+	// 2018/05/05 r20
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -73,11 +73,7 @@ public class Main {
 			}
 
 			public int compare(Character o1, Character o2) {
-				if (o1 < o2)
-					return -1 * sign;
-				else if (o1 > o2)
-					return 1 * sign;
-				return 0;
+				return sign * Character.compare(o1, o2);
 			}
 		}
 
