@@ -22,12 +22,8 @@ public class Main {
 			's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 
 	void solve() {
-		String s = readLine();
-		Counter<Character> c = new Counter<>();
-		for (int i = 0; i < s.length(); i++) {
-			char ch = s.charAt(i);
-			c.add(ch);
-		}
+		CharList cl = readChars();
+		Counter<Character> c = new Counter<>(cl);
 		for (char ch : c.keySet()) {
 			if (c.get(ch) % 2 > 0) {
 				pln("No");
@@ -38,7 +34,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/04 r17
+	// 2018/05/05 r22
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -77,8 +73,77 @@ public class Main {
 		}
 	}
 
+	class CharList implements Iterable<Character> {
+		class CharComparator implements Comparator<Character> {
+			int sign;
+
+			public CharComparator(boolean bAsc) {
+				sign = bAsc ? 1 : -1;
+			}
+
+			public int compare(Character o1, Character o2) {
+				return sign * Character.compare(o1, o2);
+			}
+		}
+
+		List<Character> list = new ArrayList<>();
+		CharComparator asc = new CharComparator(true);
+		CharComparator desc = new CharComparator(false);
+
+		public void add(char ch) {
+			list.add(ch);
+		}
+
+		public char get(int idx) {
+			return list.get(idx);
+		}
+
+		public char getLast() {
+			return list.get(list.size() - 1);
+		}
+
+		public Iterator<Character> iterator() {
+			return list.iterator();
+		}
+
+		public void remove(int idx) {
+			list.remove(idx);
+		}
+
+		public void removeLast() {
+			list.remove(list.size() - 1);
+		}
+
+		public int size() {
+			return list.size();
+		}
+
+		public void sort(boolean bAsc) {
+			if (bAsc)
+				Collections.sort(list, asc);
+			else
+				Collections.sort(list, desc);
+		}
+
+		public String toString() {
+			StringBuilder sb = new StringBuilder();
+			for (char ch : list)
+				sb.append(ch);
+			return sb.toString();
+		}
+	}
+
 	class Counter<K> {
 		Map<K, Integer> map = new HashMap<>();
+
+		public Counter() {
+		}
+
+		public Counter(Iterable<K> itr) {
+			for (K obj : itr) {
+				add(obj);
+			}
+		}
 
 		public void add(K key) {
 			Integer cnt = map.get(key);
@@ -117,25 +182,28 @@ public class Main {
 		}
 
 		class InfoComparator implements Comparator<Info> {
-			boolean bAsc;
+			int sign;
 
 			public InfoComparator(boolean bAsc) {
-				this.bAsc = bAsc;
+				sign = bAsc ? 1 : -1;
 			}
 
 			public int compare(Info o1, Info o2) {
-				int sign = bAsc ? 1 : -1;
-				if (o1.val < o2.val)
-					return -1 * sign;
-				else if (o1.val > o2.val)
-					return 1 * sign;
-				return 0;
+				return sign * Integer.compare(o1.val, o2.val);
 			}
 		}
 
 		List<Info> list = new ArrayList<>();
 		InfoComparator asc = new InfoComparator(true);
 		InfoComparator desc = new InfoComparator(false);
+
+		public IntList() {
+		}
+
+		public IntList(int[] ia) {
+			for (int i = 0; i < ia.length; i++)
+				add(ia[i]);
+		}
 
 		public void add(int val) {
 			list.add(new Info(list.size(), val));
@@ -260,7 +328,6 @@ public class Main {
 			return list.get(idx);
 		}
 
-		@Override
 		public Iterator<Point> iterator() {
 			return list.iterator();
 		}
@@ -356,6 +423,14 @@ public class Main {
 	String[] readFlds() {
 		String line = readLine();
 		return line.split(" ");
+	}
+
+	CharList readChars() {
+		CharList list = new CharList();
+		String line = readLine();
+		for (int i = 0; i < line.length(); i++)
+			list.add(line.charAt(i));
+		return list;
 	}
 
 	int[] readNums() {

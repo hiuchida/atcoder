@@ -64,7 +64,7 @@ public class Main {
 		}
 	}
 
-	class CharList {
+	class CharList implements Iterable<Character> {
 		class CharComparator implements Comparator<Character> {
 			int sign;
 
@@ -91,6 +91,10 @@ public class Main {
 
 		public char getLast() {
 			return list.get(list.size() - 1);
+		}
+
+		public Iterator<Character> iterator() {
+			return list.iterator();
 		}
 
 		public void remove(int idx) {
@@ -122,6 +126,15 @@ public class Main {
 
 	class Counter<K> {
 		Map<K, Integer> map = new HashMap<>();
+
+		public Counter() {
+		}
+
+		public Counter(Iterable<K> itr) {
+			for (K obj : itr) {
+				add(obj);
+			}
+		}
 
 		public void add(K key) {
 			Integer cnt = map.get(key);
