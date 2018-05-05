@@ -25,7 +25,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/04 r17
+	// 2018/05/05 r18
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -61,6 +61,66 @@ public class Main {
 
 		public void set(int x, int y, boolean b) {
 			map[y][x] = b;
+		}
+	}
+
+	class CharList {
+		class CharComparator implements Comparator<Character> {
+			int sign;
+			
+			public CharComparator(boolean bAsc) {
+				sign = bAsc ? 1 : -1;
+			}
+
+			public int compare(Character o1, Character o2) {
+				if (o1 < o2)
+					return -1 * sign;
+				else if (o1 > o2)
+					return 1 * sign;
+				return 0;
+			}
+		}
+		
+		List<Character> list = new ArrayList<>();
+		CharComparator asc = new CharComparator(true);
+		CharComparator desc = new CharComparator(false);
+
+		public void add(char ch) {
+			list.add(ch);
+		}
+
+		public char get(int idx) {
+			return list.get(idx);
+		}
+
+		public char getLast() {
+			return list.get(list.size() - 1);
+		}
+
+		public void remove(int idx) {
+			list.remove(idx);
+		}
+
+		public void removeLast() {
+			list.remove(list.size() - 1);
+		}
+
+		public int size() {
+			return list.size();
+		}
+
+		public void sort(boolean bAsc) {
+			if (bAsc)
+				Collections.sort(list, asc);
+			else
+				Collections.sort(list, desc);
+		}
+		
+		public String toString() {
+			StringBuilder sb = new StringBuilder();
+			for (char ch : list)
+				sb.append(ch);
+			return sb.toString();
 		}
 	}
 
@@ -247,7 +307,6 @@ public class Main {
 			return list.get(idx);
 		}
 
-		@Override
 		public Iterator<Point> iterator() {
 			return list.iterator();
 		}
