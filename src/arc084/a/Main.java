@@ -9,6 +9,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -24,11 +26,11 @@ public class Main {
 	void solve() {
 		int n = readNum();
 		int[] ia = readNums();
-		Arrays.sort(ia);
+		sort(ia);
 		int[] ib = readNums();
-		Arrays.sort(ib);
+		sort(ib);
 		int[] ic = readNums();
-		Arrays.sort(ic);
+		sort(ic);
 		long ans = 0;
 		int pre = -1;
 		long precnt = -1;
@@ -82,7 +84,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/04/29 r14
+	// 2018/05/06 r28
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -101,8 +103,97 @@ public class Main {
 		return dy[idx];
 	}
 
+	class Bitmap {
+		int mx;
+		int my;
+		boolean[][] map;
+
+		public Bitmap(int mx, int my) {
+			this.mx = mx;
+			this.my = my;
+			map = new boolean[my + 2][mx + 2];
+		}
+
+		public boolean is(int x, int y) {
+			return map[y][x];
+		}
+
+		public void set(int x, int y, boolean b) {
+			map[y][x] = b;
+		}
+	}
+
+	class CharList implements Iterable<Character> {
+		class CharComparator implements Comparator<Character> {
+			int sign;
+
+			public CharComparator(boolean bAsc) {
+				sign = bAsc ? 1 : -1;
+			}
+
+			public int compare(Character o1, Character o2) {
+				return sign * Character.compare(o1, o2);
+			}
+		}
+
+		List<Character> list = new ArrayList<>();
+		CharComparator asc = new CharComparator(true);
+		CharComparator desc = new CharComparator(false);
+
+		public void add(char ch) {
+			list.add(ch);
+		}
+
+		public char get(int idx) {
+			return list.get(idx);
+		}
+
+		public char getLast() {
+			return list.get(list.size() - 1);
+		}
+
+		public Iterator<Character> iterator() {
+			return list.iterator();
+		}
+
+		public void remove(int idx) {
+			list.remove(idx);
+		}
+
+		public void removeLast() {
+			list.remove(list.size() - 1);
+		}
+
+		public int size() {
+			return list.size();
+		}
+
+		public void sort(boolean bAsc) {
+			if (bAsc)
+				Collections.sort(list, asc);
+			else
+				Collections.sort(list, desc);
+		}
+
+		public String toString() {
+			StringBuilder sb = new StringBuilder();
+			for (char ch : list)
+				sb.append(ch);
+			return sb.toString();
+		}
+	}
+
 	class Counter<K> {
 		Map<K, Integer> map = new HashMap<>();
+
+		public Counter() {
+		}
+
+		public Counter(Iterable<K> itr) {
+			for (K obj : itr) {
+				add(obj);
+			}
+		}
 
 		public void add(K key) {
 			Integer cnt = map.get(key);
@@ -125,7 +216,7 @@ public class Main {
 		}
 	}
 
-	class IntList {
+	class IntList implements Iterable<Integer> {
 		class Info {
 			int idx;
 			int val;
@@ -141,25 +232,28 @@ public class Main {
 		}
 
 		class InfoComparator implements Comparator<Info> {
-			boolean bAsc;
+			int sign;
 
 			public InfoComparator(boolean bAsc) {
-				this.bAsc = bAsc;
+				sign = bAsc ? 1 : -1;
 			}
 
 			public int compare(Info o1, Info o2) {
-				int sign = bAsc ? 1 : -1;
-				if (o1.val < o2.val)
-					return -1 * sign;
-				else if (o1.val > o2.val)
-					return 1 * sign;
-				return 0;
+				return sign * Integer.compare(o1.val, o2.val);
 			}
 		}
 
 		List<Info> list = new ArrayList<>();
 		InfoComparator asc = new InfoComparator(true);
 		InfoComparator desc = new InfoComparator(false);
+
+		public IntList() {
+		}
+
+		public IntList(int[] ia) {
+			for (int i = 0; i < ia.length; i++)
+				add(ia[i]);
+		}
 
 		public void add(int val) {
 			list.add(new Info(list.size(), val));
@@ -179,6 +273,13 @@ public class Main {
 
 		public int getLastVal() {
 			return list.get(list.size() - 1).val;
+		}
+
+		public Iterator<Integer> iterator() {
+			List<Integer> vallist = new ArrayList<>();
+			for (Info info : list)
+				vallist.add(info.val);
+			return vallist.iterator();
 		}
 
 		public void remove(int idx) {
@@ -223,6 +324,10 @@ public class Main {
 			return false;
 		}
 
+		public long getManhattanDistance(Point pt) {
+			return abs((long) pt.x - this.x) + abs((long) pt.y - this.y);
+		}
+
 		public int hashCode() {
 			return x + (y * 31);
 		}
@@ -232,40 +337,151 @@ public class Main {
 		}
 	}
 
-	class PointComparator implements Comparator<Point> {
-		int mode;
+	class PointList implements Iterable<Point> {
+		class PointComparator implements Comparator<Point> {
+			int mode;
 
-		public PointComparator(int prop, boolean bAsc) {
-			switch (prop) {
-			case 1:
-				if (bAsc)
-					this.mode = 11;
-				else
-					this.mode = 12;
-				break;
-			case 2:
-				if (bAsc)
-					this.mode = 21;
-				else
-					this.mode = 22;
-				break;
-			default:
-				throw new RuntimeException();
+			public PointComparator(int prop, boolean bAsc) {
+				switch (prop) {
+				case 1:
+					if (bAsc)
+						this.mode = 11;
+					else
+						this.mode = 12;
+					break;
+				case 2:
+					if (bAsc)
+						this.mode = 21;
+					else
+						this.mode = 22;
+					break;
+				default:
+					throw new RuntimeException();
+				}
+			}
+
+			public int compare(Point p1, Point p2) {
+				switch (mode) {
+				case 11:
+					return 1 * Integer.compare(p1.x, p2.x);
+				case 12:
+					return -1 * Integer.compare(p1.x, p2.x);
+				case 21:
+					return 1 * Integer.compare(p1.y, p2.y);
+				case 22:
+					return -1 * Integer.compare(p1.y, p2.y);
+				}
+				throw new IllegalStateException();
 			}
 		}
 
-		public int compare(Point p1, Point p2) {
-			switch (mode) {
-			case 11:
-				return 1 * Integer.compare(p1.x, p2.x);
-			case 12:
-				return -1 * Integer.compare(p1.x, p2.x);
-			case 21:
-				return 1 * Integer.compare(p1.y, p2.y);
-			case 22:
-				return -1 * Integer.compare(p1.y, p2.y);
+		List<Point> list = new ArrayList<>();
+
+		public void add(int x, int y) {
+			list.add(new Point(x, y));
+		}
+
+		public Point get(int idx) {
+			return list.get(idx);
+		}
+
+		public Iterator<Point> iterator() {
+			return list.iterator();
+		}
+
+		public void remove(int idx) {
+			list.remove(idx);
+		}
+
+		public int size() {
+			return list.size();
+		}
+
+		public void sort(int prop, boolean bAsc) {
+			PointComparator c = new PointComparator(prop, bAsc);
+			Collections.sort(list, c);
+		}
+	}
+
+	class Prime {
+		final int maxPrime = 1000;
+		final int[] prime = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83,
+				89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193,
+				197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313,
+				317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443,
+				449, 457, 461, 463, 467, 479, 487, 491, 499, 503, 509, 521, 523, 541, 547, 557, 563, 569, 571, 577, 587,
+				593, 599, 601, 607, 613, 617, 619, 631, 641, 643, 647, 653, 659, 661, 673, 677, 683, 691, 701, 709, 719,
+				727, 733, 739, 743, 751, 757, 761, 769, 773, 787, 797, 809, 811, 821, 823, 827, 829, 839, 853, 857, 859,
+				863, 877, 881, 883, 887, 907, 911, 919, 929, 937, 941, 947, 953, 967, 971, 977, 983, 991, 997 };
+		final Set<Integer> primeSet = new HashSet<>();
+
+		Prime() {
+			for (int p : prime)
+				primeSet.add(p);
+		}
+
+		boolean isPrime(int n) {
+			if (n <= maxPrime)
+				return primeSet.contains(n);
+			for (int i : prime) {
+				if (n % i == 0)
+					return false;
 			}
-			throw new IllegalStateException();
+			int sqrtNum = (int) Math.ceil(Math.sqrt(n));
+			for (int i = maxPrime + 1; i <= sqrtNum; i += 2) {
+				if (n % i == 0)
+					return false;
+			}
+			return true;
+		}
+	}
+
+	class StrList implements Iterable<String> {
+		class StrComparator implements Comparator<String> {
+			int sign;
+
+			public StrComparator(boolean bAsc) {
+				sign = bAsc ? 1 : -1;
+			}
+
+			public int compare(String o1, String o2) {
+				return sign * o1.compareTo(o2);
+			}
+		}
+
+		List<String> list = new ArrayList<>();
+		StrComparator asc = new StrComparator(true);
+		StrComparator desc = new StrComparator(false);
+
+		public StrList() {
+		}
+
+		public StrList(String[] sa) {
+			for (int i = 0; i < sa.length; i++)
+				list.add(sa[i]);
+		}
+
+		public void add(String s) {
+			list.add(s);
+		}
+
+		public String get(int idx) {
+			return list.get(idx);
+		}
+
+		public Iterator<String> iterator() {
+			return list.iterator();
+		}
+
+		public int size() {
+			return list.size();
+		}
+
+		public void sort(boolean bAsc) {
+			if (bAsc)
+				Collections.sort(list, asc);
+			else
+				Collections.sort(list, desc);
 		}
 	}
 
@@ -275,6 +491,20 @@ public class Main {
 
 	long abs(long a) {
 		return (a >= 0) ? a : -a;
+	}
+
+	long ceil(long a, long b) {
+		if (a < 0) {
+			return -1 * floor(-a, b);
+		}
+		return ((a + b - 1) / b) * b;
+	}
+
+	long floor(long a, long b) {
+		if (a < 0) {
+			return -1 * ceil(-a, b);
+		}
+		return (a / b) * b;
 	}
 
 	int max(int a, int b) {
@@ -297,6 +527,22 @@ public class Main {
 		while (n-- > 0)
 			a /= 10;
 		return (int) (a % 10);
+	}
+
+	void sort(char[] ca) {
+		Arrays.sort(ca);
+	}
+
+	void sort(int[] ia) {
+		Arrays.sort(ia);
+	}
+
+	void sort(long[] la) {
+		Arrays.sort(la);
+	}
+
+	void sort(String[] sa) {
+		Arrays.sort(sa);
 	}
 
 	int sqrt(long a) {
@@ -332,6 +578,21 @@ public class Main {
 	String[] readFlds() {
 		String line = readLine();
 		return line.split(" ");
+	}
+
+	String[] readLines(int n) {
+		String[] lines = new String[n];
+		for (int i = 0; i < n; i++)
+			lines[i] = readLine();
+		return lines;
+	}
+
+	CharList readChars() {
+		CharList list = new CharList();
+		String line = readLine();
+		for (int i = 0; i < line.length(); i++)
+			list.add(line.charAt(i));
+		return list;
 	}
 
 	int[] readNums() {

@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -26,7 +27,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/06 r27
+	// 2018/05/06 r28
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -469,6 +470,22 @@ public class Main {
 		while (n-- > 0)
 			a /= 10;
 		return (int) (a % 10);
+	}
+
+	void sort(char[] ca) {
+		Arrays.sort(ca);
+	}
+
+	void sort(int[] ia) {
+		Arrays.sort(ia);
+	}
+
+	void sort(long[] la) {
+		Arrays.sort(la);
+	}
+
+	void sort(String[] sa) {
+		Arrays.sort(sa);
 	}
 
 	int sqrt(long a) {

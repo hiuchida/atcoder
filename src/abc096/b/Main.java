@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -23,19 +24,18 @@ public class Main {
 			's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 
 	void solve() {
-		long[] la = readLongs();
-		Arrays.sort(la);
+		int[] ia = readNums();
 		int k = readNum();
-		long ans = la[0] + la[1];
-		for (int i = 0; i < k; i++) {
-			la[2] *= 2;
-		}
-		ans += la[2];
-		pln(ans);
+		sort(ia);
+		int d = ia[0] + ia[1];
+		long e = ia[2];
+		for (int i = 0; i < k; i++)
+			e *= 2;
+		pln(d + e);
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/05 r26
+	// 2018/05/06 r28
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -354,6 +354,39 @@ public class Main {
 		}
 	}
 
+	class Prime {
+		final int maxPrime = 1000;
+		final int[] prime = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83,
+				89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193,
+				197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313,
+				317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443,
+				449, 457, 461, 463, 467, 479, 487, 491, 499, 503, 509, 521, 523, 541, 547, 557, 563, 569, 571, 577, 587,
+				593, 599, 601, 607, 613, 617, 619, 631, 641, 643, 647, 653, 659, 661, 673, 677, 683, 691, 701, 709, 719,
+				727, 733, 739, 743, 751, 757, 761, 769, 773, 787, 797, 809, 811, 821, 823, 827, 829, 839, 853, 857, 859,
+				863, 877, 881, 883, 887, 907, 911, 919, 929, 937, 941, 947, 953, 967, 971, 977, 983, 991, 997 };
+		final Set<Integer> primeSet = new HashSet<>();
+
+		Prime() {
+			for (int p : prime)
+				primeSet.add(p);
+		}
+
+		boolean isPrime(int n) {
+			if (n <= maxPrime)
+				return primeSet.contains(n);
+			for (int i : prime) {
+				if (n % i == 0)
+					return false;
+			}
+			int sqrtNum = (int) Math.ceil(Math.sqrt(n));
+			for (int i = maxPrime + 1; i <= sqrtNum; i += 2) {
+				if (n % i == 0)
+					return false;
+			}
+			return true;
+		}
+	}
+
 	class StrList implements Iterable<String> {
 		class StrComparator implements Comparator<String> {
 			int sign;
@@ -445,6 +478,22 @@ public class Main {
 		while (n-- > 0)
 			a /= 10;
 		return (int) (a % 10);
+	}
+
+	void sort(char[] ca) {
+		Arrays.sort(ca);
+	}
+
+	void sort(int[] ia) {
+		Arrays.sort(ia);
+	}
+
+	void sort(long[] la) {
+		Arrays.sort(la);
+	}
+
+	void sort(String[] sa) {
+		Arrays.sort(sa);
 	}
 
 	int sqrt(long a) {
