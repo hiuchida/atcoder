@@ -25,7 +25,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/05 r22
+	// 2018/05/05 r23
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -157,7 +157,7 @@ public class Main {
 		}
 	}
 
-	class IntList {
+	class IntList implements Iterable<Integer> {
 		class Info {
 			int idx;
 			int val;
@@ -214,6 +214,13 @@ public class Main {
 
 		public int getLastVal() {
 			return list.get(list.size() - 1).val;
+		}
+
+		public Iterator<Integer> iterator() {
+			List<Integer> vallist = new ArrayList<>();
+			for (Info info : list)
+				vallist.add(info.val);
+			return vallist.iterator();
 		}
 
 		public void remove(int idx) {

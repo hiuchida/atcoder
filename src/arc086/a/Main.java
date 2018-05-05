@@ -23,12 +23,11 @@ public class Main {
 
 	void solve() {
 		int[] ia = readNums();
-		int n = ia[0];
+		// int n = ia[0];
 		int k = ia[1];
 		int[] ib = readNums();
-		Counter<Integer> c = new Counter<>();
-		for (int i = 0; i < n; i++)
-			c.add(ib[i]);
+		IntList ilb = new IntList(ib);
+		Counter<Integer> c = new Counter<>(ilb);
 		IntList il = new IntList();
 		for (Integer key : c.keySet())
 			il.add(key, c.get(key));
@@ -42,7 +41,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/05 r19
+	// 2018/05/05 r23
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -81,7 +80,7 @@ public class Main {
 		}
 	}
 
-	class CharList {
+	class CharList implements Iterable<Character> {
 		class CharComparator implements Comparator<Character> {
 			int sign;
 
@@ -90,11 +89,7 @@ public class Main {
 			}
 
 			public int compare(Character o1, Character o2) {
-				if (o1 < o2)
-					return -1 * sign;
-				else if (o1 > o2)
-					return 1 * sign;
-				return 0;
+				return sign * Character.compare(o1, o2);
 			}
 		}
 
@@ -112,6 +107,10 @@ public class Main {
 
 		public char getLast() {
 			return list.get(list.size() - 1);
+		}
+
+		public Iterator<Character> iterator() {
+			return list.iterator();
 		}
 
 		public void remove(int idx) {
@@ -144,6 +143,15 @@ public class Main {
 	class Counter<K> {
 		Map<K, Integer> map = new HashMap<>();
 
+		public Counter() {
+		}
+
+		public Counter(Iterable<K> itr) {
+			for (K obj : itr) {
+				add(obj);
+			}
+		}
+
 		public void add(K key) {
 			Integer cnt = map.get(key);
 			if (cnt == null)
@@ -165,7 +173,7 @@ public class Main {
 		}
 	}
 
-	class IntList {
+	class IntList implements Iterable<Integer> {
 		class Info {
 			int idx;
 			int val;
@@ -196,6 +204,14 @@ public class Main {
 		InfoComparator asc = new InfoComparator(true);
 		InfoComparator desc = new InfoComparator(false);
 
+		public IntList() {
+		}
+
+		public IntList(int[] ia) {
+			for (int i = 0; i < ia.length; i++)
+				add(ia[i]);
+		}
+
 		public void add(int val) {
 			list.add(new Info(list.size(), val));
 		}
@@ -214,6 +230,13 @@ public class Main {
 
 		public int getLastVal() {
 			return list.get(list.size() - 1).val;
+		}
+
+		public Iterator<Integer> iterator() {
+			List<Integer> vallist = new ArrayList<>();
+			for (Info info : list)
+				vallist.add(info.val);
+			return vallist.iterator();
 		}
 
 		public void remove(int idx) {
@@ -414,6 +437,14 @@ public class Main {
 	String[] readFlds() {
 		String line = readLine();
 		return line.split(" ");
+	}
+
+	CharList readChars() {
+		CharList list = new CharList();
+		String line = readLine();
+		for (int i = 0; i < line.length(); i++)
+			list.add(line.charAt(i));
+		return list;
 	}
 
 	int[] readNums() {
