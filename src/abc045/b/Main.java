@@ -24,10 +24,8 @@ public class Main {
 	void solve() {
 		CharList[] cla = new CharList[3];
 		for (int i = 0; i < 3; i++) {
-			cla[i] = new CharList();
-			String s = readLine();
-			for (int j = s.length() - 1; j >= 0; j--)
-				cla[i].add(s.charAt(j));
+			cla[i] = readChars();
+			cla[i].sort(false);
 		}
 		int cur = 0;
 		while (true) {
@@ -42,7 +40,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/05 r20
+	// 2018/05/05 r21
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -410,6 +408,14 @@ public class Main {
 	String[] readFlds() {
 		String line = readLine();
 		return line.split(" ");
+	}
+
+	CharList readChars() {
+		CharList list = new CharList();
+		String line = readLine();
+		for (int i = 0; i < line.length(); i++)
+			list.add(line.charAt(i));
+		return list;
 	}
 
 	int[] readNums() {

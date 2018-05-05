@@ -22,18 +22,12 @@ public class Main {
 			's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 
 	void solve() {
-		CharList cls = new CharList();
-		CharList clt = new CharList();
-		String s = readLine();
-		String t = readLine();
-		for (int i = 0; i < s.length(); i++)
-			cls.add(s.charAt(i));
-		for (int i = 0; i < t.length(); i++)
-			clt.add(t.charAt(i));
+		CharList cls = readChars();
+		CharList clt = readChars();
 		cls.sort(true);
 		clt.sort(false);
-		s = cls.toString();
-		t = clt.toString();
+		String s = cls.toString();
+		String t = clt.toString();
 		if (s.compareTo(t) < 0)
 			pln("Yes");
 		else
@@ -41,7 +35,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/05 r20
+	// 2018/05/05 r21
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -409,6 +403,14 @@ public class Main {
 	String[] readFlds() {
 		String line = readLine();
 		return line.split(" ");
+	}
+
+	CharList readChars() {
+		CharList list = new CharList();
+		String line = readLine();
+		for (int i = 0; i < line.length(); i++)
+			list.add(line.charAt(i));
+		return list;
 	}
 
 	int[] readNums() {
