@@ -60,6 +60,7 @@
 - abc093_b(10min) B - Small and Large Integers
 - abc094_b(10min) B - Toll Gates
 - abc095_b(10min) B - Bitter Alchemy
+- abc096_b(04min) B - Maximum Sum
 
 - abc075_c(20min) C - Bridge
 - abc076_c(16min) C - Dubious Document 2
