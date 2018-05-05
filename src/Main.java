@@ -25,7 +25,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/05 r18
+	// 2018/05/05 r19
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -67,7 +67,7 @@ public class Main {
 	class CharList {
 		class CharComparator implements Comparator<Character> {
 			int sign;
-			
+
 			public CharComparator(boolean bAsc) {
 				sign = bAsc ? 1 : -1;
 			}
@@ -80,7 +80,7 @@ public class Main {
 				return 0;
 			}
 		}
-		
+
 		List<Character> list = new ArrayList<>();
 		CharComparator asc = new CharComparator(true);
 		CharComparator desc = new CharComparator(false);
@@ -115,7 +115,7 @@ public class Main {
 			else
 				Collections.sort(list, desc);
 		}
-		
+
 		public String toString() {
 			StringBuilder sb = new StringBuilder();
 			for (char ch : list)
@@ -164,19 +164,14 @@ public class Main {
 		}
 
 		class InfoComparator implements Comparator<Info> {
-			boolean bAsc;
+			int sign;
 
 			public InfoComparator(boolean bAsc) {
-				this.bAsc = bAsc;
+				sign = bAsc ? 1 : -1;
 			}
 
 			public int compare(Info o1, Info o2) {
-				int sign = bAsc ? 1 : -1;
-				if (o1.val < o2.val)
-					return -1 * sign;
-				else if (o1.val > o2.val)
-					return 1 * sign;
-				return 0;
+				return sign * Integer.compare(o1.val, o2.val);
 			}
 		}
 
