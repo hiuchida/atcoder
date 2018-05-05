@@ -72,6 +72,8 @@
 - abc089_c(08min) C - March
 - abc096_c(06min) C - Grid Repainting 2
 
+- abc096_d(NG:80min) D - Five, Five Everywhere
+
 - arc083_a(60min) C - Sugar Water
 - arc084_a(105min+8min) C - Snuke Festival
 - arc085_a(NG:15min) C - HSI
