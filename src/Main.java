@@ -25,7 +25,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/05 r23
+	// 2018/05/05 r24
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -421,6 +421,13 @@ public class Main {
 	String[] readFlds() {
 		String line = readLine();
 		return line.split(" ");
+	}
+
+	String[] readLines(int n) {
+		String[] lines = new String[n];
+		for (int i = 0; i < n; i++)
+			lines[i] = readLine();
+		return lines;
 	}
 
 	CharList readChars() {
