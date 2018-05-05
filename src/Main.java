@@ -27,7 +27,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/06 r28
+	// 2018/05/06 r29
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -57,12 +57,30 @@ public class Main {
 			map = new boolean[my + 2][mx + 2];
 		}
 
+		public void readLines(char ch) {
+			for (int y = 1; y <= my; y++) {
+				String s = readLine();
+				for (int x = 1; x <= mx; x++) {
+					if (s.charAt(x - 1) == ch)
+						set(x, y);
+				}
+			}
+		}
+
 		public boolean is(int x, int y) {
 			return map[y][x];
 		}
 
+		public void set(int x, int y) {
+			map[y][x] = true;
+		}
+
 		public void set(int x, int y, boolean b) {
 			map[y][x] = b;
+		}
+
+		public void reset(int x, int y) {
+			map[y][x] = false;
 		}
 	}
 

@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -30,20 +32,20 @@ public class Main {
 			int[] ib = readNums();
 			int a = ib[0];
 			int b = ib[1];
-			map.set(a, b, true);
-			map.set(b, a, true);
+			map.set(a, b);
+			map.set(b, a);
 		}
 		int ans = 0;
 		for (int i = 1; i <= n; i++) {
 			for (int j = i + 1; j <= n; j++) {
 				if (map.is(i, j)) {
-					map.set(i, j, false);
-					map.set(j, i, false);
+					map.reset(i, j);
+					map.reset(j, i);
 					boolean[] flg = new boolean[n + 1];
 					if (!dfs(flg, map, i, j))
 						ans++;
-					map.set(i, j, true);
-					map.set(j, i, true);
+					map.set(i, j);
+					map.set(j, i);
 				}
 			}
 		}
@@ -66,7 +68,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/05 r26
+	// 2018/05/06 r29
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -96,12 +98,30 @@ public class Main {
 			map = new boolean[my + 2][mx + 2];
 		}
 
+		public void readLines(char ch) {
+			for (int y = 1; y <= my; y++) {
+				String s = readLine();
+				for (int x = 1; x <= mx; x++) {
+					if (s.charAt(x - 1) == ch)
+						set(x, y);
+				}
+			}
+		}
+
 		public boolean is(int x, int y) {
 			return map[y][x];
 		}
 
+		public void set(int x, int y) {
+			map[y][x] = true;
+		}
+
 		public void set(int x, int y, boolean b) {
 			map[y][x] = b;
+		}
+
+		public void reset(int x, int y) {
+			map[y][x] = false;
 		}
 	}
 
@@ -385,6 +405,39 @@ public class Main {
 		}
 	}
 
+	class Prime {
+		final int maxPrime = 1000;
+		final int[] prime = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83,
+				89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193,
+				197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313,
+				317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443,
+				449, 457, 461, 463, 467, 479, 487, 491, 499, 503, 509, 521, 523, 541, 547, 557, 563, 569, 571, 577, 587,
+				593, 599, 601, 607, 613, 617, 619, 631, 641, 643, 647, 653, 659, 661, 673, 677, 683, 691, 701, 709, 719,
+				727, 733, 739, 743, 751, 757, 761, 769, 773, 787, 797, 809, 811, 821, 823, 827, 829, 839, 853, 857, 859,
+				863, 877, 881, 883, 887, 907, 911, 919, 929, 937, 941, 947, 953, 967, 971, 977, 983, 991, 997 };
+		final Set<Integer> primeSet = new HashSet<>();
+
+		Prime() {
+			for (int p : prime)
+				primeSet.add(p);
+		}
+
+		boolean isPrime(int n) {
+			if (n <= maxPrime)
+				return primeSet.contains(n);
+			for (int i : prime) {
+				if (n % i == 0)
+					return false;
+			}
+			int sqrtNum = (int) Math.ceil(Math.sqrt(n));
+			for (int i = maxPrime + 1; i <= sqrtNum; i += 2) {
+				if (n % i == 0)
+					return false;
+			}
+			return true;
+		}
+	}
+
 	class StrList implements Iterable<String> {
 		class StrComparator implements Comparator<String> {
 			int sign;
@@ -476,6 +529,22 @@ public class Main {
 		while (n-- > 0)
 			a /= 10;
 		return (int) (a % 10);
+	}
+
+	void sort(char[] ca) {
+		Arrays.sort(ca);
+	}
+
+	void sort(int[] ia) {
+		Arrays.sort(ia);
+	}
+
+	void sort(long[] la) {
+		Arrays.sort(la);
+	}
+
+	void sort(String[] sa) {
+		Arrays.sort(sa);
 	}
 
 	int sqrt(long a) {
