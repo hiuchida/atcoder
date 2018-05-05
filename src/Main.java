@@ -25,7 +25,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/05 r21
+	// 2018/05/05 r22
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -174,6 +174,14 @@ public class Main {
 		List<Info> list = new ArrayList<>();
 		InfoComparator asc = new InfoComparator(true);
 		InfoComparator desc = new InfoComparator(false);
+
+		public IntList() {
+		}
+
+		public IntList(int[] ia) {
+			for (int i = 0; i < ia.length; i++)
+				add(ia[i]);
+		}
 
 		public void add(int val) {
 			list.add(new Info(list.size(), val));

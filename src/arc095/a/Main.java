@@ -25,9 +25,7 @@ public class Main {
 	void solve() {
 		int n = readNum();
 		int[] ia = readNums();
-		IntList il = new IntList();
-		for (int i = 0; i < n; i++)
-			il.add(ia[i]);
+		IntList il = new IntList(ia);
 		il.sort(true);
 		// M M
 		// M-1 M
@@ -49,7 +47,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/05 r19
+	// 2018/05/05 r22
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -97,11 +95,7 @@ public class Main {
 			}
 
 			public int compare(Character o1, Character o2) {
-				if (o1 < o2)
-					return -1 * sign;
-				else if (o1 > o2)
-					return 1 * sign;
-				return 0;
+				return sign * Character.compare(o1, o2);
 			}
 		}
 
@@ -202,6 +196,14 @@ public class Main {
 		List<Info> list = new ArrayList<>();
 		InfoComparator asc = new InfoComparator(true);
 		InfoComparator desc = new InfoComparator(false);
+
+		public IntList() {
+		}
+
+		public IntList(int[] ia) {
+			for (int i = 0; i < ia.length; i++)
+				add(ia[i]);
+		}
 
 		public void add(int val) {
 			list.add(new Info(list.size(), val));
@@ -421,6 +423,14 @@ public class Main {
 	String[] readFlds() {
 		String line = readLine();
 		return line.split(" ");
+	}
+
+	CharList readChars() {
+		CharList list = new CharList();
+		String line = readLine();
+		for (int i = 0; i < line.length(); i++)
+			list.add(line.charAt(i));
+		return list;
 	}
 
 	int[] readNums() {
