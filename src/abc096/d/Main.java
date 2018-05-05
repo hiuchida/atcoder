@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -21,48 +22,21 @@ public class Main {
 	final char[] _azAry = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
 			's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 
-	List<Integer> pl = new ArrayList<>();
-
-	void init() {
-		for (int i = 11; i <= 55555; i++) {
-			if (isPrime(i))
-				pl.add(i);
-		}
-	}
-
 	void solve() {
-		init();
+		Prime prime = new Prime();
 		int n = readNum();
-		List<Integer> l = new ArrayList<>();
-		for (int i = 0; i < pl.size(); i++) {
-			int p = pl.get(i);
-			if (p % 5 == 1)
-				l.add(p);
-		}
-		for (int i = 0; i < n - 1; i++) {
-			p(l.get(i)).p(" ");
-		}
-		pln(l.get(n - 1));
-	}
-
-	boolean isPrime(int num) {
-		if (num < 2)
-			return false;
-		else if (num == 2)
-			return true;
-		else if (num % 2 == 0)
-			return false;
-		double sqrtNum = Math.sqrt(num);
-		for (int i = 3; i <= sqrtNum; i += 2) {
-			if (num % i == 0) {
-				return false;
+		StringBuilder sb = new StringBuilder();
+		for (int i = 11; n > 0; i += 5) {
+			if (prime.isPrime(i)) {
+				sb.append(i).append(" ");
+				n--;
 			}
 		}
-		return true;
+		pln(sb.toString().trim());
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/05 r26
+	// 2018/05/06 r27
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -378,6 +352,39 @@ public class Main {
 		public void sort(int prop, boolean bAsc) {
 			PointComparator c = new PointComparator(prop, bAsc);
 			Collections.sort(list, c);
+		}
+	}
+
+	class Prime {
+		final int maxPrime = 1000;
+		final int[] prime = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83,
+				89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193,
+				197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313,
+				317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443,
+				449, 457, 461, 463, 467, 479, 487, 491, 499, 503, 509, 521, 523, 541, 547, 557, 563, 569, 571, 577, 587,
+				593, 599, 601, 607, 613, 617, 619, 631, 641, 643, 647, 653, 659, 661, 673, 677, 683, 691, 701, 709, 719,
+				727, 733, 739, 743, 751, 757, 761, 769, 773, 787, 797, 809, 811, 821, 823, 827, 829, 839, 853, 857, 859,
+				863, 877, 881, 883, 887, 907, 911, 919, 929, 937, 941, 947, 953, 967, 971, 977, 983, 991, 997 };
+		final Set<Integer> primeSet = new HashSet<>();
+
+		Prime() {
+			for (int p : prime)
+				primeSet.add(p);
+		}
+
+		boolean isPrime(int n) {
+			if (n <= maxPrime)
+				return primeSet.contains(n);
+			for (int i : prime) {
+				if (n % i == 0)
+					return false;
+			}
+			int sqrtNum = (int) Math.ceil(Math.sqrt(n));
+			for (int i = maxPrime + 1; i <= sqrtNum; i += 2) {
+				if (n % i == 0)
+					return false;
+			}
+			return true;
 		}
 	}
 
