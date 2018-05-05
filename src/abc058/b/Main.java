@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -24,15 +25,15 @@ public class Main {
 		String o = readLine();
 		String e = readLine();
 		for (int i = 0; i < o.length(); i++) {
-			p(o.charAt(i));
+			p(o, i);
 			if (i < e.length())
-				p(e.charAt(i));
+				p(e, i);
 		}
 		pln();
 	}
 
 	// -----------------------------------------------------
-	// 2018/04/29 r14
+	// 2018/05/05 r20
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -49,6 +50,82 @@ public class Main {
 	int getDy(int idx) {
 		int[] dy = { -1, -1, 0, 1, 1, 1, 0, -1 };
 		return dy[idx];
+	}
+
+	class Bitmap {
+		int mx;
+		int my;
+		boolean[][] map;
+
+		public Bitmap(int mx, int my) {
+			this.mx = mx;
+			this.my = my;
+			map = new boolean[my + 2][mx + 2];
+		}
+
+		public boolean is(int x, int y) {
+			return map[y][x];
+		}
+
+		public void set(int x, int y, boolean b) {
+			map[y][x] = b;
+		}
+	}
+
+	class CharList {
+		class CharComparator implements Comparator<Character> {
+			int sign;
+
+			public CharComparator(boolean bAsc) {
+				sign = bAsc ? 1 : -1;
+			}
+
+			public int compare(Character o1, Character o2) {
+				return sign * Character.compare(o1, o2);
+			}
+		}
+
+		List<Character> list = new ArrayList<>();
+		CharComparator asc = new CharComparator(true);
+		CharComparator desc = new CharComparator(false);
+
+		public void add(char ch) {
+			list.add(ch);
+		}
+
+		public char get(int idx) {
+			return list.get(idx);
+		}
+
+		public char getLast() {
+			return list.get(list.size() - 1);
+		}
+
+		public void remove(int idx) {
+			list.remove(idx);
+		}
+
+		public void removeLast() {
+			list.remove(list.size() - 1);
+		}
+
+		public int size() {
+			return list.size();
+		}
+
+		public void sort(boolean bAsc) {
+			if (bAsc)
+				Collections.sort(list, asc);
+			else
+				Collections.sort(list, desc);
+		}
+
+		public String toString() {
+			StringBuilder sb = new StringBuilder();
+			for (char ch : list)
+				sb.append(ch);
+			return sb.toString();
+		}
 	}
 
 	class Counter<K> {
@@ -91,19 +168,14 @@ public class Main {
 		}
 
 		class InfoComparator implements Comparator<Info> {
-			boolean bAsc;
+			int sign;
 
 			public InfoComparator(boolean bAsc) {
-				this.bAsc = bAsc;
+				sign = bAsc ? 1 : -1;
 			}
 
 			public int compare(Info o1, Info o2) {
-				int sign = bAsc ? 1 : -1;
-				if (o1.val < o2.val)
-					return -1 * sign;
-				else if (o1.val > o2.val)
-					return 1 * sign;
-				return 0;
+				return sign * Integer.compare(o1.val, o2.val);
 			}
 		}
 
@@ -173,6 +245,10 @@ public class Main {
 			return false;
 		}
 
+		public long getManhattanDistance(Point pt) {
+			return abs((long) pt.x - this.x) + abs((long) pt.y - this.y);
+		}
+
 		public int hashCode() {
 			return x + (y * 31);
 		}
@@ -182,40 +258,69 @@ public class Main {
 		}
 	}
 
-	class PointComparator implements Comparator<Point> {
-		int mode;
+	class PointList implements Iterable<Point> {
+		class PointComparator implements Comparator<Point> {
+			int mode;
 
-		public PointComparator(int prop, boolean bAsc) {
-			switch (prop) {
-			case 1:
-				if (bAsc)
-					this.mode = 11;
-				else
-					this.mode = 12;
-				break;
-			case 2:
-				if (bAsc)
-					this.mode = 21;
-				else
-					this.mode = 22;
-				break;
-			default:
-				throw new RuntimeException();
+			public PointComparator(int prop, boolean bAsc) {
+				switch (prop) {
+				case 1:
+					if (bAsc)
+						this.mode = 11;
+					else
+						this.mode = 12;
+					break;
+				case 2:
+					if (bAsc)
+						this.mode = 21;
+					else
+						this.mode = 22;
+					break;
+				default:
+					throw new RuntimeException();
+				}
+			}
+
+			public int compare(Point p1, Point p2) {
+				switch (mode) {
+				case 11:
+					return 1 * Integer.compare(p1.x, p2.x);
+				case 12:
+					return -1 * Integer.compare(p1.x, p2.x);
+				case 21:
+					return 1 * Integer.compare(p1.y, p2.y);
+				case 22:
+					return -1 * Integer.compare(p1.y, p2.y);
+				}
+				throw new IllegalStateException();
 			}
 		}
 
-		public int compare(Point p1, Point p2) {
-			switch (mode) {
-			case 11:
-				return 1 * Integer.compare(p1.x, p2.x);
-			case 12:
-				return -1 * Integer.compare(p1.x, p2.x);
-			case 21:
-				return 1 * Integer.compare(p1.y, p2.y);
-			case 22:
-				return -1 * Integer.compare(p1.y, p2.y);
-			}
-			throw new IllegalStateException();
+		List<Point> list = new ArrayList<>();
+
+		public void add(int x, int y) {
+			list.add(new Point(x, y));
+		}
+
+		public Point get(int idx) {
+			return list.get(idx);
+		}
+
+		public Iterator<Point> iterator() {
+			return list.iterator();
+		}
+
+		public void remove(int idx) {
+			list.remove(idx);
+		}
+
+		public int size() {
+			return list.size();
+		}
+
+		public void sort(int prop, boolean bAsc) {
+			PointComparator c = new PointComparator(prop, bAsc);
+			Collections.sort(list, c);
 		}
 	}
 
@@ -225,6 +330,20 @@ public class Main {
 
 	long abs(long a) {
 		return (a >= 0) ? a : -a;
+	}
+
+	long ceil(long a, long b) {
+		if (a < 0) {
+			return -1 * floor(-a, b);
+		}
+		return ((a + b - 1) / b) * b;
+	}
+
+	long floor(long a, long b) {
+		if (a < 0) {
+			return -1 * ceil(-a, b);
+		}
+		return (a / b) * b;
 	}
 
 	int max(int a, int b) {
