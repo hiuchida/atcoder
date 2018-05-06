@@ -45,7 +45,7 @@ public class Main {
 	int count9(int x, int y) {
 		int ans = 0;
 		for (int i = 0; i < 8; i++)
-			ans += count(x + getDx(i), y + getDy(i));
+			ans += count(x + getDx8(i), y + getDy8(i));
 		return ans;
 	}
 
@@ -54,7 +54,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/06 r29
+	// 2018/05/06 r30
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -63,12 +63,22 @@ public class Main {
 		return list;
 	}
 
-	int getDx(int idx) {
+	int getDx4(int idx) {
+		int[] dx = { 0, 1, 0, -1 };
+		return dx[idx];
+	}
+
+	int getDy4(int idx) {
+		int[] dy = { -1, 0, 1, 0 };
+		return dy[idx];
+	}
+
+	int getDx8(int idx) {
 		int[] dx = { 0, 1, 1, 1, 0, -1, -1, -1 };
 		return dx[idx];
 	}
 
-	int getDy(int idx) {
+	int getDy8(int idx) {
 		int[] dy = { -1, -1, 0, 1, 1, 1, 0, -1 };
 		return dy[idx];
 	}
