@@ -1,10 +1,11 @@
-package abc096.d;
+package archive.abc.abc096.c;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -23,20 +24,30 @@ public class Main {
 			's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 
 	void solve() {
-		Prime prime = new Prime();
-		int n = readNum();
-		StringBuilder sb = new StringBuilder();
-		for (int i = 11; n > 0; i += 5) {
-			if (prime.isPrime(i)) {
-				sb.append(i).append(" ");
-				n--;
+		int[] ia = readNums();
+		int h = ia[0];
+		int w = ia[1];
+		Bitmap map = new Bitmap(w, h);
+		map.readLines('#');
+		for (int y = 1; y <= h; y++) {
+			for (int x = 1; x <= w; x++) {
+				if (check(map, x, y)) {
+					pln("No");
+					return;
+				}
 			}
 		}
-		pln(sb.toString().trim());
+		pln("Yes");
+	}
+
+	boolean check(Bitmap map, int x, int y) {
+		if (!map.is(x, y))
+			return false;
+		return map.count4(x, y) == 0;
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/06 r27
+	// 2018/05/06 r31
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -45,12 +56,22 @@ public class Main {
 		return list;
 	}
 
-	int getDx(int idx) {
+	int getDx4(int idx) {
+		int[] dx = { 0, 1, 0, -1 };
+		return dx[idx];
+	}
+
+	int getDy4(int idx) {
+		int[] dy = { -1, 0, 1, 0 };
+		return dy[idx];
+	}
+
+	int getDx8(int idx) {
 		int[] dx = { 0, 1, 1, 1, 0, -1, -1, -1 };
 		return dx[idx];
 	}
 
-	int getDy(int idx) {
+	int getDy8(int idx) {
 		int[] dy = { -1, -1, 0, 1, 1, 1, 0, -1 };
 		return dy[idx];
 	}
@@ -66,12 +87,48 @@ public class Main {
 			map = new boolean[my + 2][mx + 2];
 		}
 
+		public void readLines(char ch) {
+			for (int y = 1; y <= my; y++) {
+				String s = readLine();
+				for (int x = 1; x <= mx; x++) {
+					if (s.charAt(x - 1) == ch)
+						set(x, y);
+				}
+			}
+		}
+
+		public int count4(int x, int y) {
+			int cnt = 0;
+			for (int i = 0; i < 4; i++) {
+				if (is(x + getDx4(i), y + getDy4(i)))
+					cnt++;
+			}
+			return cnt;
+		}
+
+		public int count8(int x, int y) {
+			int cnt = 0;
+			for (int i = 0; i < 8; i++) {
+				if (is(x + getDx8(i), y + getDy8(i)))
+					cnt++;
+			}
+			return cnt;
+		}
+
 		public boolean is(int x, int y) {
 			return map[y][x];
 		}
 
+		public void set(int x, int y) {
+			map[y][x] = true;
+		}
+
 		public void set(int x, int y, boolean b) {
 			map[y][x] = b;
+		}
+
+		public void reset(int x, int y) {
+			map[y][x] = false;
 		}
 	}
 
@@ -479,6 +536,22 @@ public class Main {
 		while (n-- > 0)
 			a /= 10;
 		return (int) (a % 10);
+	}
+
+	void sort(char[] ca) {
+		Arrays.sort(ca);
+	}
+
+	void sort(int[] ia) {
+		Arrays.sort(ia);
+	}
+
+	void sort(long[] la) {
+		Arrays.sort(la);
+	}
+
+	void sort(String[] sa) {
+		Arrays.sort(sa);
 	}
 
 	int sqrt(long a) {

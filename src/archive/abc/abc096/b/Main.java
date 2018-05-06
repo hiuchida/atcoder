@@ -1,4 +1,4 @@
-package abc096.c;
+package archive.abc.abc096.b;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,29 +25,17 @@ public class Main {
 
 	void solve() {
 		int[] ia = readNums();
-		int h = ia[0];
-		int w = ia[1];
-		Bitmap map = new Bitmap(w, h);
-		map.readLines('#');
-		for (int y = 1; y <= h; y++) {
-			for (int x = 1; x <= w; x++) {
-				if (check(map, x, y)) {
-					pln("No");
-					return;
-				}
-			}
-		}
-		pln("Yes");
-	}
-
-	boolean check(Bitmap map, int x, int y) {
-		if (!map.is(x, y))
-			return false;
-		return map.count4(x, y) == 0;
+		int k = readNum();
+		sort(ia);
+		int d = ia[0] + ia[1];
+		long e = ia[2];
+		for (int i = 0; i < k; i++)
+			e *= 2;
+		pln(d + e);
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/06 r31
+	// 2018/05/06 r28
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -56,22 +44,12 @@ public class Main {
 		return list;
 	}
 
-	int getDx4(int idx) {
-		int[] dx = { 0, 1, 0, -1 };
-		return dx[idx];
-	}
-
-	int getDy4(int idx) {
-		int[] dy = { -1, 0, 1, 0 };
-		return dy[idx];
-	}
-
-	int getDx8(int idx) {
+	int getDx(int idx) {
 		int[] dx = { 0, 1, 1, 1, 0, -1, -1, -1 };
 		return dx[idx];
 	}
 
-	int getDy8(int idx) {
+	int getDy(int idx) {
 		int[] dy = { -1, -1, 0, 1, 1, 1, 0, -1 };
 		return dy[idx];
 	}
@@ -87,48 +65,12 @@ public class Main {
 			map = new boolean[my + 2][mx + 2];
 		}
 
-		public void readLines(char ch) {
-			for (int y = 1; y <= my; y++) {
-				String s = readLine();
-				for (int x = 1; x <= mx; x++) {
-					if (s.charAt(x - 1) == ch)
-						set(x, y);
-				}
-			}
-		}
-
-		public int count4(int x, int y) {
-			int cnt = 0;
-			for (int i = 0; i < 4; i++) {
-				if (is(x + getDx4(i), y + getDy4(i)))
-					cnt++;
-			}
-			return cnt;
-		}
-
-		public int count8(int x, int y) {
-			int cnt = 0;
-			for (int i = 0; i < 8; i++) {
-				if (is(x + getDx8(i), y + getDy8(i)))
-					cnt++;
-			}
-			return cnt;
-		}
-
 		public boolean is(int x, int y) {
 			return map[y][x];
 		}
 
-		public void set(int x, int y) {
-			map[y][x] = true;
-		}
-
 		public void set(int x, int y, boolean b) {
 			map[y][x] = b;
-		}
-
-		public void reset(int x, int y) {
-			map[y][x] = false;
 		}
 	}
 
