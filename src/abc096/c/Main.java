@@ -43,15 +43,11 @@ public class Main {
 	boolean check(Bitmap map, int x, int y) {
 		if (!map.is(x, y))
 			return false;
-		for (int i = 0; i < 4; i++) {
-			if (map.is(x + getDx4(i), y + getDy4(i)))
-				return false;
-		}
-		return true;
+		return map.count4(x, y) == 0;
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/06 r30
+	// 2018/05/06 r31
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -99,6 +95,24 @@ public class Main {
 						set(x, y);
 				}
 			}
+		}
+
+		public int count4(int x, int y) {
+			int cnt = 0;
+			for (int i = 0; i < 4; i++) {
+				if (is(x + getDx4(i), y + getDy4(i)))
+					cnt++;
+			}
+			return cnt;
+		}
+
+		public int count8(int x, int y) {
+			int cnt = 0;
+			for (int i = 0; i < 8; i++) {
+				if (is(x + getDx8(i), y + getDy8(i)))
+					cnt++;
+			}
+			return cnt;
 		}
 
 		public boolean is(int x, int y) {

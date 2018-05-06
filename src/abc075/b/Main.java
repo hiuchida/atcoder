@@ -36,25 +36,14 @@ public class Main {
 				if (map.is(x, y))
 					p("#");
 				else
-					p(count9(x, y));
+					p(map.count8(x, y));
 			}
 			pln();
 		}
 	}
 
-	int count9(int x, int y) {
-		int ans = 0;
-		for (int i = 0; i < 8; i++)
-			ans += count(x + getDx8(i), y + getDy8(i));
-		return ans;
-	}
-
-	int count(int x, int y) {
-		return map.is(x, y) ? 1 : 0;
-	}
-
 	// -----------------------------------------------------
-	// 2018/05/06 r30
+	// 2018/05/06 r31
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -102,6 +91,24 @@ public class Main {
 						set(x, y);
 				}
 			}
+		}
+
+		public int count4(int x, int y) {
+			int cnt = 0;
+			for (int i = 0; i < 4; i++) {
+				if (is(x + getDx4(i), y + getDy4(i)))
+					cnt++;
+			}
+			return cnt;
+		}
+
+		public int count8(int x, int y) {
+			int cnt = 0;
+			for (int i = 0; i < 8; i++) {
+				if (is(x + getDx8(i), y + getDy8(i)))
+					cnt++;
+			}
+			return cnt;
 		}
 
 		public boolean is(int x, int y) {
