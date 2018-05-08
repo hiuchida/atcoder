@@ -1,5 +1,6 @@
 # atcoder
 
+- abc036_a(02min) A - ‚¨’ƒ
 - abc078_a(01min) A - HEX
 - abc096_a(09min) A - Day of Takahashi
 
