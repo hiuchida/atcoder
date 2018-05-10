@@ -1,5 +1,6 @@
 # atcoder
 
+- abc034_a(02min) A - テスト
 - abc035_a(03min) A - テレビ
 - abc036_a(02min) A - お茶
 - abc078_a(01min) A - HEX
