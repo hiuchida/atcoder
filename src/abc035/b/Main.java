@@ -25,7 +25,43 @@ public class Main {
 
 	void solve() {
 		String s = readLine();
-		pln(s);
+		int t = readNum();
+		Point p = new Point(0, 0);
+		int q = 0;
+		for (int i = 0; i < s.length(); i++) {
+			char ch = s.charAt(i);
+			switch (ch) {
+			case 'L':
+				p.x--;
+				break;
+			case 'R':
+				p.x++;
+				break;
+			case 'U':
+				p.y++;
+				break;
+			case 'D':
+				p.y--;
+				break;
+			case '?':
+				q++;
+				break;
+			}
+		}
+		long d = p.getManhattanDistance(new Point(0, 0));
+		switch (t) {
+		case 1:
+			pln(d + q);
+			break;
+		case 2:
+			if (d >= q)
+				pln(d - q);
+			else {
+				q -= d;
+				pln(q % 2);
+			}
+			break;
+		}
 	}
 
 	// -----------------------------------------------------

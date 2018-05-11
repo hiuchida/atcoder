@@ -6,7 +6,7 @@
 - abc078_a(01min) A - HEX
 - abc096_a(09min) A - Day of Takahashi
 
-- abc035_b(SUSPEND:07min) B - 回転
+- abc035_b(17min) B - ドローン
 - abc036_b(06min) B - 回転
 - abc037_b(05min) B - 編集
 - abc038_b(04min) B - ディスプレイ
