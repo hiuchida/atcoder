@@ -6,6 +6,7 @@
 - abc078_a(01min) A - HEX
 - abc095_a(02min) A - Something on It
 - abc096_a(09min) A - Day of Takahashi
+- abc097_a(03min) A - Colorful Transceivers
 
 - abc035_b(17min) B - ƒhƒ[ƒ“
 - abc036_b(06min) B - ‰ñ“]
