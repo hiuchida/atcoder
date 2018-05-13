@@ -70,6 +70,7 @@
 - abc094_b(10min) B - Toll Gates
 - abc095_b(10min) B - Bitter Alchemy
 - abc096_b(04min) B - Maximum Sum
+- abc096_b(07min) B - Exponential
 
 - abc075_c(45min) C - Bridge
 - abc076_c(16min) C - Dubious Document 2
