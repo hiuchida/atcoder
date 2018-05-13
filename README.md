@@ -70,7 +70,7 @@
 - abc094_b(10min) B - Toll Gates
 - abc095_b(10min) B - Bitter Alchemy
 - abc096_b(04min) B - Maximum Sum
-- abc096_b(07min) B - Exponential
+- abc097_b(07min) B - Exponential
 
 - abc075_c(45min) C - Bridge
 - abc076_c(16min) C - Dubious Document 2
@@ -81,6 +81,7 @@
 - abc088_c(14min) C - Takahashi's Information
 - abc089_c(08min) C - March
 - abc096_c(06min) C - Grid Repainting 2
+- abc097_c(30min) C - K-th Substring
 
 - abc096_d(NG:80min) D - Five, Five Everywhere
 
