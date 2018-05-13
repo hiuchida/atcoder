@@ -84,6 +84,7 @@
 - abc097_c(30min) C - K-th Substring
 
 - abc096_d(NG:80min) D - Five, Five Everywhere
+- abc097_d(50min) D - Equals
 
 - arc083_a(60min) C - Sugar Water
 - arc084_a(105min+8min) C - Snuke Festival
