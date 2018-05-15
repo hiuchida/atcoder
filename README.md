@@ -4,6 +4,7 @@
 - abc035_a(03min) A - ƒeƒŒƒr
 - abc036_a(02min) A - ‚¨’ƒ
 - abc078_a(01min) A - HEX
+- abc092_a(02min) A - Traveling Budget
 - abc093_a(02min) A - abc of ABC
 - abc094_a(06min) A - Cats and Dogs
 - abc095_a(02min) A - Something on It
