@@ -27,7 +27,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/06 r31
+	// 2018/05/16 r32
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -202,6 +202,10 @@ public class Main {
 
 		public Set<K> keySet() {
 			return map.keySet();
+		}
+
+		public int size() {
+			return map.size();
 		}
 	}
 
