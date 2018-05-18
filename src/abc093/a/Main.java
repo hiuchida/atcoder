@@ -24,8 +24,8 @@ public class Main {
 			's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 
 	void solve() {
-		CharList cl = readChars();
-		Counter<Character> c = new Counter<>(cl);
+		char[] ca = readChars();
+		CharCounter c = new CharCounter(ca);
 		if (c.size() == 3)
 			pln("Yes");
 		else
@@ -33,7 +33,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/16 r32
+	// 2018/05/19 r33
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -118,6 +118,16 @@ public class Main {
 		}
 	}
 
+	class CharCounter extends Counter<Character> {
+		public CharCounter() {
+		}
+
+		public CharCounter(char[] ca) {
+			for (char ch : ca)
+				super.add(ch);
+		}
+	}
+
 	class CharList implements Iterable<Character> {
 		class CharComparator implements Comparator<Character> {
 			int sign;
@@ -135,6 +145,14 @@ public class Main {
 		CharComparator asc = new CharComparator(true);
 		CharComparator desc = new CharComparator(false);
 
+		public CharList() {
+		}
+
+		public CharList(char[] ca) {
+			for (int i = 0; i < ca.length; i++)
+				add(ca[i]);
+		}
+
 		public void add(char ch) {
 			list.add(ch);
 		}
@@ -143,20 +161,24 @@ public class Main {
 			return list.get(idx);
 		}
 
-		public char getLast() {
-			return list.get(list.size() - 1);
-		}
-
 		public Iterator<Character> iterator() {
 			return list.iterator();
 		}
 
-		public void remove(int idx) {
-			list.remove(idx);
+		public char peek() {
+			if (list.size() == 0)
+				return 0;
+			return list.get(list.size() - 1);
 		}
 
-		public void removeLast() {
-			list.remove(list.size() - 1);
+		public char pop() {
+			if (list.size() == 0)
+				return 0;
+			return list.remove(list.size() - 1);
+		}
+
+		public void remove(int idx) {
+			list.remove(idx);
 		}
 
 		public int size() {
@@ -586,12 +608,9 @@ public class Main {
 		return lines;
 	}
 
-	CharList readChars() {
-		CharList list = new CharList();
+	char[] readChars() {
 		String line = readLine();
-		for (int i = 0; i < line.length(); i++)
-			list.add(line.charAt(i));
-		return list;
+		return line.toCharArray();
 	}
 
 	int[] readNums() {
