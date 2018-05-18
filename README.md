@@ -4,6 +4,7 @@
 - abc035_a(03min) A - ƒeƒŒƒr
 - abc036_a(02min) A - ‚¨’ƒ
 - abc078_a(01min) A - HEX
+- abc090_a(01min) A - Diagonal String
 - abc091_a(02min) A - Two Coins
 - abc092_a(02min) A - Traveling Budget
 - abc093_a(02min) A - abc of ABC
