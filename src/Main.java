@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class Main {
 	final int _intMax = Integer.MAX_VALUE; // =2147483647>10^9
@@ -27,7 +28,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/19 r33
+	// 2018/05/19 r34
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -231,6 +232,16 @@ public class Main {
 		}
 	}
 
+	class IntCounter extends Counter<Integer> {
+		public IntCounter() {
+		}
+
+		public IntCounter(int[] ia) {
+			for (int v : ia)
+				super.add(v);
+		}
+	}
+
 	class IntList implements Iterable<Integer> {
 		class Info {
 			int idx;
@@ -286,10 +297,6 @@ public class Main {
 			return list.get(idx).val;
 		}
 
-		public int getLastVal() {
-			return list.get(list.size() - 1).val;
-		}
-
 		public Iterator<Integer> iterator() {
 			List<Integer> vallist = new ArrayList<>();
 			for (Info info : list)
@@ -297,12 +304,20 @@ public class Main {
 			return vallist.iterator();
 		}
 
-		public void remove(int idx) {
-			list.remove(idx);
+		public int peek() {
+			if (list.size() == 0)
+				return 0;
+			return list.get(list.size() - 1).val;
 		}
 
-		public void removeLast() {
-			list.remove(list.size() - 1);
+		public int pop() {
+			if (list.size() == 0)
+				return 0;
+			return list.remove(list.size() - 1).val;
+		}
+
+		public void remove(int idx) {
+			list.remove(idx);
 		}
 
 		public int size() {
@@ -315,6 +330,10 @@ public class Main {
 			else
 				Collections.sort(list, desc);
 		}
+	}
+
+	class IntSet extends TreeSet<Integer> {
+		private static final long serialVersionUID = 1L;
 	}
 
 	class Point {

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class Main {
 	final int _intMax = Integer.MAX_VALUE; // =2147483647>10^9
@@ -30,12 +32,12 @@ public class Main {
 		// M M
 		// M-1 M
 		// M M-1
-		Set<Integer> s1 = new HashSet<>();
-		Set<Integer> s2 = new HashSet<>();
+		IntSet s1 = new IntSet();
+		// IntSet s2 = new IntSet();
 		for (int i = 0; i < n / 2; i++)
 			s1.add(il.getIdx(i));
-		for (int i = n / 2; i < n; i++)
-			s2.add(il.getIdx(i));
+		// for (int i = n / 2; i < n; i++)
+		// s2.add(il.getIdx(i));
 		int m1 = il.getVal(n / 2);
 		int m2 = il.getVal(n / 2 - 1);
 		for (int i = 0; i < n; i++) {
@@ -47,7 +49,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/05 r22
+	// 2018/05/19 r34
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -56,12 +58,22 @@ public class Main {
 		return list;
 	}
 
-	int getDx(int idx) {
+	int getDx4(int idx) {
+		int[] dx = { 0, 1, 0, -1 };
+		return dx[idx];
+	}
+
+	int getDy4(int idx) {
+		int[] dy = { -1, 0, 1, 0 };
+		return dy[idx];
+	}
+
+	int getDx8(int idx) {
 		int[] dx = { 0, 1, 1, 1, 0, -1, -1, -1 };
 		return dx[idx];
 	}
 
-	int getDy(int idx) {
+	int getDy8(int idx) {
 		int[] dy = { -1, -1, 0, 1, 1, 1, 0, -1 };
 		return dy[idx];
 	}
@@ -77,16 +89,62 @@ public class Main {
 			map = new boolean[my + 2][mx + 2];
 		}
 
+		public void readLines(char ch) {
+			for (int y = 1; y <= my; y++) {
+				String s = readLine();
+				for (int x = 1; x <= mx; x++) {
+					if (s.charAt(x - 1) == ch)
+						set(x, y);
+				}
+			}
+		}
+
+		public int count4(int x, int y) {
+			int cnt = 0;
+			for (int i = 0; i < 4; i++) {
+				if (is(x + getDx4(i), y + getDy4(i)))
+					cnt++;
+			}
+			return cnt;
+		}
+
+		public int count8(int x, int y) {
+			int cnt = 0;
+			for (int i = 0; i < 8; i++) {
+				if (is(x + getDx8(i), y + getDy8(i)))
+					cnt++;
+			}
+			return cnt;
+		}
+
 		public boolean is(int x, int y) {
 			return map[y][x];
+		}
+
+		public void set(int x, int y) {
+			map[y][x] = true;
 		}
 
 		public void set(int x, int y, boolean b) {
 			map[y][x] = b;
 		}
+
+		public void reset(int x, int y) {
+			map[y][x] = false;
+		}
 	}
 
-	class CharList {
+	class CharCounter extends Counter<Character> {
+		public CharCounter() {
+		}
+
+		public CharCounter(char[] ca) {
+			for (char ch : ca)
+				super.add(ch);
+		}
+	}
+
+	class CharList implements Iterable<Character> {
 		class CharComparator implements Comparator<Character> {
 			int sign;
 
@@ -103,6 +161,14 @@ public class Main {
 		CharComparator asc = new CharComparator(true);
 		CharComparator desc = new CharComparator(false);
 
+		public CharList() {
+		}
+
+		public CharList(char[] ca) {
+			for (int i = 0; i < ca.length; i++)
+				add(ca[i]);
+		}
+
 		public void add(char ch) {
 			list.add(ch);
 		}
@@ -111,16 +177,24 @@ public class Main {
 			return list.get(idx);
 		}
 
-		public char getLast() {
+		public Iterator<Character> iterator() {
+			return list.iterator();
+		}
+
+		public char peek() {
+			if (list.size() == 0)
+				return 0;
 			return list.get(list.size() - 1);
+		}
+
+		public char pop() {
+			if (list.size() == 0)
+				return 0;
+			return list.remove(list.size() - 1);
 		}
 
 		public void remove(int idx) {
 			list.remove(idx);
-		}
-
-		public void removeLast() {
-			list.remove(list.size() - 1);
 		}
 
 		public int size() {
@@ -145,6 +219,15 @@ public class Main {
 	class Counter<K> {
 		Map<K, Integer> map = new HashMap<>();
 
+		public Counter() {
+		}
+
+		public Counter(Iterable<K> itr) {
+			for (K obj : itr) {
+				add(obj);
+			}
+		}
+
 		public void add(K key) {
 			Integer cnt = map.get(key);
 			if (cnt == null)
@@ -164,9 +247,23 @@ public class Main {
 		public Set<K> keySet() {
 			return map.keySet();
 		}
+
+		public int size() {
+			return map.size();
+		}
 	}
 
-	class IntList {
+	class IntCounter extends Counter<Integer> {
+		public IntCounter() {
+		}
+
+		public IntCounter(int[] ia) {
+			for (int v : ia)
+				super.add(v);
+		}
+	}
+
+	class IntList implements Iterable<Integer> {
 		class Info {
 			int idx;
 			int val;
@@ -221,16 +318,27 @@ public class Main {
 			return list.get(idx).val;
 		}
 
-		public int getLastVal() {
+		public Iterator<Integer> iterator() {
+			List<Integer> vallist = new ArrayList<>();
+			for (Info info : list)
+				vallist.add(info.val);
+			return vallist.iterator();
+		}
+
+		public int peek() {
+			if (list.size() == 0)
+				return 0;
 			return list.get(list.size() - 1).val;
+		}
+
+		public int pop() {
+			if (list.size() == 0)
+				return 0;
+			return list.remove(list.size() - 1).val;
 		}
 
 		public void remove(int idx) {
 			list.remove(idx);
-		}
-
-		public void removeLast() {
-			list.remove(list.size() - 1);
 		}
 
 		public int size() {
@@ -243,6 +351,10 @@ public class Main {
 			else
 				Collections.sort(list, desc);
 		}
+	}
+
+	class IntSet extends TreeSet<Integer> {
+		private static final long serialVersionUID = 1L;
 	}
 
 	class Point {
@@ -346,6 +458,88 @@ public class Main {
 		}
 	}
 
+	class Prime {
+		final int maxPrime = 1000;
+		final int[] prime = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83,
+				89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193,
+				197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313,
+				317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443,
+				449, 457, 461, 463, 467, 479, 487, 491, 499, 503, 509, 521, 523, 541, 547, 557, 563, 569, 571, 577, 587,
+				593, 599, 601, 607, 613, 617, 619, 631, 641, 643, 647, 653, 659, 661, 673, 677, 683, 691, 701, 709, 719,
+				727, 733, 739, 743, 751, 757, 761, 769, 773, 787, 797, 809, 811, 821, 823, 827, 829, 839, 853, 857, 859,
+				863, 877, 881, 883, 887, 907, 911, 919, 929, 937, 941, 947, 953, 967, 971, 977, 983, 991, 997 };
+		final Set<Integer> primeSet = new HashSet<>();
+
+		Prime() {
+			for (int p : prime)
+				primeSet.add(p);
+		}
+
+		boolean isPrime(int n) {
+			if (n <= maxPrime)
+				return primeSet.contains(n);
+			for (int i : prime) {
+				if (n % i == 0)
+					return false;
+			}
+			int sqrtNum = (int) Math.ceil(Math.sqrt(n));
+			for (int i = maxPrime + 1; i <= sqrtNum; i += 2) {
+				if (n % i == 0)
+					return false;
+			}
+			return true;
+		}
+	}
+
+	class StrList implements Iterable<String> {
+		class StrComparator implements Comparator<String> {
+			int sign;
+
+			public StrComparator(boolean bAsc) {
+				sign = bAsc ? 1 : -1;
+			}
+
+			public int compare(String o1, String o2) {
+				return sign * o1.compareTo(o2);
+			}
+		}
+
+		List<String> list = new ArrayList<>();
+		StrComparator asc = new StrComparator(true);
+		StrComparator desc = new StrComparator(false);
+
+		public StrList() {
+		}
+
+		public StrList(String[] sa) {
+			for (int i = 0; i < sa.length; i++)
+				list.add(sa[i]);
+		}
+
+		public void add(String s) {
+			list.add(s);
+		}
+
+		public String get(int idx) {
+			return list.get(idx);
+		}
+
+		public Iterator<String> iterator() {
+			return list.iterator();
+		}
+
+		public int size() {
+			return list.size();
+		}
+
+		public void sort(boolean bAsc) {
+			if (bAsc)
+				Collections.sort(list, asc);
+			else
+				Collections.sort(list, desc);
+		}
+	}
+
 	int abs(int a) {
 		return (a >= 0) ? a : -a;
 	}
@@ -390,6 +584,22 @@ public class Main {
 		return (int) (a % 10);
 	}
 
+	void sort(char[] ca) {
+		Arrays.sort(ca);
+	}
+
+	void sort(int[] ia) {
+		Arrays.sort(ia);
+	}
+
+	void sort(long[] la) {
+		Arrays.sort(la);
+	}
+
+	void sort(String[] sa) {
+		Arrays.sort(sa);
+	}
+
 	int sqrt(long a) {
 		return (int) Math.sqrt(a);
 	}
@@ -425,12 +635,16 @@ public class Main {
 		return line.split(" ");
 	}
 
-	CharList readChars() {
-		CharList list = new CharList();
+	String[] readLines(int n) {
+		String[] lines = new String[n];
+		for (int i = 0; i < n; i++)
+			lines[i] = readLine();
+		return lines;
+	}
+
+	char[] readChars() {
 		String line = readLine();
-		for (int i = 0; i < line.length(); i++)
-			list.add(line.charAt(i));
-		return list;
+		return line.toCharArray();
 	}
 
 	int[] readNums() {
