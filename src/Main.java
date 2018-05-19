@@ -28,7 +28,7 @@ public class Main {
 	}
 
 	// -----------------------------------------------------
-	// 2018/05/19 r34
+	// 2018/05/19 r35
 	// -----------------------------------------------------
 	List<Character> getazList() {
 		List<Character> list = new ArrayList<>();
@@ -467,6 +467,39 @@ public class Main {
 					return false;
 			}
 			return true;
+		}
+	}
+
+	class StrBuf {
+		StringBuilder sb = new StringBuilder();
+
+		public StrBuf add(char ch) {
+			sb.append(ch);
+			return this;
+		}
+
+		public StrBuf add(long v) {
+			sb.append(v);
+			return this;
+		}
+
+		public StrBuf add(String s) {
+			sb.append(s);
+			return this;
+		}
+
+		public String toString() {
+			return sb.toString();
+		}
+	}
+
+	class StrCounter extends Counter<String> {
+		public StrCounter() {
+		}
+
+		public StrCounter(String[] sa) {
+			for (String s : sa)
+				super.add(s);
 		}
 	}
 
