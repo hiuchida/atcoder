@@ -4,6 +4,7 @@
 - abc035_a(03min) A - ƒeƒŒƒr
 - abc036_a(02min) A - ‚¨’ƒ
 - abc078_a(01min) A - HEX
+- abc088_a(02min) A - Infinite Coins
 - abc089_a(02min) A - Grouping 2
 - abc090_a(01min) A - Diagonal String
 - abc091_a(02min) A - Two Coins
