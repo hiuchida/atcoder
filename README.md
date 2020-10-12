@@ -19,6 +19,7 @@
 - abc096_a(09min) A - Day of Takahashi
 - abc097_a(03min) A - Colorful Transceivers
 
+- abc005_b(02min) B - おいしいたこ焼きの食べ方
 - abc033_b(08min) B - 町の合併
 - abc034_b(02min) B - ペア
 - abc035_b(17min) B - ドローン
