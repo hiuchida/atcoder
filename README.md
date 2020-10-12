@@ -100,6 +100,7 @@
 - abc097_c(30min) C - K-th Substring
 
 - abc005_d(60min) D - ‚¨‚¢‚µ‚¢‚½‚±Ä‚«‚ÌÄ‚«•û
+- abc084_d(NG:60min) D - 2017-like Number
 - abc096_d(NG:80min) D - Five, Five Everywhere
 - abc097_d(50min) D - Equals
 
