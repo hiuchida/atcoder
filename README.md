@@ -98,6 +98,7 @@
 - abc096_c(06min) C - Grid Repainting 2
 - abc097_c(30min) C - K-th Substring
 
+- abc005_d(60min) D - ‚¨‚¢‚µ‚¢‚½‚±Ä‚«‚ÌÄ‚«•û
 - abc096_d(NG:80min) D - Five, Five Everywhere
 - abc097_d(50min) D - Equals
 
