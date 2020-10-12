@@ -86,6 +86,7 @@
 - abc096_b(04min) B - Maximum Sum
 - abc097_b(07min) B - Exponential
 
+- abc005_c(16min) C - ‚¨‚¢‚µ‚¢‚½‚±Ä‚«‚Ì”„‚è•û
 - abc075_c(45min) C - Bridge
 - abc076_c(16min) C - Dubious Document 2
 - abc079_c(12min) C - Train Ticket
