@@ -89,6 +89,7 @@
 - abc129_b(20min) B - Balance
 
 - abc005_c(16min) C - ‚¨‚¢‚µ‚¢‚½‚±Ä‚«‚Ì”„‚è•û
+- abc036_c(10min) C - Àˆ³
 - abc075_c(45min) C - Bridge
 - abc076_c(16min) C - Dubious Document 2
 - abc079_c(12min) C - Train Ticket
