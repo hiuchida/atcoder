@@ -100,6 +100,7 @@
 - abc089_c(08min) C - March
 - abc096_c(06min) C - Grid Repainting 2
 - abc097_c(30min) C - K-th Substring
+- abc113_c(15min) C - ID
 
 - abc005_d(60min) D - ‚¨‚¢‚µ‚¢‚½‚±Ä‚«‚ÌÄ‚«•û
 - abc084_d(NG:60min) D - 2017-like Number
