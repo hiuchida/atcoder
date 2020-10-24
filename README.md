@@ -121,6 +121,7 @@
 - arc094_a(20min) C - Same Integers
 - arc095_a(40min) C - Many Medians
 - arc096_a(12min) C - Half and Half
+- arc106_a(80min) A - 106
 
 - arc026_b(10min) B - Š®‘S”
 - arc096_b(NG:78min) D - Static Sushi
