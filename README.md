@@ -125,6 +125,7 @@
 
 - arc026_b(10min) B - Š®‘S”
 - arc096_b(NG:78min) D - Static Sushi
+- arc106_b(NG) B - Values
 
 - agc005_a(05min) A - STring
 - agc006_a(06min) A - Prefix and Suffix
