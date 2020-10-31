@@ -10,15 +10,10 @@ public class Main {
 			int b = sc.nextInt();
 			int c = sc.nextInt();
 			long m = 998244353;
-			long ans = 0;
-			for (int i = 1; i <= a; i++) {
-				for (int j = 1; j <= b; j++) {
-					for (int k = 1; k <= c; k++) {
-						long x = (long) (i * j * k) % m;
-						ans = (ans + x) % m;
-					}
-				}
-			}
+			long xa = (long) a * (a + 1) / 2 % m;
+			long xb = (long) b * (b + 1) / 2 % m;
+			long xc = (long) c * (c + 1) / 2 % m;
+			long ans = ((xa * xb) % m * xc) % m;
 			System.out.println(ans);
 		}
 	}
