@@ -4,7 +4,7 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		int n = sc.nextInt();
 		int[] ary = new int[3];
-		for (int i=2; i>=0; i--) {
+		for (int i=ary.length-1; i>=0; i--) {
 			ary[i] = n%10;
 			n /= 10;
 		}
