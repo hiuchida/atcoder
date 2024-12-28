@@ -1,6 +1,6 @@
 	static class Point implements Comparable<Point> {
-		int y;
-		int x;
+		final int y;
+		final int x;
 		Point(int y, int x) {
 			this.y = y;
 			this.x = x;
@@ -13,19 +13,15 @@
 		}
 		@Override
 		public int hashCode() {
-			return Objects.hash(x, y);
+			return Objects.hash(y, x);
 		}
 		@Override
 		public boolean equals(Object obj) {
-			if (this == obj) return true;
-			if (obj == null) return false;
-			if (getClass() != obj.getClass()) return false;
-			Point other = (Point) obj;
-			return x == other.x && y == other.y;
+			Point that = (Point) obj;
+			return this.y == that.y && this.x == that.x;
 		}
 		@Override
 		public String toString() {
 			return "(" + y + ", " + x + ")";
-//			return "Point [y=" + y + ", x=" + x + "]";
 		}
 	}
