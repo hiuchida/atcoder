@@ -8,3 +8,8 @@ String sの場合は、同名のクラスで別バージョンを作る。
 abc383/bより共通化
 static classとしてMain内部に貼り付ける。
 TreeSet<Point>とHashSet<Point>のどちらでも使える。
+
+# UnionFind
+atc001/bより共通化
+static classとしてMain内部に貼り付ける。
+経路圧縮とサイズによる連結を実装したもの。
