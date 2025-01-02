@@ -35,3 +35,6 @@ n==2の場合、dif[1]=ary[1]-ary[0]=A1で1項目の値と、1項目と2項目�
 int[] dif = new int[n+2];に増やし、dif[n+1] = Integer.MAX_VALUE;の番兵を置く。
 
 無理なif (dif[n-1]!=dif[n]) inc(1);を無くしたので、mapが空となり、if (n==1)の判定は不要となった。
+
+# Main_counter
+Map<Integer, Integer>を使って、keyに対するカウントをするCounterクラスを作成し、利用する。
