@@ -1,4 +1,4 @@
-	static void DEBUG(String x) {
+	static void DEBUG(Object x) {
 //		System.out.println(x);
 	}
 	static void DEBUG(long x) {

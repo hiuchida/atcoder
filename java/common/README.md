@@ -9,6 +9,11 @@ abc383/bより共通化
 static classとしてMain内部に貼り付ける。
 TreeSet<Point>とHashSet<Point>のどちらでも使える。
 
+# Point_s
+abc386/dより共通化
+static classとしてMain内部に貼り付ける。
+Pointは(y,x)座標しか保持しないが、ソートに影響しない属性としてString sを追加する。
+
 # staticFields
 static変数としてMain内部に貼り付ける。
 原則、staticメソッドを必要とするものはクラス化する。
