@@ -1,3 +1,9 @@
+	static void DEBUG(String x) {
+//		System.out.println(x);
+	}
+	static void DEBUG(long x) {
+		DEBUG(""+x);
+    }
 	static void ok() {
 		System.out.println("Yes");
 		System.exit(0);
