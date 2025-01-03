@@ -4,6 +4,9 @@
 	static void DEBUG(long x) {
 		DEBUG(""+x);
     }
+	static void DEBUG(int[] x) {
+		DEBUG(Arrays.toString(x));
+    }
 	static void ok() {
 		System.out.println("Yes");
 		System.exit(0);
