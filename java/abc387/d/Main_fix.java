@@ -133,7 +133,7 @@ public class Main {
 				for (int y = 0; y < h + 2; y++) {
 					for (int x = 0; x < w + 2; x++) {
 						int i=map[y][x]+1;
-						while (i>=tbl.length()) i-=62;
+						while (i>=tbl.length()) i-=61;
 						if (i<tbl.length()) System.out.print(tbl.charAt(i));
 						else System.out.print('@');
 					}

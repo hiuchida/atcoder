@@ -50,6 +50,31 @@ Mazeクラスを作成し、map操作をメソッド化。
 #HGHKLOPSTWXabefi#A7676#MJIJIJMN#VUVUVYZcdghklopstwx.14589CDGHKL#
 #################################################################
 
+\[bugfix\] while (i>=tbl.length()) i-=62;では、zの次が.となるので、i-=61;
+
+デバッグ出力で、ゴール（####RSR#）してもまだ探している。
+#################################################################
+#4343478ZaZadehilmlmpqtuxy2367ABEFIJ.....lkl...212.....EDE...UTU#
+#521256#YXYbcfgjkjknorsvwz14589CDGHK#####ij#####zy#####BC####RSR#
+#43#347#VWZadehihilmpqtuxy2367ABEFIJ....#hg#...#wx....#A9#...QPQ#
+#56#####UT####gfg####rs####45#DC#GHK#####ef#...#vu#####78#####ON#
+#87#JKJ#RS#..#hed#..#ut#..#76#EF#JIJ#....dc#...#st#....656...#LM#
+#9A#IHI#QP#####bc####vw####89####KLK#####ab#####rq#####34#####KJ#
+#CBCFGJKNORSVWZad#632yx#IFEBABEF#NMNQRUVYZcdghklopstwx12569ADEHI#
+#DEDEHILMPQTUXYbc#541z1#HGDCDCDG#OPOPSTWXabefijmnqruvyz3478BCFGJ#
+#################################################################
+
+#################################################################
+#632367.dcdcdghklopstwx12569ADEHILMPQ...srs.....545...LKL.....XW#
+#541458#ababefijmnqruvyz3478BCFGJKNO#####qp#####23#####JI####VUV#
+#67#767#ZYZcdghklopstwx12569ADEHILMPQ...#no#...#1z1...#GH#....TS#
+#98#####WX####ijm####zy####CB#FG#ONO#####ml#...#xy#####FE#####QR#
+#AB#NMN#VU#..#lkl#..#12#..#DE#IH#PQP#...kjk#...#wv#...DCD....#PO#
+#DC#KLO#ST#####ji####43####GF####SRS#####ih#####tu#####BA#####MN#
+#EFIJMNQRUVYZcdgh#A9656#MLIHILMP#TUTUXYbcfgjknorsvwz14589CDGHKLO#
+#HGHKLOPSTWXabefi#B8787#NKJKJKNO#WVWVWZadehilmpqtuxy2367ABEFIJMN#
+#################################################################
+
 # Main_final
 Main_fixから(ans > val-1)の判定を追加。
 
@@ -74,4 +99,29 @@ Main_fixから(ans > val-1)の判定を追加。
 #DC#KLO#ST#####ji####32####FE####RQR#####hg#####st#####98#####KL#
 #EFIJMNQRUVYZcdgh#98545#LKHGHKLO#STSTWXabefijmnqruvyz2367ABEFIJM#
 #HGHKLOPSTWXabefi#A7676#MJIJIJMN#VUVUVYZcdghklopstwx.14589CDGHKL#
+#################################################################
+
+\[bugfix\] while (i>=tbl.length()) i-=62;では、'z'の次が'.'となるので、i-=61;
+
+デバッグ出力で、ゴール（####R.R#）したら打ち切り。
+#################################################################
+#4343478ZaZadehilmlmpqtuxy2367ABEFIJ.....lkl...212.....EDE......#
+#521256#YXYbcfgjkjknorsvwz14589CDGHK#####ij#####zy#####BC####R.R#
+#43#347#VWZadehihilmpqtuxy2367ABEFIJ....#hg#...#wx....#A9#...QPQ#
+#56#####UT####gfg####rs####45#DC#GHK#####ef#...#vu#####78#####ON#
+#87#JKJ#RS#..#hed#..#ut#..#76#EF#JIJ#....dc#...#st#....656...#LM#
+#9A#IHI#QP#####bc####vw####89####KLK#####ab#####rq#####34#####KJ#
+#CBCFGJKNORSVWZad#632yx#IFEBABEF#NMNQRUVYZcdghklopstwx12569ADEHI#
+#DEDEHILMPQTUXYbc#541z1#HGDCDCDG#OPOPSTWXabefijmnqruvyz3478BCFGJ#
+#################################################################
+
+#################################################################
+#632367.dcdcdghklopstwx12569ADEHILMPQ...srs.....545...LKL.......#
+#541458#ababefijmnqruvyz3478BCFGJKNO#####qp#####23#####JI####...#
+#67#767#ZYZcdghklopstwx12569ADEHILMPQ...#no#...#1z1...#GH#......#
+#98#####WX####ijm####zy####CB#FG#ONO#####ml#...#xy#####FE#####QR#
+#AB#NMN#VU#..#lkl#..#12#..#DE#IH#PQP#...kjk#...#wv#...DCD....#PO#
+#DC#KLO#ST#####ji####43####GF####SRS#####ih#####tu#####BA#####MN#
+#EFIJMNQRUVYZcdgh#A9656#MLIHILMP#TUTUXYbcfgjknorsvwz14589CDGHKLO#
+#HGHKLOPSTWXabefi#B8787#NKJKJKNO#WVWVWZadehilmpqtuxy2367ABEFIJMN#
 #################################################################
