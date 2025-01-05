@@ -16,7 +16,7 @@ public class Main {
 	static class Maze {
 		int h;
 		int w;
-		int[][] map;
+		int[][] map; //map of Maze
 		Maze(int h, int w) {
 			this.h = h;
 			this.w = w;

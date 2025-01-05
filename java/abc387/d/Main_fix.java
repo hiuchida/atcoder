@@ -1,30 +1,17 @@
 import java.util.*;
 public class Main {
 	static final boolean DEBUG = false;
-	static void DEBUG(Object x) {
-		if (DEBUG) System.out.println(x);
-	}
-	static void DEBUG(long x) {
-		if (DEBUG) DEBUG(""+x);
-    }
-	static void DEBUG(int[] x) {
-		if (DEBUG) DEBUG(Arrays.toString(x));
-    }
-	static int[] dy = { -1,1, 0,0 }; //UDLR
-	static int[] dx = {  0,0,-1,1 }; //UDLR
-	static int h;
-	static int w;
-	static Maze mz;
-	static Point st1, st2, ed;
-	static long ans = Integer.MAX_VALUE;
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-		h = sc.nextInt();
-		w = sc.nextInt();
-		sc.nextLine();
-		mz = new Maze();
+	static Scanner sc;
+	long ans = Integer.MAX_VALUE;
+	Maze mz;
+	Point st1, st2, ed;
+	void solve() {
+		int h = nextInt();
+		int w = nextInt();
+		nextLine();
+		mz = new Maze(h, w);
 		mz.initmap();
-		mz.loadmap(sc);
+		mz.loadmap();
 		mz.printmap();
 //		System.out.println(st);
 //		System.out.println(ed);
@@ -42,7 +29,7 @@ public class Main {
 		if (ans == Integer.MAX_VALUE) System.out.println(-1);
 		else System.out.println(ans);
 	}
-	static void bfs(Deque<Point> que) {
+	void bfs(Deque<Point> que) {
 		Point p = que.peek();
 		mz.setmap(p, 1);
 		while (que.size() > 0) {
@@ -75,10 +62,14 @@ public class Main {
 			}
 		}
 	}
-	static class Maze {
-		int[][] map;
-		Maze() {
-			map = new int[h + 2][w + 2];
+	class Maze {
+		int h;
+		int w;
+		int[][] map; //map of Maze
+		Maze(int h, int w) {
+			this.h = h;
+			this.w = w;
+			this.map = new int[h + 2][w + 2];
 		}
 		void initmap() {
 			for (int y = 0; y < h + 2; y++) {
@@ -87,9 +78,9 @@ public class Main {
 				}
 			}
 		}
-		void loadmap(Scanner sc) {
+		void loadmap() {
 			for (int y = 1; y <= h; y++) {
-				String s = sc.nextLine();
+				String s = nextLine();
 				for (int x = 1; x <= w; x++) {
 					char ch = s.charAt(x - 1);
 					if (ch == '.') {
@@ -172,5 +163,48 @@ public class Main {
 		public String toString() {
 			return "(" + y + "," + x + ":" + s + ")";
 		}
+	}
+
+	//---------------------------------------------------------------
+	public static void main(String[] args) {
+		sc = new Scanner(System.in);
+		new Main().solve();
+	}
+	static int nextInt() {
+		return sc.nextInt();
+	}
+	static long nextLong() {
+		return sc.nextLong();
+	}
+	static String next() {
+		return sc.next();
+	}
+	static String nextLine() {
+		return sc.nextLine();
+	}
+	static int[] nextIntAry(int n) {
+		int[] ary = new int[n];
+		for (int i=0; i<n; i++) {
+			int a = nextInt();
+			ary[i] = a;
+		}
+		return ary;
+	}
+	static void DEBUG(Object x) {
+		if (DEBUG) System.out.println(x);
+	}
+	static void DEBUG(long x) {
+		if (DEBUG) DEBUG(""+x);
+    }
+	static void DEBUG(int[] x) {
+		if (DEBUG) DEBUG(Arrays.toString(x));
+    }
+	static void ok() {
+		System.out.println("Yes");
+		System.exit(0);
+	}
+	static void ng() {
+		System.out.println("No");
+		System.exit(0);
 	}
 }
