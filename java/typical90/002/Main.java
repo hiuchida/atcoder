@@ -25,6 +25,7 @@ public class Main {
 		}
 	}
 
+	//---------------------------------------------------------------
 	public static void main(String[] args) {
 		sc = new Scanner(System.in);
 		new Main().solve();
@@ -36,7 +37,7 @@ public class Main {
 		return sc.nextLong();
 	}
 	static String next() {
-		return next();
+		return sc.next();
 	}
 	static int[] nextIntAry(int n) {
 		int[] ary = new int[n];
