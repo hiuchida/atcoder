@@ -14,6 +14,11 @@ public class Main {
 		for (int i=0; i<n; i++) {
 			ans += ary[i];
 		}
+		int[] sum = new int[n+1];
+		for (int i=0; i<n; i++) {
+			sum[i+1] = sum[i] + ary[i];
+		}
+		DEBUG(sum);
 		System.out.println(ans);
 	}
 /*
