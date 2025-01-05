@@ -4,6 +4,12 @@ static classとしてMain内部に貼り付ける。
 Map<Integer, Integer> mapを使って、int cの個数を数える。
 String sの場合は、同名のクラスで別バージョンを作る。
 
+# Maze
+abc387/dより共通化
+static classとしてMain内部に貼り付ける。
+\[h+2\]\[w+2\]を確保し、壁を-1、通路'.'を0とする。
+'S'は28、'G'は16として、デバッグ出力すると、SGが出力される。
+
 # MyDeque
 typical90/061より共通化
 static classとしてMain内部に貼り付ける。
