@@ -1,17 +1,25 @@
 import java.util.*;
 public class Main {
-	static final boolean DEBUG = false;
+	static final boolean DEBUG = true;
 	static Scanner sc;
 	long ans = 0;
 	void solve() {
 		int n = nextInt();
 		long l = nextLong();
 		String s = next();
+		DEBUG(n + " " + l + " " + s);
 		int[] ary = nextIntAry(n);
+		Arrays.sort(ary);
 		DEBUG(ary);
+		for (int i=0; i<n; i++) {
+			ans += ary[i];
+		}
 		System.out.println(ans);
 	}
-
+/*
+3 1234 abc
+4 7 3
+*/
 
 	//---------------------------------------------------------------
 	public static void main(String[] args) {
