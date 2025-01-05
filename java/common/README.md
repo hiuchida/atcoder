@@ -4,6 +4,12 @@ static classとしてMain内部に貼り付ける。
 Map<Integer, Integer> mapを使って、int cの個数を数える。
 String sの場合は、同名のクラスで別バージョンを作る。
 
+# MyDeque
+typical90/061より共通化
+static classとしてMain内部に貼り付ける。
+ArrayDeque<Integer>で十分使えるが、get(int idx)がないため、
+バッファサイズが固定で、addFirst,addLast,getのみ提供する。
+
 # Point
 abc383/bより共通化
 static classとしてMain内部に貼り付ける。
