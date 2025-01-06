@@ -68,6 +68,9 @@ public class Main {
 	static void DEBUG(int[] x) {
 		if (DEBUG) DEBUG(Arrays.toString(x));
     }
+	static void DEBUG(long[] x) {
+		if (DEBUG) DEBUG(Arrays.toString(x));
+    }
 	static void ok() {
 		System.out.println("Yes");
 		System.exit(0);
