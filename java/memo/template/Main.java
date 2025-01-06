@@ -9,6 +9,8 @@ public class Main {
 		ary = nextIntAry(n);
 		Arrays.sort(ary);
 		DEBUG(ary);
+		set = nextIntSet(n);
+		DEBUG(set);
 		for (int i=0; i<n; i++) {
 			for (int j=i+1; j<n; j++) {
 				ans += ary[i];
@@ -34,6 +36,7 @@ public class Main {
 /*
 3 1234 abc
 4 7 3
+5 6 2
 */
 
 	//---------------------------------------------------------------
@@ -58,6 +61,14 @@ public class Main {
 			ary[i] = a;
 		}
 		return ary;
+	}
+	static TreeSet<Integer> nextIntSet(int n) {
+		TreeSet<Integer> set = new TreeSet<>();
+		for (int i=0; i<n; i++) {
+			int a = nextInt();
+			set.add(a);
+		}
+		return set;
 	}
 	static void DEBUG(Object x) {
 		if (DEBUG) System.out.println(x);
