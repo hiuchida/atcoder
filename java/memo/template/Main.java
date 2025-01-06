@@ -1,18 +1,18 @@
 import java.util.*;
 public class Main {
 	static final boolean DEBUG = true;
-	static Scanner sc;
-	long ans = 0;
 	void solve() {
-		int n = nextInt();
-		long l = nextLong();
-		String s = next();
-		DEBUG(n + " " + l + " " + s);
-		int[] ary = nextIntAry(n);
+		n = nextInt();
+		ln = nextLong();
+		s = next();
+		DEBUG(n + " " + ln + " " + s);
+		ary = nextIntAry(n);
 		Arrays.sort(ary);
 		DEBUG(ary);
 		for (int i=0; i<n; i++) {
-			ans += ary[i];
+			for (int j=i+1; j<n; j++) {
+				ans += ary[i];
+			}
 		}
 		int[] sum = new int[n+1];
 		for (int i=0; i<n; i++) {
@@ -21,12 +21,23 @@ public class Main {
 		DEBUG(sum);
 		System.out.println(ans);
 	}
+	long ans = 0;//Integer.MAX_VALUE;
+	int n;
+	long ln;
+	String s;
+	StringBuilder sb = new StringBuilder();
+	List<String> list = new ArrayList<>();
+	Deque<Integer> que = new ArrayDeque<>();
+	TreeSet<Integer> set = new TreeSet<>();
+	TreeMap<Integer,Integer> map = new TreeMap<>();
+	int[] ary;
 /*
 3 1234 abc
 4 7 3
 */
 
 	//---------------------------------------------------------------
+	static Scanner sc;
 	public static void main(String[] args) {
 		sc = new Scanner(System.in);
 		new Main().solve();
