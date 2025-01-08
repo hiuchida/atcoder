@@ -26,6 +26,11 @@ abc386/dより共通化
 static classとしてMain内部に貼り付ける。
 Pointは(y,x)座標しか保持しないが、ソートに影響しない属性としてString sを追加する。
 
+# Point_sted
+abc380/cより共通化
+static classとしてMain内部に貼り付ける。
+Point(y,x)からPoint(st,ed)へ、変数名を変えた。
+
 # Prime
 abc383/dより共通化
 static classとしてMain内部に貼り付ける。
