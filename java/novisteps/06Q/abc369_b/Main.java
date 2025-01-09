@@ -28,3 +28,25 @@ public class Main {
 		System.out.println(ans);
 	}
 }
+/*
+4
+3 L
+6 R
+9 L
+1 R
+
+3
+2 L
+2 L
+100 L
+
+8
+22 L
+75 L
+26 R
+45 R
+72 R
+81 R
+47 L
+29 R
+*/
