@@ -1,6 +1,6 @@
 import java.util.*;
 public class Main {
-	public static void main(String[] args){
+	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int n = sc.nextInt();
 		String a = sc.next();
@@ -14,3 +14,16 @@ public class Main {
 		System.out.println(sb.toString());
 	}
 }
+/*
+3 b g
+abc
+
+1 s h
+s
+
+7 d a
+atcoder
+
+10 b a
+acaabcabba
+*/
