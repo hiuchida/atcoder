@@ -1,12 +1,12 @@
 import java.util.*;
 public class Main {
-	public static void main(String[] args){
+	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int n = sc.nextInt();
 		int d = sc.nextInt();
 		String s = sc.next();
 		char[] ary = s.toCharArray();
-		for (int i = ary.length - 1; i >= 0; i--) {
+		for (int i = n-1; i>=0; i--) {
 			if (d <= 0) {
 				break;
 			}
@@ -15,9 +15,17 @@ public class Main {
 				d--;
 			}
 		}
-		for (int i = 0; i < ary.length; i++) {
-			System.out.print(ary[i]);
-		}
-		System.out.println();
+		String ss = new String(ary);
+		System.out.println(ss);
 	}
 }
+/*
+5 2
+.@@.@
+
+3 3
+@@@
+
+10 4
+@@@.@@.@@.
+*/
