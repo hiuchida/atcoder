@@ -6,10 +6,16 @@ public class Main {
 		char[] ary = s.toCharArray();
 		Arrays.sort(ary);
 		String ss = new String(ary);
-		if ("ABC".equals(ss)) {
-			System.out.println("Yes");
-		} else {
-			System.out.println("No");
-		}
+		if ("ABC".equals(ss)) System.out.println("Yes");
+		else System.out.println("No");
 	}
 }
+/*
+BAC
+
+AAC
+
+ABC
+
+ARC
+*/
