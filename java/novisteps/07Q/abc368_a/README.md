@@ -1,4 +1,4 @@
-# Main_join
+# Main
 n-k以降とn-kまでを出力する。
 List<Integer> listに貯めて、list.toString()から
 replace("[", "").replace("]", "").replaceAll(",", "");
@@ -12,7 +12,3 @@ int[]は無理で、Stringでないとダメだった。
 
 String.joinを使いたければ、List<String>かString[]に答えを入れる。
 int[]のままの場合、Arrays.toStringから余計な[,]を取り除く。
-
-int[]で答えが出ているときのために、String.joinと似せた自前のjoinを用意する。
-String.joinがStringJoinerを呼んでいて、prefix="",suffix=""で、
-StringBuilder valueに追加しているので、やっていることは同じ。

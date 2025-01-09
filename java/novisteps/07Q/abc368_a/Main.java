@@ -21,3 +21,10 @@ public class Main {
 		System.out.println(s);
 	}
 }
+/*
+5 3
+1 2 3 4 5
+
+6 2
+1 2 1 2 1 2
+*/
