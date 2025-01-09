@@ -14,3 +14,13 @@ public class Main {
 		System.out.println(n - c + d);
 	}
 }
+/*
+5 2
+.@@.@
+
+3 3
+@@@
+
+10 4
+@@@.@@.@@.
+*/
