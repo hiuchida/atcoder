@@ -8,11 +8,15 @@ public class Main {
 		int ab = a+b;
 		int ac = a+c;
 		int bc = b+c;
-		if (a == b && b == c)
-			System.out.println("Yes");
-		else if (a == bc || b == ac || c == ab)
-			System.out.println("Yes");
-		else
-			System.out.println("No");
+		if (a == b && b == c) System.out.println("Yes");
+		else if (a == bc || b == ac || c == ab) System.out.println("Yes");
+		else System.out.println("No");
 	}
 }
+/*
+3 8 5
+
+2 2 2
+
+1 2 4
+*/
