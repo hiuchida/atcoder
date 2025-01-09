@@ -11,3 +11,8 @@ public class Main {
 		System.out.println(bca + " " + cab);
 	}
 }
+/*
+379
+
+919
+*/
