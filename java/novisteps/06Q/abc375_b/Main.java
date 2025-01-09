@@ -9,20 +9,40 @@ public class Main {
 		for (int i=0; i<n; i++) {
 			long xx = sc.nextInt();
 			long yy = sc.nextInt();
-			long dx=xx-x;
-			long dy=yy-y;
-			ans += Math.sqrt(dx*dx+dy*dy);
+			ans += calc(x, y, xx, yy);
 			x = xx;
 			y = yy;
 		}
-		long xx = 0;
-		long yy = 0;
-		long dx=xx-x;
-		long dy=yy-y;
-		ans += Math.sqrt(dx*dx+dy*dy);
+		ans += calc(x, y, 0, 0);
 		System.out.println(ans);
 	}
+	static double calc(long x1, long y1, long x2, long y2) {
+		long dx=x1-x2;
+		long dy=y1-y2;
+		return Math.sqrt(dx*dx+dy*dy);
+	}
 }
+/*
+2
+1 2
+-1 0
+
+7
+-14142 13562
+-17320 50807
+-22360 67977
+24494 89742
+-26457 51311
+28284 27124
+31622 77660
+
+5
+-100000 100000
+100000 -100000
+-100000 100000
+100000 -100000
+-100000 100000
+*/
 /*
 6.06449510224597979401
 6.06449510224598
