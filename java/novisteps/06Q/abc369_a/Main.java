@@ -5,11 +5,15 @@ public class Main {
 		int a = sc.nextInt();
 		int b = sc.nextInt();
 		int ab = Math.abs(a-b);
-		if (a == b)
-			System.out.println(1);
-		else if (ab%2 == 1)
-			System.out.println(2);
-		else
-			System.out.println(3);
+		if (a == b) System.out.println(1);
+		else if (ab%2 == 1) System.out.println(2);
+		else System.out.println(3);
 	}
 }
+/*
+5 7
+
+6 1
+
+3 3
+*/
