@@ -14,4 +14,8 @@ public class Main {
 1
 2 3
 test
+
+72
+128 256
+myonmyon
 */
