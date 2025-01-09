@@ -20,3 +20,10 @@ public class Main {
 			System.out.println("Yes");
 	}
 }
+/*
+aabbcc
+
+aab
+
+zzzzzz
+*/
