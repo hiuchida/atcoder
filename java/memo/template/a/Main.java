@@ -7,11 +7,16 @@ public class Main {
 		int c = sc.nextInt();
 		String s = sc.next();
 		int sum = a + b + c;
-		System.out.println(sum + " " + s);
+		if (sum < 10) System.out.println(sum + " " + s);
+		else System.out.println("error");
 	}
 }
 /*
 1
 2 3
 test
+
+3
+4 5
+test2
 */
