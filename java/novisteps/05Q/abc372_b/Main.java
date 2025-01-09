@@ -23,3 +23,10 @@ public class Main {
 		System.out.println(String.join(" ", ls));
 	}
 }
+/*
+6
+
+100
+
+59048
+*/
