@@ -18,3 +18,14 @@ public class Main {
 			System.out.println("No");
 	}
 }
+/*
+7 7 7 1
+
+13 12 11 10
+
+3 3 5 5
+
+8 8 8 8
+
+1 3 4 1
+*/
