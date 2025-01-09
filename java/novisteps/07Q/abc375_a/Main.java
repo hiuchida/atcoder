@@ -11,3 +11,13 @@ public class Main {
 		System.out.println(ans);
 	}
 }
+/*
+6
+#.##.#
+
+1
+#
+
+9
+##.#.#.##
+*/
