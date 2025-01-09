@@ -21,3 +21,10 @@ public class Main {
 		System.out.println(ans);
 	}
 }
+/*
+4
+1 2 3 3
+
+3
+1 1 100
+*/
