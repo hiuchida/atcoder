@@ -1,0 +1,65 @@
+import java.util.*;
+public class Main {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int k = sc.nextInt();
+		String s = sc.next();
+		String t = sc.next();
+		int ls = s.length();
+		int lt = t.length();
+		if (Math.abs(ls-lt) > 1) ng();
+		if (ls==lt) {
+			int d=0;
+			for (int i=0; i<ls; i++) {
+				if (s.charAt(i) != t.charAt(i)) d++;
+			}
+			if (d>1) ng();
+			ok();
+		}
+		if (ls < lt) comp(s, t);
+		else comp(t, s);
+	}
+	static void comp(String s, String t) {
+		int ls = s.length();
+		for (int i=0,j=0; i<ls; i++,j++) {
+			if (j-i>1) ng();
+			if (s.charAt(i) != t.charAt(j)) {
+				i--;
+			}
+		}
+		ok();
+	}
+	static void ok() {
+		System.out.println("Yes");
+		System.exit(0);
+	}
+	static void ng() {
+		System.out.println("No");
+		System.exit(0);
+	}
+}
+/*
+1
+abc
+agc
+
+1
+abc
+awtf
+
+1
+abc
+ac
+
+1
+back
+black
+
+1
+same
+same
+
+1
+leap
+read
+*/
