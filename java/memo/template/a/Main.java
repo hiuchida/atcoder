@@ -6,12 +6,18 @@ public class Main {
 		int b = sc.nextInt();
 		int c = sc.nextInt();
 		String s = sc.next();
+		StringBuilder sb = new StringBuilder();
 		int n = sc.nextInt();
 		int[] ary = new int[n];
+		for (int i=0; i<ary.length; i++) {
+			ary[i] = sc.nextInt();
+		}
+		Arrays.sort(ary);
 		int ans = 0;
 		for (int i=0; i<n; i++) {
-			ary[i] = sc.nextInt();
-			ans += ary[i];
+			for (int j=0; j<n; j++) {
+				ans += ary[i] - ary[j];
+			}
 		}
 		int sum = a + b + c;
 		if (sum < 10) System.out.println(sum + " " + s);
