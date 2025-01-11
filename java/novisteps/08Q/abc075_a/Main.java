@@ -4,8 +4,7 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		int[] ary = new int[3];
 		for (int i=0; i<ary.length; i++) {
-			int a = sc.nextInt();
-			ary[i] = a;
+			ary[i] = sc.nextInt();
 		}
 		Arrays.sort(ary);
 		if (ary[0]==ary[1]) System.out.println(ary[2]);
