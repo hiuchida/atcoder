@@ -18,3 +18,9 @@ TreeSet<Info> queで優先度の高い順に並べる。
 # Main_PriorityQueue
 PriorityQueue<Info> queに書き換え。
 ソートキーがpwのみに変わるが、queの外で訪問済フラグが必要となる。
+
+# Main\_dxdy
+Mainからint\[\] dx,dyを使って4方向をループする。
+
+# Main_PriorityQueue\_dxdy
+Main_PriorityQueueからint\[\] dx,dyを使って4方向をループする。
