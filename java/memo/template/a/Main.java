@@ -9,7 +9,7 @@ public class Main {
 		StringBuilder sb = new StringBuilder();
 		int n = sc.nextInt();
 		int[] ary = new int[n];
-		for (int i=0; i<ary.length; i++) {
+		for (int i=0; i<n; i++) {
 			ary[i] = sc.nextInt();
 		}
 		Arrays.sort(ary);
