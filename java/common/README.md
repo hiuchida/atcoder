@@ -3,6 +3,7 @@ abc369/cより共通化
 static classとしてMain内部に貼り付ける。
 Map<Integer, Integer> mapを使って、int cの個数を数える。
 String sの場合は、同名のクラスで別バージョンを作る。
+dec,subを追加し、カウントが0のときにremoveする。
 
 # Maze
 abc387/dより共通化

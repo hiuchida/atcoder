@@ -13,10 +13,22 @@
 			v++;
 			map.put(c, v);
 		}
+		void dec(int c) {
+			int v = get(c);
+			v--;
+			if (v==0) map.remove(c);
+			else map.put(c, v);
+		}
 		void add(int c, int x) {
 			int v = get(c);
 			v += x;
 			map.put(c, v);
+		}
+		void sub(int c, int x) {
+			int v = get(c);
+			v -= x;
+			if (v==0) map.remove(c);
+			else map.put(c, v);
 		}
 		Set<Integer> keySet() {
 			return map.keySet();
