@@ -28,3 +28,6 @@ TreeSet<Point2> set2は、edをソートキーとするComparator<Point>を定�
 TreeSet<Point3> set3は、TreeSet<Integer> set3に置き換える。
 set1とset2のPointは共通なため、removeする際にp1とp2をそのまま指定できる。
 
+# Main\_final
+Pointクラス内にnewComparator1()等を追加する。
+
