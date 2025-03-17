@@ -17,6 +17,11 @@ static classとしてMain内部に貼り付ける。
 ArrayDeque<Integer>で十分使えるが、get(int idx)がないため、
 バッファサイズが固定で、addFirst,addLast,getのみ提供する。
 
+# PairL
+abc349/dより共通化
+static classとしてMain内部に貼り付ける。
+Point\_stedとほぼ同じで、変数型をintからlongに変更した。
+
 # Point
 abc383/bより共通化
 static classとしてMain内部に貼り付ける。
