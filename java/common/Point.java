@@ -5,8 +5,26 @@
 			this.y = y;
 			this.x = x;
 		}
+		static Comparator<Point> newComparator1() {
+			return new Comparator<Point>() {
+				@Override
+				public int compare(Point o1, Point o2) {
+					int cmp = Integer.compare(o1.y, o2.y);
+					return cmp;
+				}
+			};
+		}
+		static Comparator<Point> newComparator2() {
+			return new Comparator<Point>() {
+				@Override
+				public int compare(Point o1, Point o2) {
+					int cmp = Integer.compare(o1.x, o2.x);
+					return cmp;
+				}
+			};
+		}
 		@Override
-		public int compareTo(Main.Point that) {
+		public int compareTo(Point that) {
 			int cmp = Integer.compare(this.y, that.y);
 			if (cmp != 0) return cmp;
 			return Integer.compare(this.x, that.x);

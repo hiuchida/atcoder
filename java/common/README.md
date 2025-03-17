@@ -32,6 +32,11 @@ abc380/cより共通化
 static classとしてMain内部に貼り付ける。
 Point(y,x)からPoint(st,ed)へ、変数名を変えた。
 
+# Point_stedidx
+abc354/cより共通化
+static classとしてMain内部に貼り付ける。
+Point(st,ed)からPoint(st,ed,idx)へ、変数名を変えた。
+
 # Prime
 abc383/dより共通化
 static classとしてMain内部に貼り付ける。

@@ -1,9 +1,11 @@
 	static class Point implements Comparable<Point> {
 		final int st;
 		final int ed;
-		Point(int st, int ed) {
+		final int idx;
+		Point(int st, int ed, int idx) {
 			this.st = st;
 			this.ed = ed;
+			this.idx = idx;
 		}
 		static Comparator<Point> newComparator1() {
 			return new Comparator<Point>() {
@@ -19,6 +21,15 @@
 				@Override
 				public int compare(Point o1, Point o2) {
 					int cmp = Integer.compare(o1.ed, o2.ed);
+					return cmp;
+				}
+			};
+		}
+		static Comparator<Point> newComparator3() {
+			return new Comparator<Point>() {
+				@Override
+				public int compare(Point o1, Point o2) {
+					int cmp = Integer.compare(o1.idx, o2.idx);
 					return cmp;
 				}
 			};
@@ -40,6 +51,6 @@
 		}
 		@Override
 		public String toString() {
-			return "(" + st + "," + ed + ")";
+			return "(" + st + "," + ed + "," + idx + ")";
 		}
 	}
