@@ -12,3 +12,8 @@ Mainを元に修正。
 List<PairL> list=new ArrayList<>();をdfs()内のローカル変数にしているが、
 static変数として確定したものを追加すればよい。
 
+# Main\_updown
+左からx=l、y<=rとなるPairL(x,y)の候補を探し、最大のyとなるPairLをList<PairL> listに追加する。
+search内で、vを1から2^k<=rとなるまでループし、j=l/vが割り切れる場合の、y=(j+1)\*vを計算する。
+左からlistに追加するので、listのソートは不要。
+
