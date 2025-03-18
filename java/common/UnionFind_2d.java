@@ -41,7 +41,7 @@
 			for (int y=0; y<h; y++) {
 				List<Integer> list = new ArrayList<>();
 				for (int x=0; x<w; x++) {
-					list.add(uf[y*h+x]);
+					list.add(uf[y*w+x]);
 				}
 				if (sb.length() > 0) sb.append(System.getProperty("line.separator"));
 				sb.append(list);
