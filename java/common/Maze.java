@@ -1,16 +1,15 @@
 import java.util.*;
 public class Main {
 	static final boolean DEBUG = true;
-	static Scanner sc;
-	long ans = 0;
-	void solve() {
-		int h = nextInt();
-		int w = nextInt();
-		nextLine();
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int h = sc.nextInt();
+		int w = sc.nextInt();
+		sc.nextLine();
 		Maze mz;
 		mz = new Maze(h, w);
 		mz.initmap();
-		mz.loadmap();
+		mz.loadmap(sc);
 		mz.printmap();
 	}
 	static class Maze {
@@ -29,9 +28,9 @@ public class Main {
 				}
 			}
 		}
-		void loadmap() {
+		void loadmap(Scanner sc) {
 			for (int y = 1; y <= h; y++) {
-				String s = nextLine();
+				String s = sc.nextLine();
 				for (int x = 1; x <= w; x++) {
 					char ch = s.charAt(x - 1);
 					if (ch == '.') {
@@ -67,6 +66,7 @@ public class Main {
 			}
 		}
 	}
+}
 /*
 8 63
 ...............................................................
@@ -78,47 +78,3 @@ public class Main {
 ................#.....#........#...............................
 ................#.....#........#...............................
 */
-
-	//---------------------------------------------------------------
-	public static void main(String[] args) {
-		sc = new Scanner(System.in);
-		new Main().solve();
-	}
-	static int nextInt() {
-		return sc.nextInt();
-	}
-	static long nextLong() {
-		return sc.nextLong();
-	}
-	static String next() {
-		return sc.next();
-	}
-	static String nextLine() {
-		return sc.nextLine();
-	}
-	static int[] nextIntAry(int n) {
-		int[] ary = new int[n];
-		for (int i=0; i<n; i++) {
-			int a = nextInt();
-			ary[i] = a;
-		}
-		return ary;
-	}
-	static void DEBUG(Object x) {
-		if (DEBUG) System.out.println(x);
-	}
-	static void DEBUG(long x) {
-		if (DEBUG) DEBUG(""+x);
-    }
-	static void DEBUG(int[] x) {
-		if (DEBUG) DEBUG(Arrays.toString(x));
-    }
-	static void ok() {
-		System.out.println("Yes");
-		System.exit(0);
-	}
-	static void ng() {
-		System.out.println("No");
-		System.exit(0);
-	}
-}
