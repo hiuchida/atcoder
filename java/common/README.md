@@ -33,25 +33,36 @@ abc349/dより共通化
 static classとしてMain内部に貼り付ける。
 Point\_stedとほぼ同じで、変数型をintからlongに変更した。
 
-# Point
+# Point_sted
+Point(st,ed)
+abc380/cより共通化
+static classとしてMain内部に貼り付ける。
+
+# Point_stedidx
+Point(st,ed,idx) PK(st,ed)
+abc354/cより共通化
+static classとしてMain内部に貼り付ける。
+Point(st,ed)からPoint(st,ed,idx)へ、変数名を変えた。
+
+# Point_steds
+Point(st,ed,s) PK(st,ed)
+
+# Point\_xy
+Point(x,y) PK(x,y)
+
+# Point\_yx
+Point(y,x) PK(y,x)
 abc383/bより共通化
 static classとしてMain内部に貼り付ける。
 TreeSet<Point>とHashSet<Point>のどちらでも使える。
 
-# Point_s
+# Point\_yxidx
+Point(y,x,idx) PK(y,x)
+
+# Point_yxs
+Point(y,x,s) PK(y,x)
 abc386/dより共通化
 static classとしてMain内部に貼り付ける。
-Pointは(y,x)座標しか保持しないが、ソートに影響しない属性としてString sを追加する。
-
-# Point_sted
-abc380/cより共通化
-static classとしてMain内部に貼り付ける。
-Point(y,x)からPoint(st,ed)へ、変数名を変えた。
-
-# Point_stedidx
-abc354/cより共通化
-static classとしてMain内部に貼り付ける。
-Point(st,ed)からPoint(st,ed,idx)へ、変数名を変えた。
 
 # Prime
 abc383/dより共通化
