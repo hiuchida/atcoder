@@ -1,93 +1,22 @@
 import java.util.*;
 public class Main {
-	static final boolean DEBUG = true;
-	void solve() {
-		n = nextInt();
-		ln = nextLong();
-		s = next();
-		DEBUG(n + " " + ln + " " + s);
-		ary = nextIntAry(n);
-		Arrays.sort(ary);
-		DEBUG(ary);
-		set = nextIntSet(n);
-		DEBUG(set);
-		for (int i=0; i<n; i++) {
-			for (int j=i+1; j<n; j++) {
-				ans += ary[i];
-			}
-		}
-		int[] sum = new int[n+1];
-		for (int i=0; i<n; i++) {
-			sum[i+1] = sum[i] + ary[i];
-		}
-		DEBUG(sum);
-		System.out.println(ans);
-	}
-	long ans = 0;//Integer.MAX_VALUE;
-	int n;
-	long ln;
-	String s;
-	StringBuilder sb = new StringBuilder();
-	List<String> list = new ArrayList<>();
-	Deque<Integer> que = new ArrayDeque<>();
-	TreeSet<Integer> set = new TreeSet<>();
-	TreeMap<Integer,Integer> map = new TreeMap<>();
-	int[] ary;
-/*
-3 1234 abc
-4 7 3
-5 6 2
-*/
-
-	//---------------------------------------------------------------
-	static Scanner sc;
 	public static void main(String[] args) {
-		sc = new Scanner(System.in);
-		new Main().solve();
-	}
-	static int nextInt() {
-		return sc.nextInt();
-	}
-	static long nextLong() {
-		return sc.nextLong();
-	}
-	static String next() {
-		return sc.next();
-	}
-	static int[] nextIntAry(int n) {
-		int[] ary = new int[n];
-		for (int i=0; i<n; i++) {
-			int a = nextInt();
-			ary[i] = a;
-		}
-		return ary;
-	}
-	static TreeSet<Integer> nextIntSet(int n) {
-		TreeSet<Integer> set = new TreeSet<>();
-		for (int i=0; i<n; i++) {
-			int a = nextInt();
-			set.add(a);
-		}
-		return set;
-	}
-	static void DEBUG(Object x) {
-		if (DEBUG) System.out.println(x);
-	}
-	static void DEBUG(long x) {
-		if (DEBUG) DEBUG(""+x);
-    }
-	static void DEBUG(int[] x) {
-		if (DEBUG) DEBUG(Arrays.toString(x));
-    }
-	static void DEBUG(long[] x) {
-		if (DEBUG) DEBUG(Arrays.toString(x));
-    }
-	static void ok() {
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+		int a = sc.nextInt();
+		int b = sc.nextInt();
+		int c = sc.nextInt();
+		int d = sc.nextInt();
+		String s = sc.next();
+		StringBuilder sb=new StringBuilder();
+		System.out.println();
 		System.out.println("Yes");
-		System.exit(0);
-	}
-	static void ng() {
 		System.out.println("No");
 		System.exit(0);
 	}
 }
+/*
+
+
+
+*/
