@@ -1,14 +1,20 @@
-# Counter
+# Counter\_i
 abc369/cより共通化
 static classとしてMain内部に貼り付ける。
-Map<Integer, Integer> mapを使って、int cの個数を数える。
-dec,subを追加し、カウントが0のときにremoveする。
+Map<Integer, Integer> mapを使って、int kの個数を数える。
+更新時、カウントが0のときにremoveする。
+
+# Counter\_l
+abc233/dより共通化
+static classとしてMain内部に貼り付ける。
+Map<Long, Integer> mapを使って、long kの個数を数える。
+更新時、カウントが0のときにremoveする。
 
 # Counter\_s
 abc231/bより共通化
 static classとしてMain内部に貼り付ける。
-Map<String, Integer> mapを使って、int cの個数を数える。
-dec,subを追加し、カウントが0のときにremoveする。
+Map<String, Integer> mapを使って、String kの個数を数える。
+更新時、カウントが0のときにremoveする。
 
 # Maze
 abc387/dより共通化

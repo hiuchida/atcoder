@@ -24,32 +24,34 @@ public class Main {
 		int size() {
 			return map.size();
 		}
-		int get(String c) {
-			Integer v = map.get(c);
+		int get(String k) {
+			Integer v = map.get(k);
 			if (v == null) v = 0;
 			return v;
 		}
-		void inc(String c) {
-			int v = get(c);
+		void put(String k, int v) {
+			if (v==0) map.remove(k);
+			else map.put(k, v);
+		}
+		void inc(String k) {
+			int v = get(k);
 			v++;
-			map.put(c, v);
+			put(k, v);
 		}
-		void dec(String c) {
-			int v = get(c);
+		void dec(String k) {
+			int v = get(k);
 			v--;
-			if (v==0) map.remove(c);
-			else map.put(c, v);
+			put(k, v);
 		}
-		void add(String c, int x) {
-			int v = get(c);
+		void add(String k, int x) {
+			int v = get(k);
 			v += x;
-			map.put(c, v);
+			put(k, v);
 		}
-		void sub(String c, int x) {
-			int v = get(c);
+		void sub(String k, int x) {
+			int v = get(k);
 			v -= x;
-			if (v==0) map.remove(c);
-			else map.put(c, v);
+			put(k, v);
 		}
 		Set<String> keySet() {
 			return map.keySet();
