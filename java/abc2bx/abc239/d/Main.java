@@ -1,0 +1,52 @@
+import java.util.*;
+public class Main {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int a = sc.nextInt();
+		int b = sc.nextInt();
+		int c = sc.nextInt();
+		int d = sc.nextInt();
+		Prime p=new Prime(200+1);
+		for (int i=a; i<=b; i++) {
+			boolean bAoki=false;
+			for (int j=c; j<=d; j++) {
+				if (p.isp[i+j]) {
+					bAoki=true;
+				}
+			}
+			if (!bAoki) {
+				System.out.println("Takahashi");
+				System.exit(0);
+			}
+		}
+		System.out.println("Aoki");
+	}
+	static class Prime {
+		int n;
+		boolean[] isp;
+		List<Integer> list = new ArrayList<>();
+		Prime(int n) {
+			this.n = n;
+			this.isp = new boolean[n];
+			init();
+		}
+		void init() {
+			isp[0] = false;
+			isp[1] = false;
+			for (int i=2; i<n; i++) isp[i] = true;
+			for (int i=2; i<n; i++) {
+				if (isp[i]) {
+					list.add(i);
+					for (int j=i*2; j<n; j+=i) isp[j] = false;
+				}
+			}
+		}
+	}
+}
+/*
+2 3 3 4
+
+1 100 50 60
+
+3 14 1 5
+*/
