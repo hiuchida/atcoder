@@ -22,7 +22,8 @@ static classとしてMain内部に貼り付ける。
 \[h+2\]\[w+2\]を確保し、壁を-1、通路'.'を0とする。
 'S'は28、'G'は16として、デバッグ出力すると、SGが出力される。
 
-# MyDeque
+# MyDeque\_i
+# MyDeque\_l
 typical90/061より共通化
 static classとしてMain内部に貼り付ける。
 ArrayDeque<Integer>で十分使えるが、get(int idx)がないため、
