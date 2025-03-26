@@ -4,6 +4,11 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		int n = sc.nextInt();
 		int[] ary=new int[n];
+		List<Integer> list=new ArrayList<>();
+		TreeSet<Integer> set=new TreeSet<>();
+		Deque<Integer> que=new ArrayDeque<>();
+		PriorityQueue<Integer> que=new PriorityQueue<>();
+		TreeMap<Integer,Integer> map=new TreeMap<>();
 		for (int i=0; i<n; i++) {
 			ary[i]=sc.nextInt();
 		}
@@ -11,7 +16,9 @@ public class Main {
 		int b = sc.nextInt();
 		int c = sc.nextInt();
 		int d = sc.nextInt();
+		long x = sc.nextLong();
 		String s = sc.next();
+		char[] ary=s.toCharArray();
 		StringBuilder sb=new StringBuilder();
 		Arrays.sort(ary);
 		System.out.println(Arrays.toString(ary));
