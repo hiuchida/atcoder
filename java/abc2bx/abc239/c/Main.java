@@ -1,17 +1,18 @@
 import java.util.*;
 public class Main {
+	//Knight Move
+	static final int[] DY = { 2, 1,-1,-2,-2,-1, 1, 2}; //1,2,4,5,7,8,10,11
+	static final int[] DX = { 1, 2, 2, 1,-1,-2,-2,-1}; //1,2,4,5,7,8,10,11
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		Point p1=new Point(sc.nextInt(), sc.nextInt());
 		Point p2=new Point(sc.nextInt(), sc.nextInt());
 		TreeSet<Point> set=new TreeSet<>();
-		int[] dx={1,2,2,1,-1,-2,-2,-1};
-		int[] dy={2,1,-1,-2,-2,-1,1,2};
-		for (int d=0; d<dx.length; d++) {
-			set.add(new Point(p1.x+dx[d], p1.y+dy[d]));
+		for (int d=0; d<DX.length; d++) {
+			set.add(new Point(p1.x+DX[d], p1.y+DY[d]));
 		}
-		for (int d=0; d<dx.length; d++) {
-			if (set.contains(new Point(p2.x+dx[d], p2.y+dy[d]))) {
+		for (int d=0; d<DX.length; d++) {
+			if (set.contains(new Point(p2.x+DX[d], p2.y+DY[d]))) {
 				System.out.println("Yes");
 				System.exit(0);
 			}

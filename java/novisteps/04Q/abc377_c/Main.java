@@ -1,19 +1,20 @@
 import java.util.*;
 public class Main {
+	//Knight Move
+	static final int[] DY = { 2, 1,-1,-2,-2,-1, 1, 2}; //1,2,4,5,7,8,10,11
+	static final int[] DX = { 1, 2, 2, 1,-1,-2,-2,-1}; //1,2,4,5,7,8,10,11
 	static int n;
 	static Set<Point> set = new TreeSet<>();
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		n = sc.nextInt();
 		int m = sc.nextInt();
-		int[] dy = { 2, 1,-1,-2,-2,-1, 1, 2 };
-		int[] dx = { 1, 2, 2, 1,-1,-2,-2,-1 };
 		for (int i = 0; i < m; i++) {
 			int a = sc.nextInt();
 			int b = sc.nextInt();
 			add(a, b);
-			for (int d=0; d<dy.length; d++) {
-				add(a+dy[d], b+dx[d]);
+			for (int d=0; d<DY.length; d++) {
+				add(a+DY[d], b+DX[d]);
 			}
 		}
 		long ans = (long)n * n - set.size();
