@@ -10,13 +10,12 @@ public class Main {
 			int v = sc.nextInt();
 			uf.merge(u, v);
 		}
-		TreeSet<Integer> set=new TreeSet<>();
+		int grp=0;
 		for (int i=1; i<=n; i++) {
-			int root=uf.root(i);
-			set.add(root);
+			if (i==uf.root(i)) grp++;
 		}
-//		System.out.println(set.size());
-		int ans=m-(n-set.size());
+//		System.out.println(grp);
+		int ans=m-(n-grp);
 		System.out.println(ans);
 	}
 	static class UnionFind {
