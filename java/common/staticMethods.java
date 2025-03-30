@@ -32,10 +32,15 @@
 		return sb.toString();
 	}
 	static long gcd(long a, long b) {
-		if (a < b) {
-			if (a == 0) return b;
-			else return gcd(a, b % a);
+		if (b<a) {
+			long t=a;
+			a=b;
+			b=t;
 		}
-		if (b == 0) return a;
-		else return gcd(b, a % b);
+		while (a>0) {
+			long t=b%a;
+			b=a;
+			a=t;
+		}
+		return b;
 	}
