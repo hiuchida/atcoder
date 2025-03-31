@@ -6,6 +6,9 @@
 	static final int[] DY = { 1, 0,-1, 0 }; //N,E,S,W
 	static final int[] DX = { 0, 1, 0,-1 }; //N,E,S,W
 	
+	static final int[] DY = { -1, 1, 0, 0, -1,-1, 1, 1, }; //U,D,L,R, UL,UR,DL,DR
+	static final int[] DX = {  0, 0,-1, 1, -1, 1,-1, 1, }; //U,D,L,R, UL,UR,DL,DR
+
 	//Knight Move
 	static final int[] DY = { 2, 1,-1,-2,-2,-1, 1, 2}; //1,2,4,5,7,8,10,11
 	static final int[] DX = { 1, 2, 2, 1,-1,-2,-2,-1}; //1,2,4,5,7,8,10,11

@@ -3,6 +3,8 @@ public class Main {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int n = sc.nextInt();
+		int m = sc.nextInt();
+		int k = sc.nextInt();
 		int[] ary=new int[n];
 		List<Integer> list=new ArrayList<>();
 		TreeSet<Integer> set=new TreeSet<>();
