@@ -12,6 +12,8 @@
 				@Override
 				public int compare(Point o1, Point o2) {
 					int cmp = Integer.compare(o1.st, o2.st);
+					if (cmp != 0) return -cmp;
+					cmp = Integer.compare(o1.idx, o2.idx);
 					return cmp;
 				}
 			};
@@ -21,6 +23,8 @@
 				@Override
 				public int compare(Point o1, Point o2) {
 					int cmp = Integer.compare(o1.ed, o2.ed);
+					if (cmp != 0) return -cmp;
+					cmp = Integer.compare(o1.idx, o2.idx);
 					return cmp;
 				}
 			};
@@ -29,7 +33,9 @@
 			return new Comparator<Point>() {
 				@Override
 				public int compare(Point o1, Point o2) {
-					int cmp = Integer.compare(o1.idx, o2.idx);
+					int cmp = Integer.compare(o1.st+o1.ed, o2.st+o2.ed);
+					if (cmp != 0) return -cmp;
+					cmp = Integer.compare(o1.idx, o2.idx);
 					return cmp;
 				}
 			};

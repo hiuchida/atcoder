@@ -8,7 +8,11 @@
 	
 	static final int[] DY = { -1, 1, 0, 0, -1,-1, 1, 1, }; //U,D,L,R, UL,UR,DL,DR
 	static final int[] DX = {  0, 0,-1, 1, -1, 1,-1, 1, }; //U,D,L,R, UL,UR,DL,DR
-
+	
+	//Hex Move
+	static final int[] DY = { -1,-1, 0, 0, 1, 1, }; //DL,DR,L,R,UL,UR
+	static final int[] DX = { -1, 0,-1, 1, 0, 1, }; //DL,DR,L,R,UL,UR
+	
 	//Knight Move
 	static final int[] DY = { 2, 1,-1,-2,-2,-1, 1, 2}; //1,2,4,5,7,8,10,11
 	static final int[] DX = { 1, 2, 2, 1,-1,-2,-2,-1}; //1,2,4,5,7,8,10,11

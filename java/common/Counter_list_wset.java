@@ -1,4 +1,5 @@
 	static class Counter {
+		TreeSet<Integer> set = new TreeSet<>();
 		Map<Integer, List<Integer>> map = new TreeMap<>();
 		int size() {
 			return map.size();
@@ -9,6 +10,7 @@
 			return v;
 		}
 		void put(int k, List<Integer> v) {
+			set.add(k);
 			map.put(k, v);
 		}
 		void add(int k, int idx) {
@@ -17,6 +19,7 @@
 			put(k, v);
 		}
 		void remove(int k) {
+			set.remove(k);
 			map.remove(k);
 		}
 		Set<Integer> keySet() {
