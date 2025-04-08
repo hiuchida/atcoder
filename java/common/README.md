@@ -92,3 +92,9 @@ static classとしてMain内部に貼り付ける。
 UnionFindに左端と右端を持たせる。
 mergeは連続していることを前提に使う。
 本来、low/highやfloor/ceilingかもしれない。
+
+# UnionFind\_map
+abc277/dより共通化
+static classとしてMain内部に貼り付ける。
+int[] uf;の代わりにMap<Integer, Integer> map=new TreeMap<>();で管理する。
+
