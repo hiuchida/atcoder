@@ -14,7 +14,7 @@ public class Main {
 		}
 		System.out.println(ans);
 	}
-	static int calc(int n) {
+	static int calc(int n) { //abc081_b: nを2で割り切れる回数
 		int ans=0;
 		while (n%2==0) {
 			ans++;

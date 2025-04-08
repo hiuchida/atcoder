@@ -17,6 +17,19 @@
 	static final int[] DY = { 2, 1,-1,-2,-2,-1, 1, 2}; //1,2,4,5,7,8,10,11
 	static final int[] DX = { 1, 2, 2, 1,-1,-2,-2,-1}; //1,2,4,5,7,8,10,11
 	
+	static final int[] DY = {
+			-1,-1, 1, 1, //UL,UR,DL,DR
+			-2,-2,-2, 2, 2, 2, //2U,2UL,2UR,2D,2DL,2DR
+			 0,-1, 1, 0,-1, 1, //2L,2LU,2LD,2R,2RU,2RD
+			-3, 3, 0, 0, //3U,3D,3L,3R
+			};
+	static final int[] DX = {
+			-1, 1,-1, 1, //UL,UR,DL,DR
+			 0,-1, 1, 0,-1, 1, //2U,2UL,2UR,2D,2DL,2DR
+			-2,-2,-2, 2, 2, 2,  //2L,2LU,2LD,2R,2RU,2RD
+			 0, 0,-3, 3, //3U,3D,3L,3R
+			};
+	
 	static TreeSet<Integer> set = new TreeSet<>();
 	static TreeMap<Integer,Integer> map=new TreeMap<>();
 	static TreeMap<Long,Integer> map=new TreeMap<>();

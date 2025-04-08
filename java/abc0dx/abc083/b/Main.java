@@ -3,9 +3,14 @@ public class Main {
 	public static void main(String[] args) {
 		Scanner sc=new Scanner(System.in);
 		int n=sc.nextInt();
-		int m=calc(n);
-		if (n%m==0) System.out.println("Yes");
-		else System.out.println("No");
+		int a=sc.nextInt();
+		int b=sc.nextInt();
+		long ans=0;
+		for (int i=1; i<=n; i++) {
+			int x=calc(i);
+			if (a<=x && x<=b) ans+=i;
+		}
+		System.out.println(ans);
 	}
 	static int calc(int n) { //abc083_b,abc101_b: n を十進法で表したときの各桁の和
 		int ans=0;
@@ -17,9 +22,9 @@ public class Main {
 	}
 }
 /*
-12
+20 2 5
 
-101
+10 1 2
 
-999999999
+100 4 16
 */

@@ -49,3 +49,21 @@
 		double dy=p1.y-p2.y;
 		return Math.sqrt(dx*dx+dy*dy);
 	}
+	//abc081_b: nを2で割り切れる回数
+	static int calc(int n) {
+		int ans=0;
+		while (n%2==0) {
+			ans++;
+			n/=2;
+		}
+		return ans;
+	}
+	//abc083_b,abc101_b: n を十進法で表したときの各桁の和
+	static int calc(int n) {
+		int ans=0;
+		while (n>0) {
+			ans+=n%10;
+			n/=10;
+		}
+		return ans;
+	}
