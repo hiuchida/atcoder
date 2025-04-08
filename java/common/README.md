@@ -27,6 +27,9 @@ abc387/dより共通化
 static classとしてMain内部に貼り付ける。
 \[h+2\]\[w+2\]を確保し、壁を-1、通路'.'を0とする。
 'S'は28、'G'は16として、デバッグ出力すると、SGが出力される。
+## Maze250408
+abc075/bより共通化
+checkrange()、check()追加
 
 # MyDeque\_i
 # MyDeque\_l

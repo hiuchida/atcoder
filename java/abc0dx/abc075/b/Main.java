@@ -1,8 +1,10 @@
 import java.util.*;
 public class Main {
 	static final boolean DEBUG = true;
+	static final int[] DY = { -1, 1, 0, 0, -1,-1, 1, 1, }; //U,D,L,R, UL,UR,DL,DR
+	static final int[] DX = {  0, 0,-1, 1, -1, 1,-1, 1, }; //U,D,L,R, UL,UR,DL,DR
 	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
+		Scanner sc=new Scanner(System.in);
 		int h = sc.nextInt();
 		int w = sc.nextInt();
 		sc.nextLine();
@@ -10,7 +12,30 @@ public class Main {
 		mz = new Maze(h, w);
 		mz.initmap();
 		mz.loadmap(sc);
-		mz.printmap();
+//		mz.printmap();
+		for (int y=1; y<=h; y++) {
+			for (int x=1; x<=w; x++) {
+				if (mz.map[y][x]<0) continue;
+				int cnt=0;
+				for (int d=0; d<DY.length; d++) {
+					int yy=y+DY[d];
+					int xx=x+DX[d];
+					if (mz.checkrange(yy, xx)) {
+						if (mz.map[yy][xx]<0) cnt++;
+					}
+				}
+				mz.map[y][x]=cnt;
+			}
+		}
+//		mz.printmap();
+		for (int y=1; y<=h; y++) {
+			for (int x=1; x<=w; x++) {
+				int v=mz.map[y][x];
+				if (v<0) System.out.print('#');
+				else System.out.print(v);
+			}
+			System.out.println();
+		}
 	}
 	static class Maze { //Maze250408
 		int h;
@@ -35,10 +60,6 @@ public class Main {
 					char ch = s.charAt(x - 1);
 					if (ch == '.') {
 						map[y][x] = 0;
-					} else if (ch == 'S') {
-						map[y][x] = 28;
-					} else if (ch == 'G') {
-						map[y][x] = 16;
 					}
 				}
 			}
@@ -80,13 +101,21 @@ public class Main {
 	}
 }
 /*
-8 63
-...............................................................
-..S...#............................#####..#####..#####..####G..
-..#...#................................#..#...#......#..#......
-..#####..####...####..####..#..#...#####..#...#..#####..#####..
-..#...#..#..#...#..#..#..#..#..#...#......#...#..#..........#..
-..#...#..#####..####..####..####...#####..#####..#####..#####..
-................#.....#........#...............................
-................#.....#........#...............................
+3 5
+.....
+.#.#.
+.....
+
+3 5
+#####
+#####
+#####
+
+6 6
+#####.
+#.#.##
+####.#
+.#..#.
+#.##..
+#.#...
 */
