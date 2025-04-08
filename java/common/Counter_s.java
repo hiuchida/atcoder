@@ -1,4 +1,4 @@
-	static class Counter {
+	static class Counter { //Counter_s
 		Map<String, Integer> map = new TreeMap<>();
 		int size() {
 			return map.size();
