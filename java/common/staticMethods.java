@@ -67,3 +67,15 @@
 		}
 		return ans;
 	}
+	//abc279_c: ary[h][w]を縦横変換して、ans[w][h]を返す
+	static String[] convert(int h, int w, String[] ary) {
+		String[] ans=new String[w];
+		for (int x=0; x<w; x++) {
+			StringBuilder sb=new StringBuilder();
+			for (int y=0; y<h; y++) {
+				sb.append(ary[y].charAt(x));
+			}
+			ans[x]=sb.toString();
+		}
+		return ans;
+	}
