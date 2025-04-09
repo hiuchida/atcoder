@@ -1,4 +1,5 @@
 	static final long M=998244353;
+	static final long M=1000000007;
 
 	static final int[] DY = { -1, 1, 0, 0 }; //U,D,L,R
 	static final int[] DX = {  0, 0,-1, 1 }; //U,D,L,R

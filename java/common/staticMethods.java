@@ -49,6 +49,20 @@
 		double dy=p1.y-p2.y;
 		return Math.sqrt(dx*dx+dy*dy);
 	}
+	//abc048_b: a以上の最小のbの倍数
+	static long ceil(long a, long b) {
+		if (a < 0) {
+			return -1 * floor(-a, b);
+		}
+		return ((a + b - 1) / b) * b;
+	}
+	//abc048_b: a以下の最大のbの倍数
+	static long floor(long a, long b) {
+		if (a < 0) {
+			return -1 * ceil(-a, b);
+		}
+		return (a / b) * b;
+	}
 	//abc081_b: nを2で割り切れる回数
 	static int calc(int n) {
 		int ans=0;
