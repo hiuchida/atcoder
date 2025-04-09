@@ -1,8 +1,20 @@
+# Bean\_long
+abc278/dより共通化
+static classとしてMain内部に貼り付ける。
+MapのValueに入れることを前提にする。
+Map<Integer, Integer>ではValueを更新する度にラッパークラスを作り直すが、
+Map<Integer, Bean>ならばBeanの中を更新できる。
+
 # Counter\_i
 abc369/cより共通化
 static classとしてMain内部に貼り付ける。
 Map<Integer, Integer> mapを使って、int kの個数を数える。
 更新時、カウントが0のときにremoveする。
+
+# Counter_int_setint
+abc278/cより共通化
+static classとしてMain内部に貼り付ける。
+Map<Integer, TreeSet<Integer>> mapを使って、int kに関連したint idxを管理する。
 
 # Counter\_l
 abc233/dより共通化
