@@ -34,6 +34,10 @@ static classとしてMain内部に貼り付ける。
 Map<String, Integer> mapを使って、String kの個数を数える。
 更新時、カウントが0のときにremoveする。
 
+# Label
+abc128/bより共通化
+static classとしてMain内部に貼り付ける。
+
 # Maze
 abc387/dより共通化
 static classとしてMain内部に貼り付ける。
