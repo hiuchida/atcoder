@@ -1,3 +1,10 @@
+# Bean\_int
+abc168/dより共通化
+static classとしてMain内部に貼り付ける。
+MapのValueに入れることを前提にする。
+Map<Integer, Integer>ではValueを更新する度にラッパークラスを作り直すが、
+Map<Integer, Bean>ならばBeanの中を更新できる。
+
 # Bean\_long
 abc278/dより共通化
 static classとしてMain内部に貼り付ける。
