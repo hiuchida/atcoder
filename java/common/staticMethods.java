@@ -9,11 +9,16 @@
 		if (DEBUG) DEBUG(Arrays.toString(x));
     }
 	static final long M=998244353;
+	//abc065_c: valをMで割った余り
 	static long mod(long val) {
 		return val%M;
 	}
 	static long modadd(long val, long x) {
 		return mod(val+x);
+	}
+	//abc065_c: val*xをMで割った余り
+	static long modmul(long val, long x) {
+		return mod(val*x);
 	}
 	static void ok() {
 		System.out.println("Yes");
@@ -63,6 +68,15 @@
 		}
 		return (a / b) * b;
 	}
+	//abc057_c: nの桁数
+	static int calc(long n) {
+		int ans=0;
+		while (n>0) {
+			ans++;
+			n/=10;
+		}
+		return ans;
+	}
 	//abc081_b: nを2で割り切れる回数
 	static int calc(int n) {
 		int ans=0;
@@ -92,4 +106,14 @@
 			ans[x]=sb.toString();
 		}
 		return ans;
+	}
+	//abc281_b: 半角数字の判定
+	static boolean checkDigit(char ch) {
+		if ('0'<=ch && ch<='9') return true;
+		return false;
+	}
+	//abc281_b: 半角英大文字の判定
+	static boolean checkUpper(char ch) {
+		if ('A'<=ch && ch<='Z') return true;
+		return false;
 	}
