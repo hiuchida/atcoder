@@ -90,6 +90,28 @@
 		}
 		return ans;
 	}
+	//abc220_b: k進表現のxを十進数に変換する
+	static long calc(int k, long x) {
+		long ans=0;
+		long w=1;
+		while (x>0) {
+			long v=x%10;
+			ans+=v*w;
+			w*=k;
+			x/=10;
+		}
+		return ans;
+	}
+	//abc220_b: k進表現のsを十進数に変換する
+	static long calc(int k, String s) {
+		long ans=0;
+		for (int i=0; i<s.length(); i++) {
+			long v=s.charAt(i)-'0';
+			ans*=k;
+			ans+=v;
+		}
+		return ans;
+	}
 	//abc279_c: ary[h][w]を縦横変換して、ans[w][h]を返す
 	static String[] convert(int h, int w, String[] ary) {
 		String[] ans=new String[w];

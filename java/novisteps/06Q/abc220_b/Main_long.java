@@ -3,20 +3,21 @@ public class Main {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int k = sc.nextInt();
-		String a = sc.next();
-		String b = sc.next();
+		long a = sc.nextLong();
+		long b = sc.nextLong();
 		long aa=calc(k, a);
 		long bb=calc(k, b);
 		long ans = aa*bb;
 		System.out.println(ans);
 	}
-	static long calc(int k, String x) {
+	static long calc(int k, long x) { //abc220_b: k進表現のxを十進数に変換する
 		long ans=0;
-		for (int i=0; i<x.length(); i++) {
-			char ch=x.charAt(i);
-			ans*=k;
-			long v=(ch-'0');
-			ans+=v;
+		long w=1;
+		while (x>0) {
+			long v=x%10;
+			ans+=v*w;
+			w*=k;
+			x/=10;
 		}
 		return ans;
 	}

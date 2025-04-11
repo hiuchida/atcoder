@@ -10,7 +10,7 @@ public class Main {
 		int ans = aa*bb;
 		System.out.println(ans);
 	}
-	static int calc(int k, int x) {
+	static int calc(int k, int x) { //abc220_b: k進表現のxを十進数に変換する
 		int ans=0;
 		int w=1;
 		while (x>0) {
