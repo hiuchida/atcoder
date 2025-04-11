@@ -22,10 +22,10 @@ public class Main {
 			ng();
 		}
 	}
-	static long calc(int x1, int y1, int x2, int y2) {
-		long x = (x1-x2);
-		long y = (y1-y2);
-		return x*x+y*y;
+	static long calc(int x1, int y1, int x2, int y2) { //abc362_b: x1,y1からx2,y2までのユークリッド距離の2乗
+		long dx=x1-x2;
+		long dy=y1-y2;
+		return dx*dx+dy*dy;
 	}
 	static void ok() {
 		System.out.println("Yes");

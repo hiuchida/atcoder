@@ -29,8 +29,10 @@ public class Main {
 			System.out.println(ans);
 		}
 	}
-	static int calc(int x1, int y1, int x2, int y2) {
-		return Math.abs(x1-x2)+Math.abs(y1-y2);
+	static int calc(int x1, int y1, int x2, int y2) { //abc057_b: x1,y1からx2,y2までのマンハッタン距離
+		int dx=x1-x2;
+		int dy=y1-y2;
+		return Math.abs(dx)+Math.abs(dy);
 	}
 }
 /*

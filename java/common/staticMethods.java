@@ -49,11 +49,6 @@
 		}
 		return b;
 	}
-	static double calc(Point p1, Point p2) {
-		double dx=p1.x-p2.x;
-		double dy=p1.y-p2.y;
-		return Math.sqrt(dx*dx+dy*dy);
-	}
 	//abc048_b: a以上の最小のbの倍数
 	static long ceil(long a, long b) {
 		if (a < 0) {
@@ -116,4 +111,34 @@
 	static boolean checkUpper(char ch) {
 		if ('A'<=ch && ch<='Z') return true;
 		return false;
+	}
+	//abc234_b,abc255_b,abc374_d: p1からp2までのユークリッド距離
+	static double calc(Point p1, Point p2) {
+		long dx=p1.x-p2.x;
+		long dy=p1.y-p2.y;
+		return Math.sqrt(dx*dx+dy*dy);
+	}
+	//abc275_c,abc348_b: p1からp2までのユークリッド距離の2乗
+	static long calc(Point p1, Point p2) {
+		long dx=p1.x-p2.x;
+		long dy=p1.y-p2.y;
+		return dx*dx+dy*dy;
+	}
+	//abc362_b: x1,y1からx2,y2までのユークリッド距離の2乗
+	static long calc(int x1, int y1, int x2, int y2) {
+		long dx=x1-x2;
+		long dy=y1-y2;
+		return dx*dx+dy*dy;
+	}
+	//abc375_b: x1,y1からx2,y2までのユークリッド距離
+	static double calc(long x1, long y1, long x2, long y2) {
+		long dx=x1-x2;
+		long dy=y1-y2;
+		return Math.sqrt(dx*dx+dy*dy);
+	}
+	//abc057_b: x1,y1からx2,y2までのマンハッタン距離
+	static int calc(int x1, int y1, int x2, int y2) {
+		int dx=x1-x2;
+		int dy=y1-y2;
+		return Math.abs(dx)+Math.abs(dy);
 	}

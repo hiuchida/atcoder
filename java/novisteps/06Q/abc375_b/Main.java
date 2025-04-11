@@ -16,7 +16,7 @@ public class Main {
 		ans += calc(x, y, 0, 0);
 		System.out.println(ans);
 	}
-	static double calc(long x1, long y1, long x2, long y2) {
+	static double calc(long x1, long y1, long x2, long y2) { //abc375_b: x1,y1からx2,y2までのユークリッド距離
 		long dx=x1-x2;
 		long dy=y1-y2;
 		return Math.sqrt(dx*dx+dy*dy);
