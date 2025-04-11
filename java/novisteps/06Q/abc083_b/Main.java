@@ -12,7 +12,7 @@ public class Main {
 		}
 		System.out.println(ans);
 	}
-	static int calc(int n) { //abc083_b,abc101_b: n を十進法で表したときの各桁の和
+	static int calc(int n) { //abc080_b,abc083_b,abc101_b: n を十進法で表したときの各桁の和
 		int ans=0;
 		while (n>0) {
 			ans+=n%10;
