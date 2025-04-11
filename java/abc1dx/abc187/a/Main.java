@@ -2,14 +2,11 @@ import java.util.*;
 public class Main {
 	public static void main(String[] args) {
 		Scanner sc=new Scanner(System.in);
-		int n=sc.nextInt();
 		int a=sc.nextInt();
 		int b=sc.nextInt();
-		long ans=0;
-		for (int i=1; i<=n; i++) {
-			int x=calc(i);
-			if (a<=x && x<=b) ans+=i;
-		}
+		int sa=calc(a);
+		int sb=calc(b);
+		int ans=Math.max(sa, sb);
 		System.out.println(ans);
 	}
 	static int calc(int n) { //abc080_b,abc083_b,abc101_b,abc187_a: nを十進法で表したときの各桁の和
@@ -22,9 +19,9 @@ public class Main {
 	}
 }
 /*
-20 2 5
+123 234
 
-10 1 2
+593 953
 
-100 4 16
+100 999
 */
