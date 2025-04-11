@@ -8,9 +8,9 @@ public class Main {
 	static double calcmove(Point fm, Point to) {
 		return calc(fm, to) / s;
 	}
-	static double calc(Point fm, Point to) {
-		double dx = fm.x - to.x;
-		double dy = fm.y - to.y;
+	static double calc(Point p1, Point p2) { //abc234_b,abc255_b,abc374_d: p1からp2までのユークリッド距離
+		long dx=p1.x-p2.x;
+		long dy=p1.y-p2.y;
 		return Math.sqrt(dx*dx+dy*dy);
 	}
 	static class MyStack<T> {

@@ -54,7 +54,7 @@ public class Main {
 //		System.out.println(Arrays.toString(dd));
 		return 1;
 	}
-	static long calc(Point p1, Point p2) {
+	static long calc(Point p1, Point p2) { //abc275_c,abc348_b: p1からp2までのユークリッド距離の2乗
 		long dx=p1.x-p2.x;
 		long dy=p1.y-p2.y;
 		return dx*dx+dy*dy;

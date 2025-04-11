@@ -27,7 +27,7 @@ public class Main {
 		}
 		System.out.println(ans);
 	}
-	static double calc(Point p1, Point p2) {
+	static double calc(Point p1, Point p2) { //abc234_b,abc255_b,abc374_d: p1からp2までのユークリッド距離
 		long dx=p1.x-p2.x;
 		long dy=p1.y-p2.y;
 		return Math.sqrt(dx*dx+dy*dy);
