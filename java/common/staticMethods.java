@@ -49,6 +49,12 @@
 		}
 		return b;
 	}
+	//abc181_b: 初項a、末項bの等差数列の和
+	static long calc(int a, int b) {
+		long n=b-a+1;
+		long ans=n*(a+b)/2;
+		return ans;
+	}
 	//abc048_b: a以上の最小のbの倍数
 	static long ceil(long a, long b) {
 		if (a < 0) {
@@ -163,4 +169,16 @@
 		int dx=x1-x2;
 		int dy=y1-y2;
 		return Math.abs(dx)+Math.abs(dy);
+	}
+	//abc180_b: x1,y1からx2,y2までのマンハッタン距離
+	static long calc1(long x1, long y1, long x2, long y2) {
+		long dx=x1-x2;
+		long dy=y1-y2;
+		return Math.abs(dx)+Math.abs(dy);
+	}
+	//abc180_b: x1,y1からx2,y2までのチェビシェフ距離
+	static long calc(long x1, long y1, long x2, long y2) {
+		long dx=x1-x2;
+		long dy=y1-y2;
+		return Math.max(Math.abs(dx), Math.abs(dy));
 	}
