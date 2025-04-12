@@ -18,11 +18,11 @@ public class Main {
 		if (!checkUpper(ch)) ng();
 		System.out.println("Yes");
 	}
-	static boolean checkDigit(char ch) {
+	static boolean checkDigit(char ch) { //abc281_b: 半角数字の判定
 		if ('0'<=ch && ch<='9') return true;
 		return false;
 	}
-	static boolean checkUpper(char ch) {
+	static boolean checkUpper(char ch) { //abc192_b,abc281_b: 半角英大文字の判定
 		if ('A'<=ch && ch<='Z') return true;
 		return false;
 	}

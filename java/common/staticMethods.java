@@ -143,9 +143,14 @@
 		if ('0'<=ch && ch<='9') return true;
 		return false;
 	}
-	//abc281_b: 半角英大文字の判定
+	//abc192_b,abc281_b: 半角英大文字の判定
 	static boolean checkUpper(char ch) {
 		if ('A'<=ch && ch<='Z') return true;
+		return false;
+	}
+	//abc192_b: 半角英小文字の判定
+	static boolean checkLower(char ch) {
+		if ('a'<=ch && ch<='z') return true;
 		return false;
 	}
 	//abc234_b,abc255_b,abc374_d: p1からp2までのユークリッド距離
