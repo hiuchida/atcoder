@@ -28,6 +28,14 @@
 		System.out.println("No");
 		System.exit(0);
 	}
+	//abc082_b,abc192_c: 指定された配列の要素の順序を逆にします。see Collections.reverse()
+	static void reverse(char[] ary) {
+		for (int i=0, mid=ary.length/2, j=ary.length-1; i<mid; i++, j--) {
+			char tmp=ary[i];
+			ary[i]=ary[j];
+			ary[j]=tmp;
+		}
+	}
 	static String join(String delimiter, int[] ary) {
 		StringBuilder sb = new StringBuilder();
 		for (int i=0; i<ary.length; i++) {
