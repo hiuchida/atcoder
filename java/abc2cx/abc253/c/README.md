@@ -14,3 +14,7 @@ Countの中にMap<Integer, Integer> mapとTreeSet<Integer> setの両方を持た
 put()の中で同時に更新する。
 cmd==3のときに、cnt.setから直接set.first()とset.last()を呼び出す。
 
+# Main\_fix
+Counter_int_int20250413を適用
+TreeSet<Integer> set=cnt.set　を　NavigableSet<Integer> set=cnt.keySet()　に変更。
+
