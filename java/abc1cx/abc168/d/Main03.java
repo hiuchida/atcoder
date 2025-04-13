@@ -58,7 +58,7 @@ public class Main {
 			return "(" + c + "," + p + "," + s + ")";
 		}
 	}
-	static class Counter { //Counter_list20250410
+	static class Counter { //Counter_int_listint20250410
 		Map<Integer, List<Integer>> map = new TreeMap<>();
 		int size() {
 			return map.size();

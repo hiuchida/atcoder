@@ -21,6 +21,13 @@ static classとしてMain内部に貼り付ける。
 Map<Integer, Integer> mapを使って、int kの個数を数える。
 更新時、カウントが0のときにremoveする。
 
+# Counter\_int\_listint
+abc248/dより共通化
+abc168/d,abc223/d,abc248/d,abc270/c,abc276/b,abc277/c,abc282/c,abc399/c
+static classとしてMain内部に貼り付ける。
+Map<Integer, List<Integer>> mapを使って、int kのint idxをリストに追加する。
+リストは追加のみで削除できないため、mapの要素もremoveされない。
+
 # Counter_int_setint
 abc278/cより共通化
 static classとしてMain内部に貼り付ける。
@@ -31,12 +38,6 @@ abc233/dより共通化
 static classとしてMain内部に貼り付ける。
 Map<Long, Integer> mapを使って、long kの個数を数える。
 更新時、カウントが0のときにremoveする。
-
-# Counter\_list
-abc248/dより共通化
-static classとしてMain内部に貼り付ける。
-Map<Integer, List<Integer>> mapを使って、int kのint idxをリストに追加する。
-リストは追加のみで削除できないため、mapの要素もremoveされない。
 
 # Counter\_s
 abc231/bより共通化

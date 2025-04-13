@@ -29,7 +29,7 @@ public class Main {
 		if (x<0) x=~x;
 		return x;
 	}
-	static class Counter {
+	static class Counter { //Counter_int_listint20250410
 		Map<Integer, List<Integer>> map = new TreeMap<>();
 		int size() {
 			return map.size();
@@ -41,6 +41,9 @@ public class Main {
 		}
 		void put(int k, List<Integer> v) {
 			map.put(k, v);
+		}
+		void remove(int k) {
+			map.remove(k);
 		}
 		void add(int k, int idx) {
 			List<Integer> v = get(k);

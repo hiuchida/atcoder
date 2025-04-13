@@ -27,7 +27,7 @@ public class Main {
 		}
 		System.out.println(ans);
 	}
-	static class Counter {
+	static class Counter { //Counter_int_listint20250410
 		Map<Integer, List<Integer>> map = new TreeMap<>();
 		int size() {
 			return map.size();
@@ -40,13 +40,13 @@ public class Main {
 		void put(int k, List<Integer> v) {
 			map.put(k, v);
 		}
+		void remove(int k) {
+			map.remove(k);
+		}
 		void add(int k, int idx) {
 			List<Integer> v = get(k);
 			v.add(idx);
 			put(k, v);
-		}
-		void remove(int k) {
-			map.remove(k);
 		}
 		Set<Integer> keySet() {
 			return map.keySet();
