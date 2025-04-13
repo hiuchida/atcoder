@@ -1,4 +1,4 @@
-	static class Counter { //Counter_list20250410
+	static class Counter { //Counter_int_listint20250413
 		Map<Integer, List<Integer>> map = new TreeMap<>();
 		int size() {
 			return map.size();
@@ -19,8 +19,8 @@
 			v.add(idx);
 			put(k, v);
 		}
-		Set<Integer> keySet() {
-			return map.keySet();
+		NavigableSet<Integer> keySet() {
+			return (NavigableSet<Integer>) map.keySet();
 		}
 		@Override
 		public String toString() {

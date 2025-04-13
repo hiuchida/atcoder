@@ -24,6 +24,7 @@ Map<Integer, Integer> mapを使って、int kの個数を数える。
 # Counter\_int\_listint
 abc248/dより共通化
 abc168/d,abc223/d,abc248/d,abc270/c,abc276/b,abc277/c,abc282/c,abc399/c
+abc260/d: NavigableSet<Integer> keySet()使用
 static classとしてMain内部に貼り付ける。
 Map<Integer, List<Integer>> mapを使って、int kのint idxをリストに追加する。
 リストは追加のみで削除できないため、mapの要素もremoveされない。
