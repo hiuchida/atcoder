@@ -15,6 +15,7 @@ Map<Integer, Bean>ならばBeanの中を更新できる。
 # Counter\_int\_int
 abc082/cより共通化
 abc369/cより共通化
+abc210/c,abc241/b,abc360/c,abc397/c: dec()使用
 static classとしてMain内部に貼り付ける。
 Map<Integer, Integer> mapを使って、int kの個数を数える。
 更新時、カウントが0のときにremoveする。

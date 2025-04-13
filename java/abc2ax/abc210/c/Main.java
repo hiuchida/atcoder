@@ -1,22 +1,25 @@
 import java.util.*;
 public class Main {
 	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-		int n = sc.nextInt();
+		Scanner sc=new Scanner(System.in);
+		int n=sc.nextInt();
+		int k=sc.nextInt();
 		int[] ary=new int[n];
-		Counter c1=new Counter();
 		for (int i=0; i<n; i++) {
-			int a = sc.nextInt();
-			ary[i]=a;
-			c1.inc(a);
+			ary[i]=sc.nextInt();
 		}
-		Counter c2=new Counter();
-		int ans=0;
-		for (int i=0; i<n; i++) {
-			int a=ary[i];
-			c2.inc(a);
-			c1.dec(a);
-			ans=Math.max(ans, c1.size()+c2.size());
+		Counter cnt=new Counter();
+		for (int i=0; i<k; i++) {
+			cnt.inc(ary[i]);
+		}
+//		System.out.println(cnt);
+		long ans=0;
+		ans=Math.max(ans, cnt.size());
+		for (int i=k; i<n; i++) {
+			cnt.dec(ary[i-k]);
+			cnt.inc(ary[i]);
+//			System.out.println(i+" "+cnt+" "+cnt.size());
+			ans=Math.max(ans, cnt.size());
 		}
 		System.out.println(ans);
 	}
@@ -64,9 +67,12 @@ public class Main {
 	}
 }
 /*
-5
-3 1 4 1 5
+7 3
+1 2 1 2 3 3 1
 
-10
-2 5 6 5 2 1 7 9 7 2
+5 5
+4 4 4 4 4
+
+10 6
+304621362 506696497 304621362 506696497 834022578 304621362 414720753 304621362 304621362 414720753
 */

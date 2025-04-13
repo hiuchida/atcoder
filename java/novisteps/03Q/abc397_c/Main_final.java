@@ -20,7 +20,7 @@ public class Main {
 		}
 		System.out.println(ans);
 	}
-	static class Counter {
+	static class Counter { //Counter_int_int20250410
 		Map<Integer, Integer> map = new TreeMap<>();
 		int size() {
 			return map.size();
