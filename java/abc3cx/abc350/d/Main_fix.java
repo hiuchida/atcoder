@@ -36,37 +36,39 @@ public class Main {
 		}
 		System.out.println(ans);
 	}
-	static class Counter {
+	static class Counter { //Counter_int_int20250410
 		Map<Integer, Integer> map = new TreeMap<>();
 		int size() {
 			return map.size();
 		}
-		int get(int c) {
-			Integer v = map.get(c);
+		int get(int k) {
+			Integer v = map.get(k);
 			if (v == null) v = 0;
 			return v;
 		}
-		void inc(int c) {
-			int v = get(c);
+		void put(int k, int v) {
+			if (v==0) map.remove(k);
+			else map.put(k, v);
+		}
+		void inc(int k) {
+			int v = get(k);
 			v++;
-			map.put(c, v);
+			put(k, v);
 		}
-		void dec(int c) {
-			int v = get(c);
+		void dec(int k) {
+			int v = get(k);
 			v--;
-			if (v==0) map.remove(c);
-			else map.put(c, v);
+			put(k, v);
 		}
-		void add(int c, int x) {
-			int v = get(c);
+		void add(int k, int x) {
+			int v = get(k);
 			v += x;
-			map.put(c, v);
+			put(k, v);
 		}
-		void sub(int c, int x) {
-			int v = get(c);
+		void sub(int k, int x) {
+			int v = get(k);
 			v -= x;
-			if (v==0) map.remove(c);
-			else map.put(c, v);
+			put(k, v);
 		}
 		Set<Integer> keySet() {
 			return map.keySet();

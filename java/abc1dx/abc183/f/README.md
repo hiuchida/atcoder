@@ -6,3 +6,7 @@ TreeMap<Integer, Counter>とUnionFindを組み合わせて作成。TLE13個。
 デバッグ文をコメントアウト。
 DEBUG(a + " " + b + " " + c3 + " " + map);
 DEBUG(uf);
+
+# Main\_fix
+Counter_int_int20250410を適用
+

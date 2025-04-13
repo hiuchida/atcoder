@@ -32,3 +32,6 @@ link()の中で3つ目のリンクをチェックする。
 Mainを元に、Nodeを廃止し、UnionFindに変更する。
 uf.sameが見つかったらng。
 
+# Main\_uf\_fix
+Counter_int_int20250410を適用
+

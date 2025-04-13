@@ -5,5 +5,8 @@ ansにsetのサイズを入れ、setのサイズ-1を掛け、setのサイズの
 ansにcntの各カウントを掛ける。
 WA16個。
 
+# Main01\_fix
+Counter_int_int20250410を適用
+
 # Main
 

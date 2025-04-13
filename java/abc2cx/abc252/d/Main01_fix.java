@@ -3,30 +3,24 @@ public class Main {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int n = sc.nextInt();
-		int[] ary=new int[n];
 		TreeSet<Integer> set=new TreeSet<>();
 		Counter cnt=new Counter();
 		for (int i=0; i<n; i++) {
-			ary[i]=sc.nextInt();
-			set.add(ary[i]);
-			cnt.inc(ary[i]);
+			int a=sc.nextInt();
+			set.add(a);
+			cnt.inc(a);
 		}
-//		System.out.println(Arrays.toString(ary));
 //		System.out.println(set);
 //		System.out.println(cnt);
-		List<Integer> list=new ArrayList<>(set);
-		TreeMap<Integer,Integer> map=new TreeMap<>();
-		for (int i=0; i<list.size(); i++) {
-			int v=list.size()-1-i;
-			map.put(v, list.get(i));
+		long ans=set.size();
+		ans*=set.size()-1;
+		ans*=set.size()-2;
+		ans/=6;
+		for (int k : cnt.keySet()) {
+			int x=cnt.get(k);
+			ans*=x;
 		}
-//		System.out.println(map);
-		for (int i=0; i<n; i++) {
-			Integer v=map.get(i);
-			if (v==null) v=0;
-			int c=cnt.get(v);
-			System.out.println(c);
-		}
+		System.out.println(ans);
 	}
 	static class Counter { //Counter_int_int20250410
 		Map<Integer, Integer> map = new TreeMap<>();
@@ -72,12 +66,12 @@ public class Main {
 	}
 }
 /*
-6
-2 7 1 8 2 8
-
-1
-1
+4
+3 1 4 1
 
 10
-979861204 57882493 979861204 447672230 644706927 710511029 763027379 710511029 447672230 136397527
+99999 99998 99997 99996 99995 99994 99993 99992 99991 99990
+
+15
+3 1 4 1 5 9 2 6 5 3 5 8 9 7 9
 */
