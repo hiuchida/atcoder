@@ -1,4 +1,4 @@
-	static class Counter { //Counter_int_setint250409
+	static class Counter { //Counter_int_setint250414
 		Map<Integer, TreeSet<Integer>> map = new TreeMap<>();
 		int size() {
 			return map.size();
@@ -10,6 +10,9 @@
 		}
 		void put(int k, TreeSet<Integer> v) {
 			map.put(k, v);
+		}
+		void remove(int k) {
+			map.remove(k);
 		}
 		boolean is(int k, int idx) {
 			TreeSet<Integer> v = get(k);
@@ -25,8 +28,8 @@
 			v.remove(idx);
 			put(k, v);
 		}
-		Set<Integer> keySet() {
-			return map.keySet();
+		NavigableSet<Integer> keySet() {
+			return (NavigableSet<Integer>) map.keySet();
 		}
 		@Override
 		public String toString() {
