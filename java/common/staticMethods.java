@@ -126,6 +126,16 @@
 		}
 		return ans;
 	}
+	//abc285_c: A-Zのk進表現のsを十進数に変換する
+	static long calc(int k, String s) {
+		long ans=0;
+		for (int i=0; i<s.length(); i++) {
+			long v=s.charAt(i)-'A'+1;
+			ans*=k;
+			ans+=v;
+		}
+		return ans;
+	}
 	//abc279_c: ary[h][w]を縦横変換して、ans[w][h]を返す
 	static String[] convert(int h, int w, String[] ary) {
 		String[] ans=new String[w];
