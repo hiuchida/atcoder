@@ -23,40 +23,42 @@ public class Main {
 		}
 		System.out.println(ans);
 	}
-	static class Counter {
+	static class Counter { //Counter_long_int20250414
 		Map<Long, Integer> map = new TreeMap<>();
 		int size() {
 			return map.size();
 		}
-		int get(long c) {
-			Integer v = map.get(c);
+		int get(long k) {
+			Integer v = map.get(k);
 			if (v == null) v = 0;
 			return v;
 		}
-		void inc(long c) {
-			int v = get(c);
+		void put(long k, int v) {
+			if (v==0) map.remove(k);
+			else map.put(k, v);
+		}
+		void inc(long k) {
+			int v = get(k);
 			v++;
-			map.put(c, v);
+			put(k, v);
 		}
-		void dec(long c) {
-			int v = get(c);
+		void dec(long k) {
+			int v = get(k);
 			v--;
-			if (v==0) map.remove(c);
-			else map.put(c, v);
+			put(k, v);
 		}
-		void add(long c, int x) {
-			int v = get(c);
+		void add(long k, int x) {
+			int v = get(k);
 			v += x;
-			map.put(c, v);
+			put(k, v);
 		}
-		void sub(long c, int x) {
-			int v = get(c);
+		void sub(long k, int x) {
+			int v = get(k);
 			v -= x;
-			if (v==0) map.remove(c);
-			else map.put(c, v);
+			put(k, v);
 		}
-		Set<Long> keySet() {
-			return map.keySet();
+		NavigableSet<Long> keySet() {
+			return (NavigableSet<Long>) map.keySet();
 		}
 		@Override
 		public String toString() {

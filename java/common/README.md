@@ -50,11 +50,14 @@ add(),del(),is()で内部セットを操作する。
 ただし新規はput()を呼ばないと反映されないが、既存の場合は参照渡しなので、put()を呼ばずに捨てても変更は反映される。
 del()ですべて削除しても、0件でmapに残る。
 
-# Counter\_l
+# Counter_long_int
 abc233/dより共通化
+abc233/d
 static classとしてMain内部に貼り付ける。
 Map<Long, Integer> mapを使って、long kの個数を数える。
-更新時、カウントが0のときにremoveする。
+get(),put()を提供し、remove()は暗黙的に実行される。
+内部値の更新時、カウントが0になったときにremove()する。
+inc(),dec(),add(),sub()で内部値を更新する。
 
 # Counter_str_int
 abc231/bより共通化
