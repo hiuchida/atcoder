@@ -23,6 +23,18 @@ get(),put()を提供し、remove()は暗黙的に実行される。
 内部値の更新時、カウントが0になったときにremove()する。
 inc(),dec(),add(),sub()で内部値を更新する。
 
+# Counter_int_listbean
+abc362/dより共通化
+abc362/d
+static classとしてMain内部に貼り付ける。
+Map<Integer, List<Bean>> mapを使って、int kに関連したBean xをリストに追加する。
+get(),put(),remove()を提供する。
+内部リストは、暗黙的なremove()はしない。
+add()で内部リストに追加する。
+他のリスト操作はget()で取得して行うが、反映させるためにはput()を呼ぶ必要がある。
+ただし新規はput()を呼ばないと反映されないが、既存の場合は参照渡しなので、put()を呼ばずに捨てても変更は反映される。
+get()で取得したList<Bean>からすべて削除しても、0件でmapに残る。
+
 # Counter\_int\_listint
 abc248/dより共通化
 abc168/d,abc223/d,abc248/d,abc270/c,abc276/b,abc277/c,abc282/c,abc399/c

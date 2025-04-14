@@ -60,7 +60,7 @@ public class Main {
 			return "("+idx+","+w+")";
 		}
 	}
-	static class Counter {
+	static class Counter { //unused Counter_int_listpair
 		Map<Integer, List<Pair>> map = new TreeMap<>();
 		int size() {
 			return map.size();

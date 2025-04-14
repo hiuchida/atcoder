@@ -1,4 +1,4 @@
-	static class Bean {
+	static class Bean { //Counter_int_listbean20250414
 		int v;
 		int w;
 		Bean(int v, int w) {
@@ -10,7 +10,7 @@
 			return "("+v+","+w+")";
 		}
 	}
-	static class Counter {
+	static class Counter { //Counter_int_listbean20250414
 		Map<Integer, List<Bean>> map = new TreeMap<>();
 		int size() {
 			return map.size();
@@ -23,13 +23,16 @@
 		void put(int k, List<Bean> v) {
 			map.put(k, v);
 		}
-		void add(int k, Bean x) {
+		void remove(int k) {
+			map.remove(k);
+		}
+		void add(int k, Bean val) {
 			List<Bean> v = get(k);
-			v.add(x);
+			v.add(val);
 			put(k, v);
 		}
-		Set<Integer> keySet() {
-			return map.keySet();
+		NavigableSet<Integer> keySet() {
+			return (NavigableSet<Integer>) map.keySet();
 		}
 		@Override
 		public String toString() {
