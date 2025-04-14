@@ -25,7 +25,7 @@ public class Main {
 			dp[i]=modmul(dp[i-1], i);
 		}
 	}
-	static long mod(long val) { //abc065_c: valをMで割った余り
+	static long mod(long val) { //abc065_c,abc211_c,abc211_d: valをMで割った余り
 		return val%M;
 	}
 	static long modmul(long val, long x) { //abc065_c: val*xをMで割った余り
