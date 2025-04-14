@@ -19,7 +19,7 @@ public class Main {
 		}
 		System.out.println(ans);
 	}
-	static class Counter {
+	static class Counter { //Counter_str_int20250414
 		Map<String, Integer> map = new TreeMap<>();
 		int size() {
 			return map.size();
@@ -53,8 +53,8 @@ public class Main {
 			v -= x;
 			put(k, v);
 		}
-		Set<String> keySet() {
-			return map.keySet();
+		NavigableSet<String> keySet() {
+			return (NavigableSet<String>) map.keySet();
 		}
 		@Override
 		public String toString() {

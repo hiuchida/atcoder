@@ -56,11 +56,22 @@ static classとしてMain内部に貼り付ける。
 Map<Long, Integer> mapを使って、long kの個数を数える。
 更新時、カウントが0のときにremoveする。
 
-# Counter\_s
+# Counter_str_int
 abc231/bより共通化
+abc008/b,abc091/b,abc231/b,abc261/c
 static classとしてMain内部に貼り付ける。
 Map<String, Integer> mapを使って、String kの個数を数える。
-更新時、カウントが0のときにremoveする。
+get(),put()を提供し、remove()は暗黙的に実行される。
+内部値の更新時、カウントが0になったときにremove()する。
+inc(),dec(),add(),sub()で内部値を更新する。
+
+# Counter_str_liststr
+abc285/dで作成したが、未使用。
+Map<String, List<String>> mapを使って、int kに関連したString valをリストに追加する。
+
+# Counter_str_setstr
+未使用。
+Map<String, TreeSet<String>> mapを使って、int kに関連したString valをセットで管理する。
 
 # Label
 abc128/bより共通化
