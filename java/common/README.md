@@ -19,20 +19,36 @@ abc210/c,abc241/b,abc360/c,abc397/c: dec()使用
 abc253/c: NavigableSet<Integer> keySet()使用
 static classとしてMain内部に貼り付ける。
 Map<Integer, Integer> mapを使って、int kの個数を数える。
-更新時、カウントが0のときにremoveする。
+get(),put()を提供し、remove()は暗黙的に実行される。
+内部値の更新時、カウントが0になったときにremove()する。
+inc(),dec(),add(),sub()で内部値を更新する。
 
 # Counter\_int\_listint
 abc248/dより共通化
 abc168/d,abc223/d,abc248/d,abc270/c,abc276/b,abc277/c,abc282/c,abc399/c
 abc260/d: NavigableSet<Integer> keySet()使用
 static classとしてMain内部に貼り付ける。
-Map<Integer, List<Integer>> mapを使って、int kのint idxをリストに追加する。
-リストは追加のみで削除できないため、mapの要素もremoveされない。
+Map<Integer, List<Integer>> mapを使って、int kに関連したint idxをリストに追加する。
+get(),put(),remove()を提供する。
+内部リストは、暗黙的なremove()はしない。
+add()で内部リストに追加する。
+他のリスト操作はget()で取得して行うが、反映させるためにはput()を呼ぶ必要がある。
+ただし新規はput()を呼ばないと反映されないが、既存の場合は参照渡しなので、put()を呼ばずに捨てても変更は反映される。
+get()で取得したList<Integer>からすべて削除しても、0件でmapに残る。
 
 # Counter_int_setint
 abc278/cより共通化
+abc223/d: WAソース。Counter_int_listint20250410に変更
+abc273/d: get().lower(),get().higher()使用
+abc278/c: del(),is()使用
 static classとしてMain内部に貼り付ける。
-Map<Integer, TreeSet<Integer>> mapを使って、int kに関連したint idxを管理する。
+Map<Integer, TreeSet<Integer>> mapを使って、int kに関連したint idxをセットで管理する。
+get(),put(),remove()を提供する。
+内部セットは、暗黙的なremove()はしない。
+add(),del(),is()で内部セットを操作する。
+他のセット操作はget()で取得して行うが、反映させるためにはput()を呼ぶ必要がある。
+ただし新規はput()を呼ばないと反映されないが、既存の場合は参照渡しなので、put()を呼ばずに捨てても変更は反映される。
+del()ですべて削除しても、0件でmapに残る。
 
 # Counter\_l
 abc233/dより共通化
