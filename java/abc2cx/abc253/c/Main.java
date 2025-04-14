@@ -25,7 +25,7 @@ public class Main {
 			}
 		}
 	}
-	static class Counter {
+	static class Counter { //unused Counter_int_int with TreeSet<Integer> set
 		TreeSet<Integer> set = new TreeSet<>();
 		Map<Integer, Integer> map = new TreeMap<>();
 		int size() {

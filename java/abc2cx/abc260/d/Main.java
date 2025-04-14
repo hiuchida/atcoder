@@ -40,7 +40,7 @@ public class Main {
 			else System.out.println(ans[i]);
 		}
 	}
-	static class Counter {
+	static class Counter { //unused Counter_int_listint with TreeSet<Integer> set
 		TreeSet<Integer> set = new TreeSet<>();
 		Map<Integer, List<Integer>> map = new TreeMap<>();
 		int size() {
