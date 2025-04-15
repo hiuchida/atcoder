@@ -21,12 +21,8 @@ public class Main {
 				if (i1>i2) s=i2+" "+i1;
 //				System.out.println(s);
 				list.add(s);
-				int t=ary[i2];
-				ary[i2]=ary[i1];
-				ary[i1]=t;
-				t=idx[v2];
-				idx[v2]=idx[v1];
-				idx[v1]=t;
+				swap(ary, i1, i2);
+				swap(idx, v1, v2);
 //				System.out.println("ary:"+Arrays.toString(ary));
 //				System.out.println("idx:"+Arrays.toString(idx));
 			}
@@ -35,6 +31,11 @@ public class Main {
 		for (String s : list) {
 			System.out.println(s);
 		}
+	}
+	static void swap(int[] ary, int i, int j) { //abc286_a,abc350_c: ary[i]とary[j]のスワップ
+		int t=ary[i];
+		ary[i]=ary[j];
+		ary[j]=t;
 	}
 }
 /*
