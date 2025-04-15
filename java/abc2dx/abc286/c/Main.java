@@ -17,7 +17,7 @@ public class Main {
 		}
 		System.out.println(ans);
 	}
-	static int check(char[] buf, int st) {
+	static int check(char[] buf, int st) { //abc286_c: stから始まるbufの回文チェック
 		int n=buf.length;
 		int ans=0;
 		for (int i=0; i<n/2; i++) {

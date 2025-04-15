@@ -37,6 +37,19 @@
 			ary[j]=tmp;
 		}
 	}
+	//abc286_c: stから始まるbufの回文チェック
+	static int check(char[] buf, int st) {
+		int n=buf.length;
+		int ans=0;
+		for (int i=0; i<n/2; i++) {
+			int i1=(i+st)%n;
+			int i2=(n-1-i+st)%n;
+			if (buf[i1]!=buf[i2]) {
+				ans++;
+			}
+		}
+		return ans;
+	}
 	static String join(String delimiter, int[] ary) {
 		StringBuilder sb = new StringBuilder();
 		for (int i=0; i<ary.length; i++) {
