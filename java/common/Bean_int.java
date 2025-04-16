@@ -1,15 +1,13 @@
-	static class Bean { //Bean_int20250410
+	static class Bean { //Bean_int20250416
 		int v;
-		int idx;
-		Bean(int v, int idx) {
+		Bean(int v) {
 			this.v=v;
-			this.idx=idx;
 		}
 		void add(int n) {
 			v+=n;
 		}
 		@Override
 		public String toString() {
-			return "(" + v + "," + idx + ")";
+			return "(" + v + ")";
 		}
 	}
