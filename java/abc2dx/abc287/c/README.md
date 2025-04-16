@@ -18,3 +18,18 @@ queにBean(nxt, b.v)を追加する。
 ループ終了したら、set.size()!=nの場合ng。
 それ以外はok。
 
+# Main01\_fix
+Main01と元に、
+
+n!=m+1とv==0 || v>2のチェックでは、
+以下の場合にokと誤判定される。
+5 4
+1 2
+3 4
+4 5
+3 5
+
+そこで、1-nまで連結していることをチェックするため、UnionFindで判定する。
+UnionFind ufを用意し、uf.merge(u, v)する。
+s=uf.size(i)を入れ、s!=nの場合ng。
+
