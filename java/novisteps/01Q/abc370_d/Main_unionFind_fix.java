@@ -2,7 +2,7 @@ import java.util.*;
 public class Main {
 	static int h;
 	static int w;
-	static class UnionFind {
+	static class UnionFind { //UnionFind_ltrt20250416
 		int[] uf;
 		int[] lt;
 		int[] rt;
@@ -60,9 +60,17 @@ public class Main {
 		}
 		@Override
 		public String toString() {
-			return Arrays.toString(uf)
-					+ Arrays.toString(lt)
-					+ Arrays.toString(rt);
+			List<String> list = new ArrayList<>();
+			for (int i=0; i<uf.length; i++) {
+				if (uf[i] < -1) {
+					list.add(-uf[i] + "(" + lt[i] + "-" + rt[i] + ")");
+				} else if (uf[i] < 0) {
+					list.add(""+ (-uf[i]));
+				} else {
+					list.add("*"+uf[i]);
+				}
+			}
+			return "[" + String.join(", ", list) + "]";
 		}
 	}
 	static TreeSet<Point> set = new TreeSet<>();
@@ -83,6 +91,18 @@ public class Main {
 			mapy.put(y, uf);
 		}
 		return uf;
+	}
+	static void printx() {
+		for (int x : mapx.keySet()) {
+			UnionFind uf = mapx.get(x);
+			System.out.println("X" + x + ":" + uf);
+		}
+	}
+	static void printy() {
+		for (int y : mapy.keySet()) {
+			UnionFind uf = mapy.get(y);
+			System.out.println("Y" + y + ":" + uf);
+		}
 	}
 	static void add(Point p) {
 		set.add(p);
@@ -105,8 +125,8 @@ public class Main {
 		int q = sc.nextInt();
 		for (int i=0; i<q; i++) {
 //			System.out.println("s=" + set);
-//			System.out.println("x=" + mapx);
-//			System.out.println("y=" + mapy);
+//			printx();
+//			printy();
 			int r = sc.nextInt();
 			int c = sc.nextInt();
 			Point p = new Point(r, c);
@@ -143,8 +163,8 @@ public class Main {
 			}
 		}
 //		System.out.println("s=" + set);
-//		System.out.println("x=" + mapx);
-//		System.out.println("y=" + mapy);
+//		printx();
+//		printy();
 		long ans = h*w;
 		ans -= set.size();
 		System.out.println(ans);

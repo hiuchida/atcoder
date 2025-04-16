@@ -2,7 +2,7 @@ import java.util.*;
 public class Main {
 	static int h;
 	static int w;
-	static class UnionFind {
+	static class UnionFind { //unused UnionFind_ltrt
 		int[] uf;
 		int[] lt;
 		int[] rt;

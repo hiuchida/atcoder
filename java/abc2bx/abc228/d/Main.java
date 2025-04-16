@@ -46,7 +46,7 @@ public class Main {
 			uf.merge(h, h+1);
 		}
 	}
-	static class UnionFind {
+	static class UnionFind { //UnionFind_ltrt20250416
 		int[] uf;
 		int[] lt;
 		int[] rt;
