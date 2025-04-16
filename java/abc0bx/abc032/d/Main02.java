@@ -47,35 +47,6 @@ public class Main {
 		return r;
 	}
 
-	class UnionFind {
-		int[] uf;
-		public UnionFind(int n) {
-			uf = new int[n];
-			for (int i=0; i<n; i++) {
-				uf[i] = i;
-			}
-		}
-		public int root(int v) {
-			if (uf[v] == v) return v;
-			uf[v] = root(uf[v]);
-			return uf[v];
-		}
-		public void merge(int u, int v) {
-			u = root(u);
-			v = root(v);
-			if (u == v) return;
-			uf[v] = u;
-		}
-		public boolean same(int u, int v) {
-			return root(u) == root(v);
-		}
-		public void print() {
-			for (int i=0; i<uf.length; i++) {
-				p(uf[i]+" ");
-			}
-			pln("");
-		}
-	}
 	class Pair {
 		String a;
 		String b;
