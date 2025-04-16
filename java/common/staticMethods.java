@@ -37,7 +37,7 @@
 			ary[j]=tmp;
 		}
 	}
-	//abc286_a,abc350_c: ary[i]とary[j]のスワップ
+	//abc286_a,abc289_b,abc350_c: ary[i]とary[j]のスワップ
 	static void swap(int[] ary, int i, int j) {
 		int t=ary[i];
 		ary[i]=ary[j];

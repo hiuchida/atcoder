@@ -171,6 +171,11 @@ static変数としてMain内部に貼り付ける。
 staticメソッドとしてMain内部に貼り付ける。
 原則、static変数を必要とするものはクラス化する。
 
+# Twin\_int
+abc289/bより共通化
+static classとしてMain内部に貼り付ける。
+MapのValueに入れることを前提にする。
+
 # UnionFind
 atc001/bより共通化
 static classとしてMain内部に貼り付ける。
