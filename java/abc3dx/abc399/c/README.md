@@ -10,3 +10,9 @@ flag[nxt]==falseの場合にdfsを呼び出す。
 # Main\_uf
 dfsを使わず、UnionFindでグループ化し、親rootをTreeSetに入れてサイズを得る。
 
+# Main\_bfs
+bfsで書き直す。
+
+abc288/cと同じだが、dfsだとabc288/cはTLEとなる。
+再帰呼び出しのコストがかかっている可能性があるので、bfsでも作る。
+
