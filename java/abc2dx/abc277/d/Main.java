@@ -82,7 +82,7 @@ public class Main {
 			return map.toString();
 		}
 	}
-	static class UnionFind {
+	static class UnionFind { //unused UnionFind_map
 		Map<Integer, Integer> map=new TreeMap<>();
 //		int[] uf;
 		public UnionFind(int n) {

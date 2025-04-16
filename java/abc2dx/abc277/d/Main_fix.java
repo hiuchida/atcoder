@@ -82,12 +82,9 @@ public class Main {
 			return map.toString();
 		}
 	}
-	static class UnionFind { //UnionFind_map
+	static class UnionFind { //UnionFind_map20250416
 		Map<Integer, Integer> map=new TreeMap<>();
-//		int[] uf;
 		public UnionFind() {
-//			uf = new int[n];
-//			for (int i=0; i<n; i++) uf[i] = -1;
 		}
 		public int root(int v) {
 			Integer vv = map.get(v);
@@ -99,9 +96,6 @@ public class Main {
 			vv = root(vv);
 			map.put(v, vv);
 			return vv;
-//			if (uf[v] < 0) return v;
-//			uf[v] = root(uf[v]);
-//			return uf[v];
 		}
 		public void merge(int u, int v) {
 			u = root(u);
@@ -117,18 +111,6 @@ public class Main {
 				map.put(v, w);
 				map.put(u, v);
 			}
-//			u = root(u);
-//			v = root(v);
-//			if (u == v) return;
-//			int uw = uf[u];
-//			int vw = uf[v];
-//			if (uw <= vw) {
-//				uf[u] += uf[v];
-//				uf[v] = u;
-//			} else if (uw > vw) {
-//				uf[v] += uf[u];
-//				uf[u] = v;
-//			}
 		}
 		public boolean same(int u, int v) {
 			return root(u) == root(v);
@@ -136,12 +118,10 @@ public class Main {
 		public int size(int v) {
 			v = root(v);
 			return -map.get(v);
-//			return -uf[v];
 		}
 		@Override
 		public String toString() {
 			return map.toString();
-//			return Arrays.toString(uf);
 		}
 	}
 }
