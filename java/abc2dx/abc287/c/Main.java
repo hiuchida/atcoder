@@ -19,23 +19,21 @@ public class Main {
 				System.exit(0);
 			}
 		}
-		boolean[] flag=new boolean[n];
-		Deque<Bean> que=new ArrayDeque<>();
-		flag[1]=true;
-		que.offer(new Bean(1, 0));
+		Deque<Que> que=new ArrayDeque<>();
+		que.offer(new Que(1, 0));
 		TreeSet<Integer> set=new TreeSet<>();
 		while (que.size()>0) {
-			Bean b=que.poll();
+			Que b=que.poll();
 //			System.out.println(b);
-			if (set.contains(b.v)) {
+			if (set.contains(b.cur)) {
 				System.out.println("No");
 				System.exit(0);
 			}
-			set.add(b.v);
-			List<Integer> v=cnt.get(b.v);
+			set.add(b.cur);
+			List<Integer> v=cnt.get(b.cur);
 			for (int nxt : v) {
-				if (nxt==b.idx) continue;
-				que.offer(new Bean(nxt, b.v));
+				if (nxt==b.pre) continue;
+				que.offer(new Que(nxt, b.cur));
 			}
 		}
 		if (set.size()!=n) {
@@ -44,19 +42,16 @@ public class Main {
 		}
 		System.out.println("Yes");
 	}
-	static class Bean { //Bean_int20250410
-		int v;
-		int idx;
-		Bean(int v, int idx) {
-			this.v=v;
-			this.idx=idx;
-		}
-		void add(int n) {
-			v+=n;
+	static class Que { //Que_curpre20250416
+		int cur;
+		int pre;
+		Que(int cur, int pre) {
+			this.cur=cur;
+			this.pre=pre;
 		}
 		@Override
 		public String toString() {
-			return "(" + v + "," + idx + ")";
+			return "(" + pre + "->" + cur + ")";
 		}
 	}
 	static class Counter { //Counter_int_listint20250413

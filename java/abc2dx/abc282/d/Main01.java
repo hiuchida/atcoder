@@ -19,16 +19,16 @@ public class Main {
 		Arrays.fill(ary, -1);
 		for (int i=1; i<=n; i++) {
 			if (ary[i]<0) {
-				Deque<Bean> que=new ArrayDeque<>();
-				que.offer(new Bean(i, 0));
+				Deque<Que> que=new ArrayDeque<>();
+				que.offer(new Que(i, 0));
 				ary[i]=0;
 				while (que.size()>0) {
-					Bean cur=que.poll();
-					int nxtidx=(cur.idx+1);
-//					int nxtidx=(cur.idx+1)%2;
-					for (int nxt : cnt.get(cur.v)) {
+					Que b=que.poll();
+					int nxtidx=(b.pre+1);
+//					int nxtidx=(b.pre+1)%2;
+					for (int nxt : cnt.get(b.cur)) {
 						if (ary[nxt]<0) {
-							que.offer(new Bean(nxt, nxtidx));
+							que.offer(new Que(nxt, nxtidx));
 							ary[nxt]=nxtidx;
 						}
 					}
@@ -38,19 +38,16 @@ public class Main {
 //		System.out.println(Arrays.toString(ary));
 		System.out.println();
 	}
-	static class Bean { //Bean_int20250410
-		int v;
-		int idx;
-		Bean(int v, int idx) {
-			this.v=v;
-			this.idx=idx;
-		}
-		void add(int n) {
-			v+=n;
+	static class Que { //Que_curpre20250416
+		int cur;
+		int pre;
+		Que(int cur, int pre) {
+			this.cur=cur;
+			this.pre=pre;
 		}
 		@Override
 		public String toString() {
-			return "(" + v + "," + idx + ")";
+			return "(" + pre + "->" + cur + ")";
 		}
 	}
 	static class Counter { //Counter_int_listint20250410

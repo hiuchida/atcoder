@@ -11,20 +11,20 @@ public class Main {
 			cnt.add(a, b);
 			cnt.add(b, a);
 		}
-		Deque<Bean> que=new ArrayDeque<>();
+		Deque<Que> que=new ArrayDeque<>();
 		int[] flag=new int[n+1];
 		int[] prev=new int[n+1];
 		Arrays.fill(flag, Integer.MAX_VALUE);
-		que.offer(new Bean(1, 0, 0));
+		que.offer(new Que(1, 0, 0));
 		while (que.size()>0) {
-			Bean b=que.poll();
+			Que b=que.poll();
 //			System.out.println(b);
-			if (flag[b.c]<b.s) continue;
-			flag[b.c]=b.s;
-			prev[b.c]=b.p;
-			for (int nxt : cnt.get(b.c)) {
-				if (flag[nxt]>b.s+1) {
-					que.offer(new Bean(nxt, b.c, b.s+1));
+			if (flag[b.cur]<b.stp) continue;
+			flag[b.cur]=b.stp;
+			prev[b.cur]=b.pre;
+			for (int nxt : cnt.get(b.cur)) {
+				if (flag[nxt]>b.stp+1) {
+					que.offer(new Que(nxt, b.cur, b.stp+1));
 				}
 			}
 		}
@@ -41,21 +41,18 @@ public class Main {
 			System.out.println(prev[i]);
 		}
 	}
-	static class Bean { //Bean_int20250410
-		int c;
-		int p;
-		int s;
-		Bean(int c, int p, int s) {
-			this.c=c;
-			this.p=p;
-			this.s=s;
-		}
-		void add(int n) {
-			c+=n;
+	static class Que { //Que_curprestp20250416
+		int cur;
+		int pre;
+		int stp;
+		Que(int cur, int pre, int stp) {
+			this.cur=cur;
+			this.pre=pre;
+			this.stp=stp;
 		}
 		@Override
 		public String toString() {
-			return "(" + c + "," + p + "," + s + ")";
+			return "(" + cur + "," + pre + "," + stp + ")";
 		}
 	}
 	static class Counter { //Counter_int_listint20250410
