@@ -36,11 +36,11 @@ public class Main {
 //			x+=n;
 //			y+=n;
 			int u=x+y*uf.w;
-			if (u==uf.root(u)) ans++;
+			if (u==uf.root(x, y)) ans++;
 		}
 		System.out.println(ans);
 	}
-	static class UnionFind {
+	static class UnionFind { //UnionFind_2d20250416
 		int h;
 		int w;
 		int[] uf;
@@ -50,6 +50,10 @@ public class Main {
 			int n = h*w;
 			this.uf = new int[n];
 			for (int i=0; i<n; i++) uf[i] = -1;
+		}
+		public int root(int x1, int y1) {
+			int u=x1+y1*w;
+			return root(u);
 		}
 		public int root(int v) {
 			if (uf[v] < 0) return v;
@@ -75,8 +79,17 @@ public class Main {
 				uf[u] = v;
 			}
 		}
+		public boolean same(int x1, int y1, int x2, int y2) {
+			int u=x1+y1*w;
+			int v=x2+y2*w;
+			return same(u, v);
+		}
 		public boolean same(int u, int v) {
 			return root(u) == root(v);
+		}
+		public int size(int x1, int y1) {
+			int u=x1+y1*w;
+			return size(u);
 		}
 		public int size(int v) {
 			v = root(v);

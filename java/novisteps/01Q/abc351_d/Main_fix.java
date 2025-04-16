@@ -19,10 +19,10 @@ public class Main {
 		for (int y=0; y<h; y++) {
 			for (int x=0; x<w; x++) {
 				if (check(map, y, x)) {
-					if (check(map, y-1, x)) uf.merge(addr(y, x), addr(y-1, x));
-					if (check(map, y+1, x)) uf.merge(addr(y, x), addr(y+1, x));
-					if (check(map, y, x-1)) uf.merge(addr(y, x), addr(y, x-1));
-					if (check(map, y, x+1)) uf.merge(addr(y, x), addr(y, x+1));
+					if (check(map, y-1, x)) uf.merge(y, x, y-1, x);
+					if (check(map, y+1, x)) uf.merge(y, x, y+1, x);
+					if (check(map, y, x-1)) uf.merge(y, x, y, x-1);
+					if (check(map, y, x+1)) uf.merge(y, x, y, x+1);
 				}
 			}
 		}
@@ -30,7 +30,7 @@ public class Main {
 		Map<Integer, Edge> edge=new TreeMap<>();
 		for (int y=0; y<h; y++) {
 			for (int x=0; x<w; x++) {
-				int r=uf.root(addr(y, x));
+				int r=uf.root(y, x);
 				int s=uf.size(r);
 				if (!count.containsKey(r)) {
 					count.put(r, s);
@@ -42,10 +42,10 @@ public class Main {
 		for (int y=0; y<h; y++) {
 			for (int x=0; x<w; x++) {
 				if (check(map, y, x)) {
-					int r=uf.root(addr(y, x));
+					int r=uf.root(y, x);
 					for (int d=0; d<DY.length; d++) {
 						if (checkEdge(map, y+DY[d], x+DX[d])) {
-							int r1=uf.root(addr(y+DY[d], x+DX[d]));
+							int r1=uf.root(y+DY[d], x+DX[d]);
 							if (r!=r1) {
 								Edge e=edge.get(r);
 								if (e==null) {

@@ -19,10 +19,10 @@ public class Main {
 		for (int y=0; y<h; y++) {
 			for (int x=0; x<w; x++) {
 				if (check(map, y, x)) {
-					if (check(map, y-1, x)) uf.merge(addr(y, x), addr(y-1, x));
-					if (check(map, y+1, x)) uf.merge(addr(y, x), addr(y+1, x));
-					if (check(map, y, x-1)) uf.merge(addr(y, x), addr(y, x-1));
-					if (check(map, y, x+1)) uf.merge(addr(y, x), addr(y, x+1));
+					if (check(map, y-1, x)) uf.merge(y, x, y-1, x);
+					if (check(map, y+1, x)) uf.merge(y, x, y+1, x);
+					if (check(map, y, x-1)) uf.merge(y, x, y, x-1);
+					if (check(map, y, x+1)) uf.merge(y, x, y, x+1);
 				}
 			}
 		}
@@ -30,7 +30,7 @@ public class Main {
 		Map<Integer, Edge> edge=new TreeMap<>();
 		for (int y=0; y<h; y++) {
 			for (int x=0; x<w; x++) {
-				int r=uf.root(addr(y, x));
+				int r=uf.root(y, x);
 				int s=uf.size(r);
 				if (!count.containsKey(r)) {
 					count.put(r, s);
@@ -42,10 +42,10 @@ public class Main {
 		for (int y=0; y<h; y++) {
 			for (int x=0; x<w; x++) {
 				if (check(map, y, x)) {
-					int r=uf.root(addr(y, x));
+					int r=uf.root(y, x);
 					for (int d=0; d<DY.length; d++) {
 						if (checkEdge(map, y+DY[d], x+DX[d])) {
-							int r1=uf.root(addr(y+DY[d], x+DX[d]));
+							int r1=uf.root(y+DY[d], x+DX[d]);
 							if (r!=r1) {
 								Edge e=edge.get(r);
 								if (e==null) {
@@ -96,7 +96,7 @@ public class Main {
 			return "Edge" + set;
 		}
 	}
-	static class UnionFind {
+	static class UnionFind { //UnionFind_2d20250416
 		int h;
 		int w;
 		int[] uf;
@@ -107,10 +107,19 @@ public class Main {
 			this.uf = new int[n];
 			for (int i=0; i<n; i++) uf[i] = -1;
 		}
+		public int root(int x1, int y1) {
+			int u=x1+y1*w;
+			return root(u);
+		}
 		public int root(int v) {
 			if (uf[v] < 0) return v;
 			uf[v] = root(uf[v]);
 			return uf[v];
+		}
+		public void merge(int x1, int y1, int x2, int y2) {
+			int u=x1+y1*w;
+			int v=x2+y2*w;
+			merge(u, v);
 		}
 		public void merge(int u, int v) {
 			u = root(u);
@@ -126,8 +135,17 @@ public class Main {
 				uf[u] = v;
 			}
 		}
+		public boolean same(int x1, int y1, int x2, int y2) {
+			int u=x1+y1*w;
+			int v=x2+y2*w;
+			return same(u, v);
+		}
 		public boolean same(int u, int v) {
 			return root(u) == root(v);
+		}
+		public int size(int x1, int y1) {
+			int u=x1+y1*w;
+			return size(u);
 		}
 		public int size(int v) {
 			v = root(v);

@@ -176,6 +176,11 @@ atc001/bより共通化
 static classとしてMain内部に貼り付ける。
 経路圧縮とサイズによる連結を実装したもの。
 
+# UnionFind\_2d
+abc269/dより共通化
+static classとしてMain内部に貼り付ける。
+(x,y)をx+y\*wの添字に変換して管理する。
+
 ## UnionFind_ltrt
 UnionFindに左端と右端を持たせる。
 mergeは連続していることを前提に使う。
