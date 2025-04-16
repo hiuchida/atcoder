@@ -40,7 +40,7 @@ public class Main {
 		}
 		System.out.println(ans);
 	}
-	static class Bean {
+	static class Bean { //Counter_int_bean20250416
 		long v;
 		Bean(long v) {
 			this.v = v;
@@ -50,7 +50,7 @@ public class Main {
 			return "("+v+")";
 		}
 	}
-	static class Counter {
+	static class Counter { //Counter_int_bean20250416
 		Map<Integer, Bean> map = new TreeMap<>();
 		int size() {
 			return map.size();
@@ -63,13 +63,16 @@ public class Main {
 		void put(int k, Bean v) {
 			map.put(k, v);
 		}
+		void remove(int k) {
+			map.remove(k);
+		}
 		void add(int k, int x) {
 			Bean v = get(k);
 			v.v += x;
 			put(k, v);
 		}
-		Set<Integer> keySet() {
-			return map.keySet();
+		NavigableSet<Integer> keySet() {
+			return (NavigableSet<Integer>) map.keySet();
 		}
 		@Override
 		public String toString() {
