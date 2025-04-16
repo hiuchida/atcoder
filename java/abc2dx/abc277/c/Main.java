@@ -11,21 +11,31 @@ public class Main {
 			cnt.add(b, a);
 		}
 		int ans=1;
-		Deque<Integer> que=new ArrayDeque<>();
+		Deque<Que> que=new ArrayDeque<>();
 		Set<Integer> set=new HashSet<>();
-		que.offer(1);
+		que.offer(new Que(1));
 		set.add(1);
 		while (que.size()>0) {
-			int i=que.poll();
-			ans=Math.max(ans, i);
-			List<Integer> v=cnt.get(i);
+			Que b=que.poll();
+			ans=Math.max(ans, b.cur);
+			List<Integer> v=cnt.get(b.cur);
 			for (int nxt : v) {
 				if (set.contains(nxt)) continue;
 				set.add(nxt);
-				que.offer(nxt);
+				que.offer(new Que(nxt));
 			}
 		}
 		System.out.println(ans);
+	}
+	static class Que { //Que_cur20250416
+		int cur;
+		Que(int cur) {
+			this.cur=cur;
+		}
+		@Override
+		public String toString() {
+			return "(" + cur + ")";
+		}
 	}
 	static class Counter { //Counter_int_listint20250410
 		Map<Integer, List<Integer>> map = new TreeMap<>();

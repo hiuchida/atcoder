@@ -38,21 +38,32 @@ public class Main {
 		}
 	}
 	static void checkNode(int i, Node[] nodes, boolean[] flag) {
-		Deque<Integer> que=new ArrayDeque<>();
-		que.offer(i);
+		Deque<Que> que=new ArrayDeque<>();
+		que.offer(new Que(i));
 		while (que.size()>0) {
-			i=que.poll();
+			Que b=que.poll();
+			i=b.cur;
 			Node node=nodes[i];
 			flag[i]=true;
 			boolean bHit=false;
 			for (int next : node.set) {
 				if (!flag[next-1]) {
 					i=next-1;
-					que.offer(i);
+					que.offer(new Que(i));
 					bHit=true;
 				}
 			}
 			if (!bHit && node.set.size()>1) ng();
+		}
+	}
+	static class Que { //Que_cur20250416
+		int cur;
+		Que(int cur) {
+			this.cur=cur;
+		}
+		@Override
+		public String toString() {
+			return "(" + cur + ")";
 		}
 	}
 }

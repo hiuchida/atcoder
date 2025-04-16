@@ -148,6 +148,11 @@ static classとしてMain内部に貼り付ける。
 abc383/dより共通化
 static classとしてMain内部に貼り付ける。
 
+# Que_cur
+abc287/cより共通化
+static classとしてMain内部に貼り付ける。
+Deque<Que>に使うことを前提にする。
+
 # Que_curpre
 abc168/dより共通化
 static classとしてMain内部に貼り付ける。

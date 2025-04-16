@@ -18,20 +18,20 @@ public class Main {
 		cost[1]=0;
 		long[] ans=new long[n+1];
 		ans[1]=1;
-		Deque<Integer> que=new ArrayDeque<>();
-		que.offer(1);
+		Deque<Que> que=new ArrayDeque<>();
+		que.offer(new Que(1));
 		while (que.size()>0) {
-			int cur=que.poll();
+			Que b=que.poll();
 //			System.out.println(cur);
-			for (int nxt : cnt.get(cur)) {
+			for (int nxt : cnt.get(b.cur)) {
 				if (cost[nxt]<0) {
-					cost[nxt]=cost[cur]+1;
-					ans[nxt]=ans[cur];
-					que.offer(nxt);
+					cost[nxt]=cost[b.cur]+1;
+					ans[nxt]=ans[b.cur];
+					que.offer(new Que(nxt));
 //					System.out.println(Arrays.toString(cost));
 //					System.out.println(Arrays.toString(ans));
-				} else if (cost[nxt]==cost[cur]+1) {
-					ans[nxt]=modadd(ans[nxt], ans[cur]);
+				} else if (cost[nxt]==cost[b.cur]+1) {
+					ans[nxt]=modadd(ans[nxt], ans[b.cur]);
 //					System.out.println(Arrays.toString(cost));
 //					System.out.println(Arrays.toString(ans));
 				} else {
@@ -48,6 +48,16 @@ public class Main {
 	//abc211_c,abc211_d: val+xをMで割った余り
 	static long modadd(long val, long x) {
 		return mod(val+x);
+	}
+	static class Que { //Que_cur20250416
+		int cur;
+		Que(int cur) {
+			this.cur=cur;
+		}
+		@Override
+		public String toString() {
+			return "(" + cur + ")";
+		}
 	}
 	static class Counter { //Counter_int_listint20250413
 		Map<Integer, List<Integer>> map = new TreeMap<>();

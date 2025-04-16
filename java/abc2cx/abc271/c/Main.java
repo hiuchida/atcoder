@@ -13,15 +13,15 @@ public class Main {
 		}
 		Arrays.sort(ary);
 //		System.out.println(Arrays.toString(ary));
-		Deque<Integer> que=new ArrayDeque<>();
+		Deque<Que> que=new ArrayDeque<>();
 		for (int i=0; i<n; i++) {
-			que.offer(ary[i]);
+			que.offer(new Que(ary[i]));
 		}
 		int idx=1;
 		while (que.size()>0) {
 //			System.out.println(que+" "+idx);
-			int a=que.peek();
-			if (a==idx) {
+			Que b=que.peek();
+			if (b.cur==idx) {
 				que.poll();
 				idx++;
 				continue;
@@ -35,6 +35,16 @@ public class Main {
 			que.remove();
 		}
 		System.out.println(idx-1);
+	}
+	static class Que { //Que_cur20250416
+		int cur;
+		Que(int cur) {
+			this.cur=cur;
+		}
+		@Override
+		public String toString() {
+			return "(" + cur + ")";
+		}
 	}
 }
 /*

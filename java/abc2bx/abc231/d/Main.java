@@ -49,10 +49,11 @@ public class Main {
 		}
 	}
 	static void checkNode(int i, Node[] nodes, boolean[] flag) {
-		Deque<Integer> que=new ArrayDeque<>();
-		que.offer(i);
+		Deque<Que> que=new ArrayDeque<>();
+		que.offer(new Que(i));
 		while (que.size()>0) {
-			i=que.poll();
+			Que b=que.poll();
+			i=b.cur;
 			Node node=nodes[i];
 			flag[i]=true;
 			if (node.prev>0 && node.next>0) {
@@ -60,12 +61,22 @@ public class Main {
 			}
 			if (node.prev>0 && !flag[node.prev-1]) {
 				i=node.prev-1;
-				que.offer(i);
+				que.offer(new Que(i));
 			}
 			if (node.next>0 && !flag[node.next-1]) {
 				i=node.next-1;
-				que.offer(i);
+				que.offer(new Que(i));
 			}
+		}
+	}
+	static class Que { //Que_cur20250416
+		int cur;
+		Que(int cur) {
+			this.cur=cur;
+		}
+		@Override
+		public String toString() {
+			return "(" + cur + ")";
 		}
 	}
 	static class Counter {
