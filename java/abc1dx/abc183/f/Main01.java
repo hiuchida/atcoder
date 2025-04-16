@@ -103,7 +103,7 @@ public class Main {
 			return map.toString();
 		}
 	}
-	static class UnionFind {
+	static class UnionFind { //UnionFind20250102
 		int[] uf;
 		public UnionFind(int n) {
 			uf = new int[n];

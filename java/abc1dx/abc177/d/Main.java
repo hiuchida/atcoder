@@ -39,8 +39,7 @@ public class Main {
 		DEBUG(map);
 		System.out.println(ans);
 	}
-
-	static class UnionFind {
+	static class UnionFind { //UnionFind20250102
 		int[] uf;
 		public UnionFind(int n) {
 			uf = new int[n];
