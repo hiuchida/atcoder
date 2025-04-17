@@ -65,7 +65,7 @@ public class Main {
 		}
 //		System.out.println(Arrays.toString(ab));
 		String s = Arrays.toString(ax);
-		s = s.replace("[", "").replace("]", "").replaceAll(",", "");
+		s = conv(s);
 		System.out.println(s);
 	}
 	static void dfs(int i) {
@@ -91,5 +91,8 @@ public class Main {
 				que.offer(e.u);
 			}
 		}
+	}
+	static String conv(String s) { //abc270_c,abc293_b,abc367_c,abc368_a,abc373_d,abc388_d: List等のtoString()の文字列からカッコとカンマを省く
+		return s.replace("[", "").replace("]", "").replaceAll(",", "");
 	}
 }

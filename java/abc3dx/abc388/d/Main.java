@@ -35,9 +35,6 @@ public class Main {
 			System.out.print(ary[i]+" ");
 		}
 		System.out.println();
-//		String s=Arrays.toString(ary);
-//		s = s.replace("[", "").replace("]", "").replaceAll(",", "");
-//		System.out.println(s);
 	}
 }
 /*

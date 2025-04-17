@@ -24,7 +24,7 @@ public class Main {
 		flag[i]=true;
 		if (i==y) {
 			String s=list.toString();
-			s = s.replace("[", "").replace("]", "").replaceAll(",", "");
+			s = conv(s);
 			System.out.println(s);
 			System.exit(0);
 		}
@@ -35,6 +35,9 @@ public class Main {
 		}
 		list.remove(list.size()-1);
 		flag[i]=false;
+	}
+	static String conv(String s) { //abc270_c,abc293_b,abc367_c,abc368_a,abc373_d,abc388_d: List等のtoString()の文字列からカッコとカンマを省く
+		return s.replace("[", "").replace("]", "").replaceAll(",", "");
 	}
 	static class Counter { //Counter_int_listint20250410
 		Map<Integer, List<Integer>> map = new TreeMap<>();

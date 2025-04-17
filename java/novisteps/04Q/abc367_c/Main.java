@@ -22,7 +22,7 @@ public class Main {
 		if (i==n) {
 			if (s%k==0) {
 				String ss = list.toString();
-				ss = ss.replace("[", "").replace("]", "").replaceAll(",", "");
+				ss = conv(ss);
 				System.out.println(ss);
 			}
 			return;
@@ -32,6 +32,9 @@ public class Main {
 			dfs(s+j, list);
 			list.remove(list.size()-1);
 		}
+	}
+	static String conv(String s) { //abc270_c,abc293_b,abc367_c,abc368_a,abc373_d,abc388_d: List等のtoString()の文字列からカッコとカンマを省く
+		return s.replace("[", "").replace("]", "").replaceAll(",", "");
 	}
 }
 /*

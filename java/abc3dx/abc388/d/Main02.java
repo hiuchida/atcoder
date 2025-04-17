@@ -18,8 +18,11 @@ public class Main {
 			}
 		}
 		String s=Arrays.toString(ary);
-		s = s.replace("[", "").replace("]", "").replaceAll(",", "");
+		s = conv(s);
 		System.out.println(s);
+	}
+	static String conv(String s) { //abc270_c,abc293_b,abc367_c,abc368_a,abc373_d,abc388_d: List等のtoString()の文字列からカッコとカンマを省く
+		return s.replace("[", "").replace("]", "").replaceAll(",", "");
 	}
 }
 /*

@@ -62,6 +62,10 @@
 		}
 		return ans;
 	}
+	//abc270_c,abc293_b,abc367_c,abc368_a,abc373_d,abc388_d: List等のtoString()の文字列からカッコとカンマを省く
+	static String conv(String s) {
+		return s.replace("[", "").replace("]", "").replaceAll(",", "");
+	}
 	static String join(String delimiter, int[] ary) {
 		StringBuilder sb = new StringBuilder();
 		for (int i=0; i<ary.length; i++) {

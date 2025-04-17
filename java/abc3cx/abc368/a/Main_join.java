@@ -25,8 +25,6 @@ public class Main {
 		for (int i=0; i<n-k; i++) {
 			ans[j++] = ary[i];
 		}
-//		String s = Arrays.toString(ans);
-//		s = s.replace("[", "").replace("]", "").replaceAll(",", "");
 		String s = join(" ", ans);
 		System.out.println(s);
 	}
