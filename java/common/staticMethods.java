@@ -43,6 +43,12 @@
 		ary[i]=ary[j];
 		ary[j]=t;
 	}
+	//abc293_a: ary[i]とary[j]のスワップ
+	static void swap(char[] ary, int i, int j) {
+		char t=ary[i];
+		ary[i]=ary[j];
+		ary[j]=t;
+	}
 	//abc286_c: stから始まるbufの回文チェック
 	static int check(char[] buf, int st) {
 		int n=buf.length;
