@@ -22,7 +22,7 @@ public class Main {
 		if ('0'<=ch && ch<='9') return true;
 		return false;
 	}
-	static boolean checkUpper(char ch) { //abc192_b,abc281_b: 半角英大文字の判定
+	static boolean checkUpper(char ch) { //abc192_b,abc281_b,abc291_a: 半角英大文字の判定
 		if ('A'<=ch && ch<='Z') return true;
 		return false;
 	}
