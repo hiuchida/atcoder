@@ -1,3 +1,19 @@
+import java.util.*;
+public class Main {
+	public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+		int n=sc.nextInt();
+		Prime pr=new Prime(n+1);
+		long ans=0;
+		for (int i=1; i<n; i++) {
+			int j=n-i;
+			long c1=pr.count(i);
+			long c2=pr.count(j);
+			ans+=c1*c2;
+//			System.out.println(i+" "+c1+" , "+j+" "+c2);
+		}
+		System.out.println(ans);
+	}
 	//1,000,000,000 16678ms
 	//  100,000,000  1537ms
 	//   10,000,000    98ms
@@ -53,3 +69,11 @@
 			return ans;
 		}
 	}
+}
+/*
+4
+
+292
+
+19876
+*/
