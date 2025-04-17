@@ -5,85 +5,28 @@ public class Main {
 		String s=sc.next();
 		int n=s.length();
 		char[] ary=s.toCharArray();
-		Counter cnt=new Counter();
+		final int m=18; //2^18=262,144
+		int[][] dp=new int[m+1][n];
 		for (int i=0; i<n; i++) {
-			cnt.inc(i);
+			if (ary[i]=='L') dp[0][i]=i-1;
+			else dp[0][i]=i+1;
 		}
-		int loop=n;
-		if (loop%2==1) loop++;
-		Counter bak1=new Counter();
-		Counter bak2=new Counter();
-		for (int j=0; j<loop; j++) {
-			Counter cnt2=new Counter();
-			for (int i : cnt.keySet()) {
-				int v=cnt.get(i);
-				if (ary[i]=='L') cnt2.add(i-1, v);
-				else cnt2.add(i+1, v);
+		for (int j=1; j<=m; j++) {
+			for (int i=0; i<n; i++) {
+				dp[j][i]=dp[j-1][dp[j-1][i]];
 			}
-			cnt=cnt2;
-			if (cnt.equals(bak2)) break;
-			if (j%2==0) bak1=cnt;
-			else bak2=cnt;
-//			System.out.println(cnt);
+		}
+//		for (int j=0; j<=m; j++) {
+//			System.out.println(Arrays.toString(dp[j]));
+//		}
+		int[] ans=new int[n];
+		for (int i=0; i<n; i++) {
+			ans[dp[m][i]]++;
 		}
 		for (int i=0; i<n; i++) {
-			System.out.print(cnt.get(i)+" ");
+			System.out.print(ans[i]+" ");
 		}
 		System.out.println();
-	}
-	static class Counter { //Counter_int_int20250416
-		Map<Integer, Integer> map = new TreeMap<>();
-		int size() {
-			return map.size();
-		}
-		int get(int k) {
-			Integer v = map.get(k);
-			if (v == null) v = 0;
-			return v;
-		}
-		void put(int k, int v) {
-			if (v==0) map.remove(k);
-			else map.put(k, v);
-		}
-		void inc(int k) {
-			int v = get(k);
-			v++;
-			put(k, v);
-		}
-		void dec(int k) {
-			int v = get(k);
-			v--;
-			put(k, v);
-		}
-		void add(int k, int x) {
-			int v = get(k);
-			v += x;
-			put(k, v);
-		}
-		void sub(int k, int x) {
-			int v = get(k);
-			v -= x;
-			put(k, v);
-		}
-		NavigableSet<Integer> keySet() {
-			return (NavigableSet<Integer>) map.keySet();
-		}
-		@Override
-		public int hashCode() {
-			return Objects.hash(map);
-		}
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj) return true;
-			if (obj == null) return false;
-			if (getClass() != obj.getClass()) return false;
-			Counter other = (Counter) obj;
-			return Objects.equals(map, other.map);
-		}
-		@Override
-		public String toString() {
-			return map.toString();
-		}
 	}
 }
 /*
@@ -92,4 +35,7 @@ RRLRL
 RRLLLLRLRRLL
 
 RRRLLRLLRRRLLLLL
+*/
+/*
+RRRRRRRRLLLLLLLL
 */
