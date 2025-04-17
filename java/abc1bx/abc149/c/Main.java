@@ -26,7 +26,7 @@ public class Main {
 	//  100,000,000  1537ms
 	//   10,000,000    98ms
 	//    1,000,000    17ms
-	static class Prime {
+	static class Prime { //Prime20250103
 		int n;
 		boolean[] isp;
 		List<Integer> list = new ArrayList<>();
