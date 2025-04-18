@@ -9,7 +9,7 @@
 		if (DEBUG) DEBUG(Arrays.toString(x));
     }
 	static final long M=998244353;
-	//abc065_c,abc211_c,abc211_d,abc291_d: valをMで割った余り
+	//abc052_c,abc065_c,abc211_c,abc211_d,abc291_d: valをMで割った余り
 	static long mod(long val) {
 		return val%M;
 	}
@@ -17,7 +17,7 @@
 	static long modadd(long val, long x) {
 		return mod(val+x);
 	}
-	//abc065_c: val*xをMで割った余り
+	//abc052_c,abc065_c: val*xをMで割った余り
 	static long modmul(long val, long x) {
 		return mod(val*x);
 	}
