@@ -49,3 +49,9 @@ else break;　を削除。
 # Main_fix
 余計なコメントアウトを削除。
 
+# Main_fix2
+Primeにdivisors()を追加。
+標準だとTLEのため、
+divisors内のCollections.sort(list);をコメントアウトしてもTLEのため、
+List<Integer> list = new ArrayList<>();もコメントアウト。
+

@@ -2,7 +2,7 @@
 	//  100,000,000  1537ms
 	//   10,000,000    98ms
 	//    1,000,000    17ms
-	static class Prime { //Prime20250419
+	static class Prime { //Prime20250420
 		int n;
 		boolean[] isp;
 		int[] minf;
@@ -49,6 +49,29 @@
 					n/=nxt;
 				}
 				ans*=cnt;
+			}
+			return ans;
+		}
+		int[] divisors(int n) {
+			List<Integer> list=new ArrayList<>();
+			list.add(1);
+			while (n>1) {
+				List<Integer> lst=new ArrayList<>();
+				int nxt=minf[n];
+				int val=nxt;
+				while (n%nxt==0) {
+					for (int v : list) {
+						lst.add(v*val);
+					}
+					n/=nxt;
+					val*=nxt;
+				}
+				list.addAll(lst);
+			}
+			Collections.sort(list);
+			int[] ans=new int[list.size()];
+			for (int i=0; i<list.size(); i++) {
+				ans[i]=list.get(i);
 			}
 			return ans;
 		}
