@@ -1,9 +1,99 @@
 import java.util.*;
 public class Main {
+	public static void main(String[] args) {
+		main_check(args);
+		main_divisors(args);
+		main_sum(args);
+		main_factorize(args);
+		main_factors(args);
+	}
+	//100,000,000 5,184ms 40,773ms
+	// 10,000,000   394ms  3,602ms
+	//  1,000,000    24ms    417ms
+	public static void main_factors(String[] args) {
+		final int N=1*1000*1000;
+		long st1=System.currentTimeMillis();
+		Prime pr=new Prime(N+1);
+		long st2=System.currentTimeMillis();
+		for (int i=0; i<=N; i++) {
+			int[] af=pr.factors(i);
+			int[][] ary=pr.factorize(i);
+			int idx=0;
+			for (int j=0; j<ary.length; j++) {
+				int v=ary[j][0];
+				for (int k=0; k<ary[j][1]; k++) {
+					if (af[idx++]!=v) {
+						System.out.println(i+" "+j+" "+k);
+					}
+				}
+			}
+		}
+		long st3=System.currentTimeMillis();
+		long tm2=st2-st1;
+		long tm3=st3-st2;
+		System.out.println("end of check "+tm2+" "+tm3);
+	}
+	//100,000,000 4,861ms 210,781ms
+	// 10,000,000   399ms  13,899ms
+	//  1,000,000    23ms   1,448ms
+	public static void main_factorize(String[] args) {
+		final int N=1*1000*1000;
+		long st1=System.currentTimeMillis();
+		Prime pr=new Prime(N+1);
+		long st2=System.currentTimeMillis();
+		for (int i=0; i<=N; i++) {
+			int[][] ary=pr.factorize(i);
+			int[] ap=pr.divisors(i);
+			List<Integer> list=new ArrayList<>();
+			list.add(1);
+			for (int j=0; j<ary.length; j++) {
+				List<Integer> lst=new ArrayList<>();
+				int nxt=ary[j][0];
+				int val=nxt;
+				for (int k=0; k<ary[j][1]; k++) {
+					for (int v : list) lst.add(v*val);
+					val*=nxt;
+				}
+				list.addAll(lst);
+			}
+			Collections.sort(list);
+			for (int j=0; j<list.size(); j++) {
+				if (list.get(j)!=ap[j]) {
+					System.out.println(i+":"+list);
+				}
+			}
+		}
+		long st3=System.currentTimeMillis();
+		long tm2=st2-st1;
+		long tm3=st3-st2;
+		System.out.println("end of check "+tm2+" "+tm3);
+	}
+	//100,000,000 4,177ms 74,595ms
+	// 10,000,000   387ms  6,160ms
+	//  1,000,000    23ms    704ms
+	public static void main_sum(String[] args) {
+		final int N=1*1000*1000;
+		long st1=System.currentTimeMillis();
+		Prime pr=new Prime(N+1);
+		long st2=System.currentTimeMillis();
+		for (int i=0; i<=N; i++) {
+			long sum=pr.sum(i);
+			int[] ap=pr.divisors(i);
+			long sum2=0;
+			for (int v : ap) sum2+=v;
+			if (sum!=sum2) {
+				System.out.println(i+":"+Arrays.toString(ap)+" "+sum);
+			}
+		}
+		long st3=System.currentTimeMillis();
+		long tm2=st2-st1;
+		long tm3=st3-st2;
+		System.out.println("end of check "+tm2+" "+tm3);
+	}
 	//100,000,000 5,061ms 90,756ms
 	// 10,000,000   387ms  5,890ms
 	//  1,000,000    22ms    664ms
-	public static void main(String[] args) {
+	public static void main_divisors(String[] args) {
 		final int N=1*1000*1000;
 		long st1=System.currentTimeMillis();
 		Prime pr=new Prime(N+1);
@@ -12,7 +102,7 @@ public class Main {
 			int[] ap=pr.divisors(i);
 			long cnt=pr.count(i);
 			if (ap.length!=cnt) {
-				System.out.println(i+":"+Arrays.toString(ap));
+				System.out.println(i+":"+Arrays.toString(ap)+" "+cnt);
 			}
 		}
 		long st3=System.currentTimeMillis();
@@ -25,7 +115,7 @@ public class Main {
 	//  1,000,000 (N= 1,000) 0ms     22ms     156ms
 	//     10,000 (N=   100) 0ms      1ms       3ms
 	public static void main_check(String[] args) {
-		final int N=100;
+		final int N=1000;
 		long st1=System.currentTimeMillis();
 		Prime pr1=new Prime(N+1);
 		long st2=System.currentTimeMillis();
@@ -46,7 +136,7 @@ public class Main {
 	//  100,000,000  1537ms
 	//   10,000,000    98ms
 	//    1,000,000    17ms
-	static class Prime { //Prime20250420
+	static class Prime { //Prime20250421
 		int n;
 		boolean[] isp;
 		int[] minf;
@@ -77,9 +167,7 @@ public class Main {
 			if (x>(long)n*n) throw new RuntimeException();
 			if (x<n) return isp[(int)x];
 			for (int i : list) {
-				if (x%i==0) {
-					return false;
-				}
+				if (x%i==0) return false;
 			}
 			return true;
 		}
@@ -96,6 +184,21 @@ public class Main {
 			}
 			return ans;
 		}
+		long sum(int n) {
+			long ans=1;
+			while (n>1) {
+				int nxt=minf[n];
+				int val=1;
+				long sum=1;
+				while (n%nxt==0) {
+					val*=nxt;
+					sum+=val;
+					n/=nxt;
+				}
+				ans*=sum;
+			}
+			return ans;
+		}
 		int[] divisors(int n) {
 			List<Integer> list=new ArrayList<>();
 			list.add(1);
@@ -104,9 +207,7 @@ public class Main {
 				int nxt=minf[n];
 				int val=nxt;
 				while (n%nxt==0) {
-					for (int v : list) {
-						lst.add(v*val);
-					}
+					for (int v : list) lst.add(v*val);
 					n/=nxt;
 					val*=nxt;
 				}
@@ -116,6 +217,41 @@ public class Main {
 			int[] ans=new int[list.size()];
 			for (int i=0; i<list.size(); i++) {
 				ans[i]=list.get(i);
+			}
+			return ans;
+		}
+		int[] factors(int n) {
+			List<Integer> list=new ArrayList<>();
+			while (n>1) {
+				int nxt=minf[n];
+				while (n%nxt==0) {
+					list.add(nxt);
+					n/=nxt;
+				}
+			}
+			int[] ans=new int[list.size()];
+			for (int i=0; i<list.size(); i++) {
+				ans[i]=list.get(i);
+			}
+			return ans;
+		}
+		int[][] factorize(int n) {
+			List<Integer> lb=new ArrayList<>();
+			List<Integer> le=new ArrayList<>();
+			while (n>1) {
+				int nxt=minf[n];
+				int cnt=0;
+				while (n%nxt==0) {
+					n/=nxt;
+					cnt++;
+				}
+				lb.add(nxt);
+				le.add(cnt);
+			}
+			int[][] ans=new int[lb.size()][2];
+			for (int i=0; i<lb.size(); i++) {
+				ans[i][0]=lb.get(i);
+				ans[i][1]=le.get(i);
 			}
 			return ans;
 		}

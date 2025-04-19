@@ -1,3 +1,42 @@
+import java.util.*;
+public class Main {
+	static final long M=1000000007; //10^9+7
+	public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+		int n=sc.nextInt();
+		Prime pr=new Prime(n+1);
+		int[] exp=new int[n+1];
+		for (int i=2; i<=n; i++) {
+			int[] f1=pr.factors(i);
+//			int[][] f2=pr.factorize(i);
+//			System.out.println(i+": "+Arrays.toString(f1));
+//			System.out.print(i+":");
+//			for (int j=0; j<f2.length; j++) {
+//				System.out.print(" "+Arrays.toString(f2[j]));
+//			}
+//			System.out.println();
+			for (int v : f1) {
+				exp[v]++;
+			}
+//			for (int j=0; j<f2.length; j++) {
+//				exp[f2[j][0]]+=f2[j][1];
+//			}
+		}
+//		System.out.println(Arrays.toString(exp));
+		long ans=1;
+		for (int i=2; i<=n; i++) {
+			ans=modmul(ans, exp[i]+1);
+		}
+		System.out.println(ans);
+	}
+	//abc052_c,abc065_c,abc211_c,abc211_d,abc291_d: valをMで割った余り
+	static long mod(long val) {
+		return val%M;
+	}
+	//abc052_c,abc065_c: val*xをMで割った余り
+	static long modmul(long val, long x) {
+		return mod(val*x);
+	}
 	//1,000,000,000 16678ms
 	//  100,000,000  1537ms
 	//   10,000,000    98ms
@@ -122,3 +161,11 @@
 			return ans;
 		}
 	}
+}
+/*
+3
+
+6
+
+1000
+*/

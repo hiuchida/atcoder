@@ -10,3 +10,6 @@ ansを出力する。
 Mainを元に、f1=factors(i)　の代わりに　f2=factorize(i)　を呼び出す。
 jを0からf2.length回ループし、exp[f2[j][0]]+=f2[j][1]に加える。
 
+# Main\_fix
+Primeにsum(),factors(),factorize()を追加。
+
