@@ -101,6 +101,12 @@ static classとしてMain内部に貼り付ける。
 abc075/bより共通化
 checkrange()、check()追加
 
+# MyArray
+abc280/dより共通化
+static classとしてMain内部に貼り付ける。
+ArrayList<Integer>のラッパークラスのオーバーヘッド削減のため、
+add()の際に自動拡張するint\[\]を管理する。
+
 # MyDeque\_i
 # MyDeque\_l
 typical90/061より共通化
