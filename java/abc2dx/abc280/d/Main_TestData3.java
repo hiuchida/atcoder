@@ -1,25 +1,31 @@
 import java.util.*;
 public class Main {
-	//#1000000 23031s
 	public static void main(String[] args) {
 		final long M=(long)1e12;
-		Random r=new Random();
-		long st=(long)1;
-		long ed=(long)1e6;
+		final int m=(int)1e6;
+		Prime pr=new Prime(m+1);
+		System.out.println(pr.list.size());
+		int cnt=0;
 		long st1=System.currentTimeMillis();
-		for (long k=st; k<=ed; k++) {
-			if (k%100==0) {
+		for (long v : pr.list) {
+			long k=v*v;
+			cnt++;
+			if (cnt%1000==0) {
 				long st2=System.currentTimeMillis();
 				long tm1=(st2-st1)/1000;
-				System.out.println("#"+k+" "+tm1+"s");
+				System.out.println("#"+cnt+" "+k+" "+tm1+"s");
 			}
+			if (k<m) continue;
 			long a0=solve0(k);
 			long a=solve(k);
 			if (a0!=a) {
 				System.out.println(k+" "+a0+" "+a);
-				return;
+//				return;
 			}
 		}
+		long st2=System.currentTimeMillis();
+		long tm1=(st2-st1)/1000;
+		System.out.println("#end"+" "+tm1+"s");
 	}
 //	public static void main(String[] args) {
 	static long solve0(long k) {
