@@ -1,12 +1,6 @@
 import java.util.*;
 public class Main {
-	static final long M=998244353;
-	static long mod(long val) {
-		return val%M;
-	}
-	static int modadd(long val, long x) {
-		return (int)mod(val+x);
-	}
+	static final long M=998244353;  //10^9-1755647
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int n = sc.nextInt();
@@ -18,7 +12,7 @@ public class Main {
 			for (int i=0; i<=k; i++) {
 				for (int j=1; j<=m; j++) {
 					if (i+j>k) break;
-					dp[h][i+j]=modadd(dp[h][i+j], dp[h-1][i]);
+					dp[h][i+j]=(int) modadd(dp[h][i+j], dp[h-1][i]);
 				}
 			}
 		}
@@ -27,9 +21,17 @@ public class Main {
 //		}
 		int ans=0;
 		for (int i=1; i<=k; i++) {
-			ans=modadd(ans, dp[n][i]);
+			ans=(int) modadd(ans, dp[n][i]);
 		}
 		System.out.println(ans);
+	}
+	//valをMで割った余り
+	static long mod(long val) { //ModFunc20250421
+		return val%M;
+	}
+	//val+xをMで割った余り
+	static long modadd(long val, long x) { //ModFunc20250421
+		return mod(val+x);
 	}
 }
 /*

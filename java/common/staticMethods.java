@@ -8,19 +8,6 @@
 	static void DEBUG(int[] x) {
 		if (DEBUG) DEBUG(Arrays.toString(x));
     }
-	static final long M=998244353;
-	//abc052_c,abc065_c,abc211_c,abc211_d,abc291_d: valをMで割った余り
-	static long mod(long val) {
-		return val%M;
-	}
-	//abc211_c,abc211_d,abc291_d: val+xをMで割った余り
-	static long modadd(long val, long x) {
-		return mod(val+x);
-	}
-	//abc052_c,abc065_c: val*xをMで割った余り
-	static long modmul(long val, long x) {
-		return mod(val*x);
-	}
 	static void ok() {
 		System.out.println("Yes");
 		System.exit(0);

@@ -41,12 +41,12 @@ public class Main {
 		}
 		System.out.println(ans[n]);
 	}
-	//abc065_c,abc211_c,abc211_d: valをMで割った余り
-	static long mod(long val) {
+	//valをMで割った余り
+	static long mod(long val) { //ModFunc20250421
 		return val%M;
 	}
-	//abc211_c,abc211_d: val+xをMで割った余り
-	static long modadd(long val, long x) {
+	//val+xをMで割った余り
+	static long modadd(long val, long x) { //ModFunc20250421
 		return mod(val+x);
 	}
 	static class Que { //Que_cur20250416

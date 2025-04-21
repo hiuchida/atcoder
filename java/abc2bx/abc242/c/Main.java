@@ -1,6 +1,6 @@
 import java.util.*;
 public class Main {
-	static final long M=998244353;
+	static final long M=998244353;  //10^9-1755647
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int n = sc.nextInt();
@@ -15,7 +15,8 @@ public class Main {
 		long ans=sum(ary);
 		System.out.println(ans);
 	}
-	static long mod(long val) {
+	//valをMで割った余り
+	static long mod(long val) { //ModFunc20250421
 		return val%M;
 	}
 	static long sum(long[] ary) {

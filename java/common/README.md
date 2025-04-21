@@ -101,6 +101,14 @@ static classとしてMain内部に貼り付ける。
 abc075/bより共通化
 checkrange()、check()追加
 
+# ModFund
+staticMethodsより共通化
+staticメソッドとしてMain内部に貼り付ける。
+今のところ状態を保持しないため、クラスにはしない。
+abc052_c,abc065_c,abc211_c,abc211_d,abc242\_c,abc248\_c,abc291_d: long mod(long val)
+abc211_c,abc211_d,abc242\_c,abc248\_c,abc291_d: long modadd(long val, long x)
+abc052_c,abc065_c: long modmul(long val, long x)
+
 # MyArray
 abc280/dより共通化
 static classとしてMain内部に貼り付ける。

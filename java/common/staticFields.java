@@ -1,7 +1,3 @@
-	static final long M=998244353;  //10^9-1755647
-	static final long M=1000000000; //10^9
-	static final long M=1000000007; //10^9+7
-
 	static final int[] DY = { -1, 1, 0, 0 }; //U,D,L,R
 	static final int[] DX = {  0, 0,-1, 1 }; //U,D,L,R
 	static final String DS = "UDLR";

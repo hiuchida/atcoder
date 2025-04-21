@@ -27,10 +27,12 @@ public class Main {
 		long ans=dp[8][n];
 		System.out.println(ans);
 	}
-	static long mod(long val) { //abc065_c,abc211_c,abc211_d: valをMで割った余り
+	//valをMで割った余り
+	static long mod(long val) { //ModFunc20250421
 		return val%M;
 	}
-	static long modadd(long val, long x) { //abc211_c,abc211_d: val+xをMで割った余り
+	//val+xをMで割った余り
+	static long modadd(long val, long x) { //ModFunc20250421
 		return mod(val+x);
 	}
 }

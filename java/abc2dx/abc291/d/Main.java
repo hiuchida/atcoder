@@ -25,10 +25,12 @@ public class Main {
 		long ans=modadd(dp[n-1][0], dp[n-1][1]);
 		System.out.println(ans);
 	}
-	static long mod(long val) { //abc065_c,abc211_c,abc211_d,abc291_d: valをMで割った余り
+	//valをMで割った余り
+	static long mod(long val) { //ModFunc20250421
 		return val%M;
 	}
-	static long modadd(long val, long x) { //abc211_c,abc211_d,abc291_d: val+xをMで割った余り
+	//val+xをMで割った余り
+	static long modadd(long val, long x) { //ModFunc20250421
 		return mod(val+x);
 	}
 }
