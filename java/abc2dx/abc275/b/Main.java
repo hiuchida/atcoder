@@ -1,6 +1,6 @@
 import java.util.*;
 public class Main {
-	static final long M=998244353;
+	static final long M=998244353;  //10^9-1755647
 	public static void main(String[] args) {
 		Scanner sc=new Scanner(System.in);
 		long a=sc.nextLong();
@@ -35,4 +35,9 @@ public class Main {
 1 1 1000000000 0 0 0
 
 1000000000000000000 1000000000000000000 1000000000000000000 1000000000000000000 1000000000000000000 1000000000000000000
+*/
+/*
+1000 1000 1000 121 121 121
+↓ok
+998228439
 */

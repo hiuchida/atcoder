@@ -11,3 +11,10 @@ WA8個。
 # Main
 Main01を元に、ansを計算した際に負の数の場合にMを加える。
 
+# Main\_fix
+ModFunc20250423適用
+
+# Main\_TestData
+Main01の再現条件の調査ツール
+1000 1000 1000 121 121 121
+
