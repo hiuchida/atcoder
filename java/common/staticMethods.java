@@ -109,6 +109,12 @@
 		while (v<=x) v*=10;
 		return v;
 	}
+	//abc357_d: x<10^kを満たす最小の10^k
+	static long calc(long x) {
+		long v=1;
+		while (v<=x) v*=10;
+		return v;
+	}
 	//abc081_b: nを2で割り切れる回数
 	static int calc(int n) {
 		int ans=0;

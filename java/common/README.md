@@ -14,14 +14,18 @@ Map<Integer, Bean>ならばBeanの中を更新できる。
 
 # Counter\_int\_int
 abc082/cより共通化
-abc082/c,abc183/f,abc231/d,abc252/d,abc273/c,abc350/d,abc369/c,abc398/c
-abc210/c,abc241/b,abc360/c,abc397/c: dec()使用
-abc253/c: NavigableSet<Integer> keySet()使用
 static classとしてMain内部に貼り付ける。
 Map<Integer, Integer> mapを使って、int kの個数を数える。
 get(),put()を提供し、remove()は暗黙的に実行される。
 内部値の更新時、カウントが0になったときにremove()する。
 inc(),dec(),add(),sub()で内部値を更新する。
+## Counter_int_int20250410
+abc082/c,abc183/f,abc231/d,abc252/d,abc273/c,abc350/d,abc369/c,abc398/c
+abc210/c,abc241/b,abc360/c,abc397/c: dec()使用
+## Counter_int_int20250413
+abc253/c: NavigableSet<Integer> keySet()使用
+## Counter_int_int20250416
+abc136/d,abc292/d,abc295/d: public int hashCode()、public boolean equals(Object obj)を追加
 
 # Counter_int_listbean
 abc362/dより共通化
@@ -37,8 +41,6 @@ get()で取得したList<Bean>からすべて削除しても、0件でmapに残�
 
 # Counter\_int\_listint
 abc248/dより共通化
-abc168/d,abc223/d,abc248/d,abc270/c,abc276/b,abc277/c,abc282/c,abc399/c
-abc260/d: NavigableSet<Integer> keySet()使用
 static classとしてMain内部に貼り付ける。
 Map<Integer, List<Integer>> mapを使って、int kに関連したint idxをリストに追加する。
 get(),put(),remove()を提供する。
@@ -47,12 +49,13 @@ add()で内部リストに追加する。
 他のリスト操作はget()で取得して行うが、反映させるためにはput()を呼ぶ必要がある。
 ただし新規はput()を呼ばないと反映されないが、既存の場合は参照渡しなので、put()を呼ばずに捨てても変更は反映される。
 get()で取得したList<Integer>からすべて削除しても、0件でmapに残る。
+## Counter\_int\_listint20250410
+abc168/d,abc223/d,abc248/d,abc270/c,abc276/b,abc277/c,abc282/c,abc288/c,abc399/c
+## Counter\_int\_listint20250413
+abc211\/d,abc260/d,abc287/c,abc292/d: NavigableSet<Integer> keySet()使用
 
 # Counter_int_setint
 abc278/cより共通化
-abc223/d: WAソース。Counter_int_listint20250410に変更
-abc273/d: get().lower(),get().higher()使用
-abc278/c: del(),is()使用
 static classとしてMain内部に貼り付ける。
 Map<Integer, TreeSet<Integer>> mapを使って、int kに関連したint idxをセットで管理する。
 get(),put(),remove()を提供する。
@@ -61,6 +64,10 @@ add(),del(),is()で内部セットを操作する。
 他のセット操作はget()で取得して行うが、反映させるためにはput()を呼ぶ必要がある。
 ただし新規はput()を呼ばないと反映されないが、既存の場合は参照渡しなので、put()を呼ばずに捨てても変更は反映される。
 del()ですべて削除しても、0件でmapに残る。
+## Counter_int_setint250414
+abc223/d: WAソース。Counter_int_listint20250410に変更
+abc273/d: get().lower(),get().higher()使用
+abc278/c: del(),is()使用
 
 # Counter_long_int
 abc233/dより共通化
@@ -167,6 +174,23 @@ static classとしてMain内部に貼り付ける。
 # Prime
 abc383/dより共通化
 static classとしてMain内部に貼り付ける。
+## Prime20250103
+abc149\_c,abc215\_d,abc239\_d,abc250\_d,abc284\_d,abc383\_d
+## Prime20250330
+abc149\_c,abc292\_c
+boolean check(int x)を追加
+## Prime20250418
+abc292_c
+int[] minf;、long count(int n)を追加
+## Prime20250419
+abc254\_d
+boolean check(long x)に変更
+## Prime20250420
+abc052\_c,abc149\_c,abc254\_d
+int[] divisors(int n)を追加
+## Prime20250421
+abc052\_c,abc172\_d,abc215\_d,abc280\_d
+long sum(int n)、int[] factors(int n)、int[][] factorize(int n)を追加
 
 # Que_cur
 abc287/cより共通化
@@ -206,7 +230,7 @@ abc269/dより共通化
 static classとしてMain内部に貼り付ける。
 (x,y)をx+y\*wの添字に変換して管理する。
 
-## UnionFind_ltrt
+# UnionFind_ltrt
 UnionFindに左端と右端を持たせる。
 mergeは連続していることを前提に使う。
 本来、low/highやfloor/ceilingかもしれない。
