@@ -1,6 +1,6 @@
 import java.util.*;
 public class Main {
-	static final long M=998244353L;
+	static final long M=998244353;  //10^9-1755647
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int n = sc.nextInt();
