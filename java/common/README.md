@@ -105,8 +105,9 @@ checkrange()、check()追加
 staticMethodsより共通化
 staticメソッドとしてMain内部に貼り付ける。
 今のところ状態を保持しないため、クラスにはしない。
+abc401\_c: long mod(long val) val<0対応
 abc052_c,abc065_c,abc211_c,abc211_d,abc242\_c,abc248\_c,abc291_d: long mod(long val)
-abc211_c,abc211_d,abc242\_c,abc248\_c,abc291_d: long modadd(long val, long x)
+abc211_c,abc211_d,abc242\_c,abc248\_c,abc291_d,abc401\_c: long modadd(long val, long x)
 abc052_c,abc065_c: long modmul(long val, long x)
 
 # MyArray

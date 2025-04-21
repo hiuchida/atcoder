@@ -18,3 +18,9 @@ int[] ary、int sum　を　long[] ary、long sum　に変更する。
 sum-=ary[i-k]　を　sum+=M-ary[i-k]　に変更する。
 最後に　ary[n]　を　ans=ary[n]%M　に変更する。
 
+# Main\_fix
+ans=ary[n]%M　を　ans=ary[n]　に修正
+
+# Main\_fix2
+ModFunc20250422適用
+

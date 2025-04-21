@@ -16,20 +16,27 @@ public class Main {
 			sum+=ary[i];
 		}
 		for (int i=k; i<=n; i++) {
-//			int sum=0;
-//			for (int j=i-k; j<i; j++) {
-//				sum+=ary[j];
-//				sum%=M;
-//			}
 			ary[i]=sum;
-//			sum-=ary[i-k];
-			sum+=M-ary[i-k];
-			sum+=ary[i];
-			sum%=M;
+//			sum-=ary[i-k]; //ng
+//			sum+=M-ary[i-k]; //fix
+//			sum+=ary[i];
+//			sum%=M;
+			sum=modadd(sum, -ary[i-k]);
+			sum=modadd(sum, ary[i]);
 		}
 //		System.out.println(Arrays.toString(ary));
 		long ans=ary[n];
 		System.out.println(ans);
+	}
+	//valをMで割った余り
+	static long mod(long val) { //ModFunc20250422
+		val%=M;
+		if (val<0) val+=M;
+		return val;
+	}
+	//val+xをMで割った余り
+	static long modadd(long val, long x) { //ModFunc20250422
+		return mod(val+x);
 	}
 }
 /*
