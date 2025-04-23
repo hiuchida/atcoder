@@ -83,7 +83,7 @@ public class Main {
 		if (u < 0) u += m;
 		return u;
 	}
-	static class MyDeque {
+	static class MyDeque { //MyDeque_int20250327
 		int[] ary;
 		int head;
 		int tail;

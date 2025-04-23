@@ -17,3 +17,5 @@ cmd==1の場合、val=modmul(val, 10)、val=modadd(val, x)、w=modmul(w, 10)を�
 cmd==2の場合、y=que.removeFirst()を取り出し、v=modmul(y, w)、val=modadd(val, -v)、w=modmul(w, M_10)を計算する。
 cmd==3の場合、valを出力する。
 
+MyDeque_int20250327を適用
+

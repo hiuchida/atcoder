@@ -1,9 +1,12 @@
-	static class MyDeque { //MyDeque_int20250326
+	static class MyDeque { //MyDeque_int20250327
 		int[] ary;
 		int head;
 		int tail;
 		MyDeque(int n, int i) {
-			ary = new int[n+1];
+			n++;
+			n += n%2==0 ? 1 : 0;
+			if (i<0) i=n/2;
+			ary = new int[n];
 			head = i;
 			tail = i;
 			Arrays.fill(ary, -1);
@@ -13,9 +16,14 @@
 			if (head>t) t += ary.length;
 			return t-head;
 		}
+		int get(int i) {
+			i += head;
+			if (i >= ary.length) i -= ary.length;
+			return ary[i];
+		}
 		void addFirst(int x) {
 			head--;
-			if (head < 0) head = ary.length - 1;
+			if (head < 0) head += ary.length;
 			ary[head]=x;
 		}
 		void addLast(int x) {
@@ -30,10 +38,12 @@
 			if (head >= ary.length) head -= ary.length;
 			return x;
 		}
-		int get(int i) {
-			i += head-1;
-			if (i >= ary.length) i -= ary.length;
-			return ary[i];
+		int removeLast() {
+			tail--;
+			if (tail < 0) tail += ary.length;
+			int x=ary[tail];
+			ary[tail]=-1;
+			return x;
 		}
 		@Override
 		public String toString() {

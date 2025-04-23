@@ -139,6 +139,9 @@ ArrayDeque<Integer>で十分使えるが、get(int idx)がないため、
 typical90/061
 ## MyDeque\_int20250326
 abc237/d: size(),removeFirst()
+## MyDeque\_int20250327
+abc298/d: removeLast()
+
 # MyDeque\_long
 abc389\/cより共通化
 ## MyDeque\_long20250316

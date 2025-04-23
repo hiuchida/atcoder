@@ -49,7 +49,7 @@ public class Main {
 		x=mod(x);
 		return mod(val*x);
 	}
-	static class MyDeque {
+	static class MyDeque { //MyDeque_int20250327
 		int[] ary;
 		int head;
 		int tail;
