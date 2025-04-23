@@ -38,3 +38,6 @@ w>1の場合、ans=calc(w-1, w)を呼び出す。
 
 n-=w-1を更新し、nn=modmul(n, n+1)、nn2=modmul(nn, M_2)を入れ、modadd(ans, nn2)を返す。
 
+# Main\_fix
+ModFunc20250424を適用して、M_2=modinv(2, M)を計算する。
+
