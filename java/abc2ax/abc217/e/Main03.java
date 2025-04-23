@@ -24,7 +24,7 @@ public class Main {
 			}
 		}
 	}
-	static class MyDeque {
+	static class MyDeque { //unused MyDeque_int
 		Integer[] ary;
 		int head;
 		int tail;
