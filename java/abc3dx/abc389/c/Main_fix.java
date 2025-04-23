@@ -33,35 +33,7 @@ public class Main {
 			}
 		}
 	}
-/*
-7
-1 5
-1 7
-3 2
-1 3
-1 4
-2
-3 3
-
-3
-1 1
-2
-1 3
-
-10
-1 15
-1 10
-1 5
-2
-1 5
-1 10
-1 15
-2
-3 4
-3 2
-*/
-
-	static class MyDeque {
+	static class MyDeque { //MyDeque_long20250316
 		long[] ary;
 		int head;
 		int tail;
@@ -151,3 +123,30 @@ public class Main {
 		System.exit(0);
 	}
 }
+/*
+7
+1 5
+1 7
+3 2
+1 3
+1 4
+2
+3 3
+
+3
+1 1
+2
+1 3
+
+10
+1 15
+1 10
+1 5
+2
+1 5
+1 10
+1 15
+2
+3 4
+3 2
+*/
