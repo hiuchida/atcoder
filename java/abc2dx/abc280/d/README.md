@@ -95,6 +95,8 @@ Main13を元に、
 ans=0を用意し、iを2からMまでループし、
 ary[i]>0の場合、ans+=(long)i*(ary[i]+1)を更新する。
 
+MyArray_int20250420を適用
+
 # Main\_fix
 MyArrayを削除し、余計なコメントアウトを削除する。
 実行時間が、202msから266msに延びた。

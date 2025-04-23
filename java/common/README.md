@@ -124,11 +124,13 @@ abc275\_b,abc353\_d: long modmul(long val, long x) mod(val)\*mod(x)
 ## ModFunc20250424
 abc238\_c,abc298\_d: long modinv(long val, long m)
 
-# MyArray
+# MyArray\_int
 abc280/dより共通化
 static classとしてMain内部に貼り付ける。
 ArrayList<Integer>のラッパークラスのオーバーヘッド削減のため、
 add()の際に自動拡張するint\[\]を管理する。
+## MyArray\_int20250420
+abc280/d: Prime内で使用したが、最終的に未使用
 
 # MyDeque\_int
 typical90/061より共通化

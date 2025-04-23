@@ -59,7 +59,7 @@ public class Main {
 			}
 		}
 	}
-	static class MyArray {
+	static class MyArray { //MyArray_int20250420
 		int[] array;
 		int size=0;
 		MyArray() {
