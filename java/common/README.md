@@ -146,6 +146,9 @@ abc298/d: removeLast()
 abc389\/cより共通化
 ## MyDeque\_long20250316
 abc389\/c
+## MyDeque\_long20250327
+未使用
+size(),removeLast()
 
 # PairL
 abc349/dより共通化
