@@ -10,27 +10,6 @@ public class Main {
 	static void DEBUG(int[] x) {
 		if (DEBUG) DEBUG(Arrays.toString(x));
     }
-	static class MyDeque {
-		int[] ary;
-		int head;
-		int tail;
-		MyDeque(int n) {
-			ary = new int[n*2];
-			head = n;
-			tail = n;
-		}
-		void addFirst(int x) {
-			head--;
-			ary[head]=x;
-		}
-		void addLast(int x) {
-			ary[tail]=x;
-			tail++;
-		}
-		int get(int i) {
-			return ary[head+i-1];
-		}
-	}
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int q = sc.nextInt();
@@ -50,6 +29,27 @@ public class Main {
 				System.out.println(v);
 				break;
 			}
+		}
+	}
+	static class MyDeque { //unused MyDeque_int
+		int[] ary;
+		int head;
+		int tail;
+		MyDeque(int n) {
+			ary = new int[n*2];
+			head = n;
+			tail = n;
+		}
+		void addFirst(int x) {
+			head--;
+			ary[head]=x;
+		}
+		void addLast(int x) {
+			ary[tail]=x;
+			tail++;
+		}
+		int get(int i) {
+			return ary[head+i-1];
 		}
 	}
 }

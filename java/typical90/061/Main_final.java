@@ -10,7 +10,31 @@ public class Main {
 	static void DEBUG(int[] x) {
 		if (DEBUG) DEBUG(Arrays.toString(x));
     }
-	static class MyDeque {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int q = sc.nextInt();
+		MyDeque que = new MyDeque(q, 0);
+		DEBUG(que);
+		for (int i=0; i<q; i++) {
+			int t = sc.nextInt();
+			int x = sc.nextInt();
+			switch (t) {
+			case 1:
+				que.addFirst(x);
+				DEBUG(que);
+				break;
+			case 2:
+				que.addLast(x);
+				DEBUG(que);
+				break;
+			case 3:
+				int v=que.get(x);
+				System.out.println(v);
+				break;
+			}
+		}
+	}
+	static class MyDeque { //MyDeque_int20250105
 		int[] ary;
 		int head;
 		int tail;
@@ -37,30 +61,6 @@ public class Main {
 		@Override
 		public String toString() {
 			return Arrays.toString(ary) + " " + head + " " + tail;
-		}
-	}
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-		int q = sc.nextInt();
-		MyDeque que = new MyDeque(q, 0);
-		DEBUG(que);
-		for (int i=0; i<q; i++) {
-			int t = sc.nextInt();
-			int x = sc.nextInt();
-			switch (t) {
-			case 1:
-				que.addFirst(x);
-				DEBUG(que);
-				break;
-			case 2:
-				que.addLast(x);
-				DEBUG(que);
-				break;
-			case 3:
-				int v=que.get(x);
-				System.out.println(v);
-				break;
-			}
 		}
 	}
 }

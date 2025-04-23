@@ -130,12 +130,14 @@ static classとしてMain内部に貼り付ける。
 ArrayList<Integer>のラッパークラスのオーバーヘッド削減のため、
 add()の際に自動拡張するint\[\]を管理する。
 
-# MyDeque\_i
-# MyDeque\_l
+# MyDeque\_int
 typical90/061より共通化
 static classとしてMain内部に貼り付ける。
 ArrayDeque<Integer>で十分使えるが、get(int idx)がないため、
 バッファサイズが固定で、addFirst,addLast,getのみ提供する。
+## MyDeque\_int20250105
+typical90/061
+# MyDeque\_l
 
 # PairL
 abc349/dより共通化
