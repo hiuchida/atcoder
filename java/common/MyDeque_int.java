@@ -1,4 +1,4 @@
-	static class MyDeque { //MyDeque_int20250105
+	static class MyDeque { //MyDeque_int20250326
 		int[] ary;
 		int head;
 		int tail;
@@ -6,6 +6,12 @@
 			ary = new int[n+1];
 			head = i;
 			tail = i;
+			Arrays.fill(ary, -1);
+		}
+		int size() {
+			int t=tail;
+			if (head>t) t += ary.length;
+			return t-head;
 		}
 		void addFirst(int x) {
 			head--;
@@ -16,6 +22,13 @@
 			ary[tail]=x;
 			tail++;
 			if (tail >= ary.length) tail -= ary.length;
+		}
+		int removeFirst() {
+			int x=ary[head];
+			ary[head]=-1;
+			head++;
+			if (head >= ary.length) head -= ary.length;
+			return x;
 		}
 		int get(int i) {
 			i += head-1;

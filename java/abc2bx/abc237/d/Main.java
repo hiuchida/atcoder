@@ -21,7 +21,7 @@ public class Main {
 		}
 		System.out.println();
 	}
-	static class MyDeque {
+	static class MyDeque { //MyDeque_int20250326
 		int[] ary;
 		int head;
 		int tail;

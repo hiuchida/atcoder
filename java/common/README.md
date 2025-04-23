@@ -137,6 +137,8 @@ ArrayDeque<Integer>で十分使えるが、get(int idx)がないため、
 バッファサイズが固定で、addFirst,addLast,getのみ提供する。
 ## MyDeque\_int20250105
 typical90/061
+## MyDeque\_int20250326
+abc237/d: size(),removeFirst()
 # MyDeque\_long
 abc389\/cより共通化
 ## MyDeque\_long20250316
