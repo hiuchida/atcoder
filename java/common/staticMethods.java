@@ -177,6 +177,26 @@
 		}
 		return ans;
 	}
+	//abc298_b: 時計周りに90度回転する
+	static int[][] rotate(int n, int[][] ary) {
+		int[][] ans=new int[n][n];
+		for (int y=0; y<n; y++) {
+			for (int x=0; x<n; x++) {
+				ans[y][x]=ary[n-1-x][y];
+			}
+		}
+		return ans;
+	}
+	//abc298_b: aa[i][j]が1の場合のみab[i][j]と比較する
+	static boolean comp(int n, int[][] aa, int[][] ab) {
+		for (int y=0; y<n; y++) {
+			for (int x=0; x<n; x++) {
+				if (aa[y][x]==0) continue;
+				if (aa[y][x]!=ab[y][x]) return false;
+			}
+		}
+		return true;
+	}
 	//abc281_b: 半角数字の判定
 	static boolean checkDigit(char ch) {
 		if ('0'<=ch && ch<='9') return true;
