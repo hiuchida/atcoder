@@ -133,6 +133,8 @@ add()の際に自動拡張するint\[\]を管理する。
 abc280/d: Prime内で使用したが、最終的に未使用
 ## MyArray\_int20250423
 abc301/b: String join(String delimiter)
+## MyArray\_int20250424
+abc296/d: String toString()
 
 # MyDeque\_int
 typical90/061より共通化

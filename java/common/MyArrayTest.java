@@ -21,7 +21,7 @@ public class Main {
 		long tm3=st3-st2;
 		System.out.println("end of check "+tm2+" "+tm3);
 	}
-	static class MyArray { //MyArray_int20250423
+	static class MyArray { //MyArray_int20250424
 		int[] array;
 		int size=0;
 		MyArray() {
@@ -53,6 +53,10 @@ public class Main {
 				sb.append(array[i]);
 			}
 			return sb.toString();
+		}
+		@Override
+		public String toString() {
+			return Arrays.toString(array) + " " + size;
 		}
 	}
 }

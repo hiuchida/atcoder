@@ -39,7 +39,7 @@ public class Main {
 		if (ans==Long.MAX_VALUE) ans=-1;
 		System.out.println(ans);
 	}
-	static class MyArray { //Prime20250424
+	static class MyArray { //MyArray_int20250424
 		int[] array;
 		int size=0;
 		MyArray() {
@@ -77,16 +77,15 @@ public class Main {
 			return Arrays.toString(array) + " " + size;
 		}
 	}
-	//1,000,000,000 16678ms
-	//  100,000,000  1537ms
-	//   10,000,000    98ms
-	//    1,000,000    17ms
-	static class Prime { //Prime20250424
+	//1,000,000,000  ----ms
+	//  100,000,000  4833ms
+	//   10,000,000   367ms
+	//    1,000,000    23ms
+	static class Prime { //Prime20250421
 		int n;
 		boolean[] isp;
 		int[] minf;
-//		List<Integer> list = new ArrayList<>();
-		int[] lst;
+		List<Integer> list = new ArrayList<>();
 		Prime(int n) {
 			this.n = n;
 			this.isp = new boolean[n];
@@ -94,7 +93,6 @@ public class Main {
 			init();
 		}
 		void init() {
-			MyArray ma=new MyArray();
 			isp[0] = false;
 			isp[1] = false;
 			for (int i=2; i<n; i++) isp[i] = true;
@@ -102,21 +100,18 @@ public class Main {
 			for (int i=2; i<n; i++) {
 				if (isp[i]) {
 					minf[i] = i;
-//					list.add(i);
-					ma.add(i);
+					list.add(i);
 					for (int j=i*2; j<n; j+=i) {
 						isp[j] = false;
 						if (minf[j] == 0) minf[j] = i;
 					}
 				}
 			}
-			lst=ma.toArray();
 		}
 		boolean check(long x) {
 			if (x>(long)n*n) throw new RuntimeException();
 			if (x<n) return isp[(int)x];
-//			for (int i : list) {
-			for (int i : lst) {
+			for (int i : list) {
 				if (x%i==0) return false;
 			}
 			return true;
