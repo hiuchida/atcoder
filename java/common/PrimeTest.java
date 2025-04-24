@@ -1,37 +1,88 @@
 import java.util.*;
 public class Main {
 	public static void main(String[] args) {
+		main_init(args);
 		main_check(args);
 		main_divisors(args);
 		main_sum(args);
 		main_factorize(args);
 		main_factors(args);
 	}
-	//100,000,000 5,184ms 40,773ms
-	// 10,000,000   394ms  3,602ms
-	//  1,000,000    24ms    417ms
-	public static void main_factors(String[] args) {
+	//1,000,000,000  ----ms
+	//  100,000,000  4833ms
+	//   10,000,000   367ms
+	//    1,000,000    23ms
+	public static void main_init(String[] args) {
+		final int N=1*1000*1000;
+		long st1=System.currentTimeMillis();
+		Prime pr=new Prime(N+1);
+		long st2=System.currentTimeMillis();
+		long tm2=st2-st1;
+		System.out.println("end of main_init "+tm2);
+	}
+	//400,000,000 (N=20,000) 2ms 23,729ms 416,974ms
+	//100,000,000 (N=10,000) 1ms  5,196ms 110,924ms
+	//  1,000,000 (N= 1,000) 0ms     22ms     156ms
+	//     10,000 (N=   100) 0ms      1ms       3ms
+	public static void main_check(String[] args) {
+		final int N=1000;
+		long st1=System.currentTimeMillis();
+		Prime pr1=new Prime(N+1);
+		long st2=System.currentTimeMillis();
+		Prime pr2=new Prime(N*N+1);
+		long st3=System.currentTimeMillis();
+		for (int i=0; i<=N*N; i++) {
+			if (pr1.check(i)!=pr2.isp[i]) {
+				System.out.println(i);
+			}
+		}
+		long st4=System.currentTimeMillis();
+		long tm2=st2-st1;
+		long tm3=st3-st2;
+		long tm4=st4-st3;
+		System.out.println("end of main_check "+tm2+" "+tm3+" "+tm4);
+	}
+	//100,000,000 5,061ms 90,756ms
+	// 10,000,000   387ms  5,890ms
+	//  1,000,000    22ms    664ms
+	public static void main_divisors(String[] args) {
 		final int N=1*1000*1000;
 		long st1=System.currentTimeMillis();
 		Prime pr=new Prime(N+1);
 		long st2=System.currentTimeMillis();
 		for (int i=0; i<=N; i++) {
-			int[] af=pr.factors(i);
-			int[][] ary=pr.factorize(i);
-			int idx=0;
-			for (int j=0; j<ary.length; j++) {
-				int v=ary[j][0];
-				for (int k=0; k<ary[j][1]; k++) {
-					if (af[idx++]!=v) {
-						System.out.println(i+" "+j+" "+k);
-					}
-				}
+			int[] ap=pr.divisors(i);
+			long cnt=pr.count(i);
+			if (ap.length!=cnt) {
+				System.out.println(i+":"+Arrays.toString(ap)+" "+cnt);
 			}
 		}
 		long st3=System.currentTimeMillis();
 		long tm2=st2-st1;
 		long tm3=st3-st2;
-		System.out.println("end of check "+tm2+" "+tm3);
+		System.out.println("end of main_divisors "+tm2+" "+tm3);
+	}
+	//100,000,000 4,177ms 74,595ms
+	// 10,000,000   387ms  6,160ms
+	//  1,000,000    23ms    704ms
+	public static void main_sum(String[] args) {
+		final int N=1*1000*1000;
+		long st1=System.currentTimeMillis();
+		Prime pr=new Prime(N+1);
+		long st2=System.currentTimeMillis();
+		for (int i=0; i<=N; i++) {
+			long sum=pr.sum(i);
+			int[] ap=pr.divisors(i);
+			long sum2=0;
+			for (int v : ap) sum2+=v;
+			if (sum!=sum2) {
+				System.out.println(i+":"+Arrays.toString(ap)+" "+sum);
+			}
+		}
+		long st3=System.currentTimeMillis();
+		long tm2=st2-st1;
+		long tm3=st3-st2;
+		System.out.println("end of main_sum "+tm2+" "+tm3);
 	}
 	//100,000,000 4,861ms 210,781ms
 	// 10,000,000   399ms  13,899ms
@@ -66,76 +117,38 @@ public class Main {
 		long st3=System.currentTimeMillis();
 		long tm2=st2-st1;
 		long tm3=st3-st2;
-		System.out.println("end of check "+tm2+" "+tm3);
+		System.out.println("end of main_factorize "+tm2+" "+tm3);
 	}
-	//100,000,000 4,177ms 74,595ms
-	// 10,000,000   387ms  6,160ms
-	//  1,000,000    23ms    704ms
-	public static void main_sum(String[] args) {
+	//100,000,000 5,184ms 40,773ms
+	// 10,000,000   394ms  3,602ms
+	//  1,000,000    24ms    417ms
+	public static void main_factors(String[] args) {
 		final int N=1*1000*1000;
 		long st1=System.currentTimeMillis();
 		Prime pr=new Prime(N+1);
 		long st2=System.currentTimeMillis();
 		for (int i=0; i<=N; i++) {
-			long sum=pr.sum(i);
-			int[] ap=pr.divisors(i);
-			long sum2=0;
-			for (int v : ap) sum2+=v;
-			if (sum!=sum2) {
-				System.out.println(i+":"+Arrays.toString(ap)+" "+sum);
+			int[] af=pr.factors(i);
+			int[][] ary=pr.factorize(i);
+			int idx=0;
+			for (int j=0; j<ary.length; j++) {
+				int v=ary[j][0];
+				for (int k=0; k<ary[j][1]; k++) {
+					if (af[idx++]!=v) {
+						System.out.println(i+" "+j+" "+k);
+					}
+				}
 			}
 		}
 		long st3=System.currentTimeMillis();
 		long tm2=st2-st1;
 		long tm3=st3-st2;
-		System.out.println("end of check "+tm2+" "+tm3);
+		System.out.println("end of main_factors "+tm2+" "+tm3);
 	}
-	//100,000,000 5,061ms 90,756ms
-	// 10,000,000   387ms  5,890ms
-	//  1,000,000    22ms    664ms
-	public static void main_divisors(String[] args) {
-		final int N=1*1000*1000;
-		long st1=System.currentTimeMillis();
-		Prime pr=new Prime(N+1);
-		long st2=System.currentTimeMillis();
-		for (int i=0; i<=N; i++) {
-			int[] ap=pr.divisors(i);
-			long cnt=pr.count(i);
-			if (ap.length!=cnt) {
-				System.out.println(i+":"+Arrays.toString(ap)+" "+cnt);
-			}
-		}
-		long st3=System.currentTimeMillis();
-		long tm2=st2-st1;
-		long tm3=st3-st2;
-		System.out.println("end of check "+tm2+" "+tm3);
-	}
-	//400,000,000 (N=20,000) 2ms 23,729ms 416,974ms
-	//100,000,000 (N=10,000) 1ms  5,196ms 110,924ms
-	//  1,000,000 (N= 1,000) 0ms     22ms     156ms
-	//     10,000 (N=   100) 0ms      1ms       3ms
-	public static void main_check(String[] args) {
-		final int N=1000;
-		long st1=System.currentTimeMillis();
-		Prime pr1=new Prime(N+1);
-		long st2=System.currentTimeMillis();
-		Prime pr2=new Prime(N*N+1);
-		long st3=System.currentTimeMillis();
-		for (int i=0; i<=N*N; i++) {
-			if (pr1.check(i)!=pr2.isp[i]) {
-				System.out.println(i);
-			}
-		}
-		long st4=System.currentTimeMillis();
-		long tm2=st2-st1;
-		long tm3=st3-st2;
-		long tm4=st4-st3;
-		System.out.println("end of check "+tm2+" "+tm3+" "+tm4);
-	}
-	//1,000,000,000 16678ms
-	//  100,000,000  1537ms
-	//   10,000,000    98ms
-	//    1,000,000    17ms
+	//1,000,000,000  ----ms
+	//  100,000,000  4833ms
+	//   10,000,000   367ms
+	//    1,000,000    23ms
 	static class Prime { //Prime20250421
 		int n;
 		boolean[] isp;
