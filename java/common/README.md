@@ -211,6 +211,14 @@ int[] divisors(int n)を追加
 abc052\_c,abc172\_d,abc215\_d,abc280\_d
 long sum(int n)、int[] factors(int n)、int[][] factorize(int n)を追加
 
+# PrimeMini
+Primeより共通化
+static classとしてMain内部に貼り付ける。
+int[] minfを削除し、機能制限した。
+count()、sum()、divisors()、factors()、factorize()を削除。
+## PrimeMini20250421
+Prime20250421から分離。
+
 # Que_cur
 abc287/cより共通化
 static classとしてMain内部に貼り付ける。
