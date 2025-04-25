@@ -135,6 +135,8 @@ abc280/d: Prime内で使用したが、最終的に未使用
 abc301/b: String join(String delimiter)
 ## MyArray\_int20250424
 abc296/d: String toString()
+## MyArray\_int20250425
+Prime20250426: size()、get()を追加。
 
 # MyDeque\_int
 typical90/061より共通化
@@ -214,6 +216,7 @@ abc052\_c,abc172\_d,abc215\_d,abc280\_d
 long sum(int n)、int[] factors(int n)、int[][] factorize(int n)を追加
 ## Prime20250425
 MyArrayを使用し、List<Integer> listをint\[\] lstに変更。
+divisors()、factors()、factorize()の中でMyArrayを使用。
 
 # PrimeMini
 Primeより共通化

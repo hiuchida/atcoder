@@ -42,9 +42,9 @@ public class Main {
 		long tm4=st4-st3;
 		System.out.println("end of main_check "+tm2+" "+tm3+" "+tm4);
 	}
-	//100,000,000 5,061ms 90,756ms
-	// 10,000,000   387ms  5,890ms
-	//  1,000,000    22ms    664ms
+	//100,000,000 5,010ms 31,921ms
+	// 10,000,000   321ms  2,696ms
+	//  1,000,000    10ms    323ms
 	public static void main_divisors(String[] args) {
 		final int N=1*1000*1000;
 		long st1=System.currentTimeMillis();
@@ -84,9 +84,9 @@ public class Main {
 		long tm3=st3-st2;
 		System.out.println("end of main_sum "+tm2+" "+tm3);
 	}
-	//100,000,000 4,861ms 210,781ms
-	// 10,000,000   399ms  13,899ms
-	//  1,000,000    23ms   1,448ms
+	//100,000,000 5,239ms 122,426ms
+	// 10,000,000   380ms  10,529ms
+	//  1,000,000     7ms   1,028ms
 	public static void main_factorize(String[] args) {
 		final int N=1*1000*1000;
 		long st1=System.currentTimeMillis();
@@ -119,9 +119,9 @@ public class Main {
 		long tm3=st3-st2;
 		System.out.println("end of main_factorize "+tm2+" "+tm3);
 	}
-	//100,000,000 5,184ms 40,773ms
-	// 10,000,000   394ms  3,602ms
-	//  1,000,000    24ms    417ms
+	//100,000,000 4,831ms 37,219ms
+	// 10,000,000   345ms  3,223ms
+	//  1,000,000     8ms    333ms
 	public static void main_factors(String[] args) {
 		final int N=1*1000*1000;
 		long st1=System.currentTimeMillis();
@@ -145,7 +145,7 @@ public class Main {
 		long tm3=st3-st2;
 		System.out.println("end of main_factors "+tm2+" "+tm3);
 	}
-	static class MyArray { //Prime20250425
+	static class MyArray { //Prime20250426
 		int[] array;
 		int size=0;
 		MyArray() {
@@ -153,6 +153,12 @@ public class Main {
 		}
 		MyArray(int n) {
 			this.array = new int[n + 1];
+		}
+		int size() {
+			return size;
+		}
+		int get(int idx) {
+			return array[idx];
 		}
 		void add(int v) {
 			if (array.length == size) array = Arrays.copyOf(array, size * 2);
@@ -187,7 +193,7 @@ public class Main {
 	//  100,000,000  4759ms
 	//   10,000,000   311ms
 	//    1,000,000    20ms
-	static class Prime { //Prime20250425
+	static class Prime { //Prime20250426
 		int n;
 		boolean[] isp;
 		int[] minf;
@@ -253,44 +259,37 @@ public class Main {
 			return ans;
 		}
 		int[] divisors(int n) {
-			List<Integer> list=new ArrayList<>();
-			list.add(1);
+			MyArray ma=new MyArray();
+			ma.add(1);
 			while (n>1) {
-				List<Integer> lst=new ArrayList<>();
+				int[] ary=ma.toArray();
 				int nxt=minf[n];
 				int val=nxt;
 				while (n%nxt==0) {
-					for (int v : list) lst.add(v*val);
+					for (int v : ary) ma.add(v*val);
 					n/=nxt;
 					val*=nxt;
 				}
-				list.addAll(lst);
 			}
-			Collections.sort(list);
-			int[] ans=new int[list.size()];
-			for (int i=0; i<list.size(); i++) {
-				ans[i]=list.get(i);
-			}
+			int[] ans=ma.toArray();
+			Arrays.sort(ans);
 			return ans;
 		}
 		int[] factors(int n) {
-			List<Integer> list=new ArrayList<>();
+			MyArray ma=new MyArray();
 			while (n>1) {
 				int nxt=minf[n];
 				while (n%nxt==0) {
-					list.add(nxt);
+					ma.add(nxt);
 					n/=nxt;
 				}
 			}
-			int[] ans=new int[list.size()];
-			for (int i=0; i<list.size(); i++) {
-				ans[i]=list.get(i);
-			}
+			int[] ans=ma.toArray();
 			return ans;
 		}
 		int[][] factorize(int n) {
-			List<Integer> lb=new ArrayList<>();
-			List<Integer> le=new ArrayList<>();
+			MyArray mab=new MyArray();
+			MyArray mae=new MyArray();
 			while (n>1) {
 				int nxt=minf[n];
 				int cnt=0;
@@ -298,13 +297,13 @@ public class Main {
 					n/=nxt;
 					cnt++;
 				}
-				lb.add(nxt);
-				le.add(cnt);
+				mab.add(nxt);
+				mae.add(cnt);
 			}
-			int[][] ans=new int[lb.size()][2];
-			for (int i=0; i<lb.size(); i++) {
-				ans[i][0]=lb.get(i);
-				ans[i][1]=le.get(i);
+			int[][] ans=new int[mab.size()][2];
+			for (int i=0; i<mab.size(); i++) {
+				ans[i][0]=mab.get(i);
+				ans[i][1]=mae.get(i);
 			}
 			return ans;
 		}

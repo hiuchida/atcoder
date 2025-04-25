@@ -1,4 +1,4 @@
-	static class MyArray { //Prime20250425
+	static class MyArray { //Prime20250426
 		int[] array;
 		int size=0;
 		MyArray() {
@@ -6,6 +6,12 @@
 		}
 		MyArray(int n) {
 			this.array = new int[n + 1];
+		}
+		int size() {
+			return size;
+		}
+		int get(int idx) {
+			return array[idx];
 		}
 		void add(int v) {
 			if (array.length == size) array = Arrays.copyOf(array, size * 2);
@@ -40,7 +46,7 @@
 	//  100,000,000  4759ms
 	//   10,000,000   311ms
 	//    1,000,000    20ms
-	static class Prime { //Prime20250425
+	static class Prime { //Prime20250426
 		int n;
 		boolean[] isp;
 		int[] minf;
@@ -106,44 +112,37 @@
 			return ans;
 		}
 		int[] divisors(int n) {
-			List<Integer> list=new ArrayList<>();
-			list.add(1);
+			MyArray ma=new MyArray();
+			ma.add(1);
 			while (n>1) {
-				List<Integer> lst=new ArrayList<>();
+				int[] ary=ma.toArray();
 				int nxt=minf[n];
 				int val=nxt;
 				while (n%nxt==0) {
-					for (int v : list) lst.add(v*val);
+					for (int v : ary) ma.add(v*val);
 					n/=nxt;
 					val*=nxt;
 				}
-				list.addAll(lst);
 			}
-			Collections.sort(list);
-			int[] ans=new int[list.size()];
-			for (int i=0; i<list.size(); i++) {
-				ans[i]=list.get(i);
-			}
+			int[] ans=ma.toArray();
+			Arrays.sort(ans);
 			return ans;
 		}
 		int[] factors(int n) {
-			List<Integer> list=new ArrayList<>();
+			MyArray ma=new MyArray();
 			while (n>1) {
 				int nxt=minf[n];
 				while (n%nxt==0) {
-					list.add(nxt);
+					ma.add(nxt);
 					n/=nxt;
 				}
 			}
-			int[] ans=new int[list.size()];
-			for (int i=0; i<list.size(); i++) {
-				ans[i]=list.get(i);
-			}
+			int[] ans=ma.toArray();
 			return ans;
 		}
 		int[][] factorize(int n) {
-			List<Integer> lb=new ArrayList<>();
-			List<Integer> le=new ArrayList<>();
+			MyArray mab=new MyArray();
+			MyArray mae=new MyArray();
 			while (n>1) {
 				int nxt=minf[n];
 				int cnt=0;
@@ -151,13 +150,13 @@
 					n/=nxt;
 					cnt++;
 				}
-				lb.add(nxt);
-				le.add(cnt);
+				mab.add(nxt);
+				mae.add(cnt);
 			}
-			int[][] ans=new int[lb.size()][2];
-			for (int i=0; i<lb.size(); i++) {
-				ans[i][0]=lb.get(i);
-				ans[i][1]=le.get(i);
+			int[][] ans=new int[mab.size()][2];
+			for (int i=0; i<mab.size(); i++) {
+				ans[i][0]=mab.get(i);
+				ans[i][1]=mae.get(i);
 			}
 			return ans;
 		}
