@@ -9,9 +9,9 @@ public class Main {
 		main_factors(args);
 	}
 	//1,000,000,000  ----ms
-	//  100,000,000  4833ms
-	//   10,000,000   367ms
-	//    1,000,000    23ms
+	//  100,000,000  4759ms
+	//   10,000,000   311ms
+	//    1,000,000    20ms
 	public static void main_init(String[] args) {
 		final int N=1*1000*1000;
 		long st1=System.currentTimeMillis();
@@ -145,15 +145,53 @@ public class Main {
 		long tm3=st3-st2;
 		System.out.println("end of main_factors "+tm2+" "+tm3);
 	}
+	static class MyArray { //Prime20250425
+		int[] array;
+		int size=0;
+		MyArray() {
+			this(100);
+		}
+		MyArray(int n) {
+			this.array = new int[n + 1];
+		}
+		void add(int v) {
+			if (array.length == size) array = Arrays.copyOf(array, size * 2);
+			array[size++] = v;
+		}
+		int remove() {
+			if (size == 0) return -1;
+			return array[--size];
+		}
+		void trimToSize() {
+			if (size < array.length) array = Arrays.copyOf(array, size);
+		}
+		int[] toArray() {
+			int[] ans=new int[size];
+			System.arraycopy(array, 0, ans, 0, size);
+			return ans;
+		}
+		String join(String delimiter) {
+			StringBuilder sb = new StringBuilder();
+			for (int i=0; i<size; i++) {
+				if (i>0) sb.append(delimiter);
+				sb.append(array[i]);
+			}
+			return sb.toString();
+		}
+		@Override
+		public String toString() {
+			return Arrays.toString(array) + " " + size;
+		}
+	}
 	//1,000,000,000  ----ms
-	//  100,000,000  4833ms
-	//   10,000,000   367ms
-	//    1,000,000    23ms
-	static class Prime { //Prime20250421
+	//  100,000,000  4759ms
+	//   10,000,000   311ms
+	//    1,000,000    20ms
+	static class Prime { //Prime20250425
 		int n;
 		boolean[] isp;
 		int[] minf;
-		List<Integer> list = new ArrayList<>();
+		int[] lst;
 		Prime(int n) {
 			this.n = n;
 			this.isp = new boolean[n];
@@ -161,6 +199,7 @@ public class Main {
 			init();
 		}
 		void init() {
+			MyArray ma=new MyArray();
 			isp[0] = false;
 			isp[1] = false;
 			for (int i=2; i<n; i++) isp[i] = true;
@@ -168,18 +207,19 @@ public class Main {
 			for (int i=2; i<n; i++) {
 				if (isp[i]) {
 					minf[i] = i;
-					list.add(i);
+					ma.add(i);
 					for (int j=i*2; j<n; j+=i) {
 						isp[j] = false;
 						if (minf[j] == 0) minf[j] = i;
 					}
 				}
 			}
+			lst=ma.toArray();
 		}
 		boolean check(long x) {
 			if (x>(long)n*n) throw new RuntimeException();
 			if (x<n) return isp[(int)x];
-			for (int i : list) {
+			for (int i : lst) {
 				if (x%i==0) return false;
 			}
 			return true;

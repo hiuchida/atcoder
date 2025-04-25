@@ -212,6 +212,8 @@ int[] divisors(int n)を追加
 ## Prime20250421
 abc052\_c,abc172\_d,abc215\_d,abc280\_d
 long sum(int n)、int[] factors(int n)、int[][] factorize(int n)を追加
+## Prime20250425
+MyArrayを使用し、List<Integer> listをint\[\] lstに変更。
 
 # PrimeMini
 Primeより共通化
