@@ -21,7 +21,7 @@ public class Main {
 		long tm3=st3-st2;
 		System.out.println("end of check "+tm2+" "+tm3);
 	}
-	static class MyArray { //MyArray_int20250424
+	static class MyArray { //MyArray_int20250425
 		int[] array;
 		int size=0;
 		MyArray() {
@@ -29,6 +29,12 @@ public class Main {
 		}
 		MyArray(int n) {
 			this.array = new int[n + 1];
+		}
+		int size() {
+			return size;
+		}
+		int get(int idx) {
+			return array[idx];
 		}
 		void add(int v) {
 			if (array.length == size) array = Arrays.copyOf(array, size * 2);
