@@ -1,3 +1,29 @@
+import java.util.*;
+public class Main {
+	public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+		final int N=(int)1e6;
+		PrimeMini pr=new PrimeMini(N+1);
+		long n=sc.nextLong();
+		long ans=0;
+		for (int cc : pr.lst) {
+			long c=(long)cc*cc;
+			if (c>n) break;
+			for (int b : pr.lst) {
+				if (b>=cc) break; 
+				long ab=c*b;
+				if (ab>n) break;
+				for (int aa : pr.lst) {
+					if (aa>=b) break;
+					long abc=ab*aa;
+					if (abc>n/aa) break;
+					ans++;
+//					System.out.println(aa+" "+b+" "+cc);
+				}
+			}
+		}
+		System.out.println(ans);
+	}
 	static class MyArray { //PrimeMini20250425
 		int[] array;
 		int size=0;
@@ -73,3 +99,9 @@
 			return true;
 		}
 	}
+}
+/*
+1000
+
+1000000000000
+*/

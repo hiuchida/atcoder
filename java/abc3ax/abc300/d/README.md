@@ -7,3 +7,7 @@ pr.listの要素aaをループし、aa>=bの場合中断する。
 abc=ab*aaを入れ、abc>n/aaの場合中断する。
 ans++をカウントする。
 ansを出力する。
+
+# Main\_fix
+PrimeMini20250425を適用
+

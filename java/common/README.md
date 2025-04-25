@@ -220,6 +220,9 @@ int[] minfを削除し、機能制限した。
 count()、sum()、divisors()、factors()、factorize()を削除。
 ## PrimeMini20250421
 Prime20250421から分離。
+## PrimeMini20250425
+abc300\_d
+MyArrayを使用し、List<Integer> listをint\[\] lstに変更。
 
 # Que_cur
 abc287/cより共通化
