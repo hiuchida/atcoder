@@ -149,6 +149,8 @@ typical90/061
 abc237/d: size(),removeFirst()
 ## MyDeque\_int20250327
 abc298/d: removeLast()
+## MyDeque\_int20250425
+addFirst()、addLast()の中で、grow()により自動拡張する。
 
 # MyDeque\_long
 abc389\/cより共通化
@@ -157,6 +159,9 @@ abc389\/c
 ## MyDeque\_long20250327
 未使用
 size(),removeLast()
+## MyDeque\_long20250425
+未使用
+addFirst()、addLast()の中で、grow()により自動拡張する。
 
 # PairL
 abc349/dより共通化
