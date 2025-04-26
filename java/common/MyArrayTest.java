@@ -1,7 +1,12 @@
 import java.util.*;
 public class Main {
 	public static void main(String[] args) {
-		final int N=4*100*1000*1000;
+		mainMyArray(4);
+		mainMyArray(1);
+		mainArrayList(1);
+	}
+	public static void mainMyArray(int n) {
+		final int N=n*100*1000*1000;
 		long st1=System.currentTimeMillis();
 		MyArray mia1=new MyArray();
 		for (int i=0; i<N; i++) {
@@ -19,7 +24,28 @@ public class Main {
 		System.out.println(mia2.array.length+" "+mia2.size);
 		long tm2=st2-st1;
 		long tm3=st3-st2;
-		System.out.println("end of check "+tm2+" "+tm3);
+		System.out.println("end of mainMyArray "+tm2+" "+tm3);
+	}
+	public static void mainArrayList(int n) {
+		final int N=n*100*1000*1000;
+		long st1=System.currentTimeMillis();
+		ArrayList<Integer> mia1=new ArrayList<>();
+		for (int i=0; i<N; i++) {
+			mia1.add(i);
+//			System.out.println(i+" "+Arrays.toString(mia1.array)+" "+mia1.size);
+		}
+		long st2=System.currentTimeMillis();
+		System.out.println(""+mia1.size());
+		ArrayList<Integer> mia2=new ArrayList<>(N);
+		for (int i=0; i<N; i++) {
+			mia2.add(i);
+//			System.out.println(i+" "+Arrays.toString(mia2.array)+" "+mia2.size);
+		}
+		long st3=System.currentTimeMillis();
+		System.out.println(""+mia2.size());
+		long tm2=st2-st1;
+		long tm3=st3-st2;
+		System.out.println("end of mainArrayList "+tm2+" "+tm3);
 	}
 	static class MyArray { //MyArray_int20250425
 		int[] array;
@@ -67,7 +93,13 @@ public class Main {
 	}
 }
 /*
-419430400 400000000
+423624704 400000000
 400000001 400000000
-end of check 2036 562
+end of mainMyArray 1929 617
+105906176 100000000
+100000001 100000000
+end of mainMyArray 238 85
+100000000
+100000000
+end of mainArrayList 2154 2653
 */

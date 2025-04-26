@@ -1,11 +1,15 @@
 import java.util.*;
 public class Main {
 	public static void main(String[] args) {
-//		main0(args);
-		main1(args);
-		main2(args);
+//		mainMyDeque0(args);
+		mainMyDeque1(2);
+		mainMyDeque2(2);
+		mainMyDeque1(1);
+		mainMyDeque2(1);
+		mainArrayDeque1(1);
+		mainArrayDeque2(1);
 	}
-	public static void main0(String[] args) {
+	public static void mainMyDeque0(String[] args) {
 		final int N=10;
 		MyDeque que=new MyDeque(N, -1);
 		int v=0;
@@ -19,15 +23,15 @@ public class Main {
 		}
 		System.out.println(que);
 	}
-	public static void main1(String[] args) {
+	public static void mainMyDeque1(int n) {
 //		final int N=1000;
-		final int N=2*100*1000*1000;
+		final int N=n*100*1000*1000;
 		MyDeque que=new MyDeque(N, -1);
-		main1a(que, N);
+		mainMyDeque1a(que, N);
 		que=new MyDeque();
-		main1a(que, N);
+		mainMyDeque1a(que, N);
 	}
-	public static void main1a(MyDeque que, int N) {
+	public static void mainMyDeque1a(MyDeque que, int N) {
 		long st1=System.currentTimeMillis();
 		for (int i=0; i<N; i++) {
 			que.addFirst(i);
@@ -47,17 +51,17 @@ public class Main {
 		}
 		long st2=System.currentTimeMillis();
 		long tm2=st2-st1;
-		System.out.println("end of main1a "+tm2);
+		System.out.println("end of mainMyDeque1a "+tm2);
 	}
-	public static void main2(String[] args) {
+	public static void mainMyDeque2(int n) {
 //		final int N=1000;
-		final int N=2*100*1000*1000;
+		final int N=n*100*1000*1000;
 		MyDeque que=new MyDeque(N, -1);
-		main2a(que, N);
+		mainMyDeque2a(que, N);
 		que=new MyDeque();
-		main2a(que, N);
+		mainMyDeque2a(que, N);
 	}
-	public static void main2a(MyDeque que, int N) {
+	public static void mainMyDeque2a(MyDeque que, int N) {
 		long st1=System.currentTimeMillis();
 		for (int i=0; i<N; i++) {
 			que.addLast(i);
@@ -77,7 +81,67 @@ public class Main {
 		}
 		long st2=System.currentTimeMillis();
 		long tm2=st2-st1;
-		System.out.println("end of main2a "+tm2);
+		System.out.println("end of mainMyDeque2a "+tm2);
+	}
+	public static void mainArrayDeque1(int n) {
+//		final int N=1000;
+		final int N=n*100*1000*1000;
+		ArrayDeque<Long> que=new ArrayDeque<>(N);
+		mainArrayDeque1a(que, N);
+		que=new ArrayDeque<>();
+		mainArrayDeque1a(que, N);
+	}
+	public static void mainArrayDeque1a(ArrayDeque<Long> que, int N) {
+		long st1=System.currentTimeMillis();
+		for (long i=0; i<N; i++) {
+			que.addFirst(i);
+		}
+//		System.out.println(que);
+		int[] ary=new int[N];
+		for (int i=0; i<que.size(); i++) {
+//			int x=que.get(i);
+//			if (x!=N-1-i) System.out.println(i+" "+x);
+			ary[i]=N-1-i;
+		}
+		int idx=0;
+		while (que.size()>0) {
+			long x=que.removeFirst();
+			if (ary[idx]!=x) System.out.println(idx+" "+ary[idx]+" "+x);
+			idx++;
+		}
+		long st2=System.currentTimeMillis();
+		long tm2=st2-st1;
+		System.out.println("end of mainArrayDeque1a "+tm2);
+	}
+	public static void mainArrayDeque2(int n) {
+//		final int N=1000;
+		final int N=n*100*1000*1000;
+		ArrayDeque<Long> que=new ArrayDeque<>(N);
+		mainArrayDeque2a(que, N);
+		que=new ArrayDeque<>();
+		mainArrayDeque2a(que, N);
+	}
+	public static void mainArrayDeque2a(ArrayDeque<Long> que, int N) {
+		long st1=System.currentTimeMillis();
+		for (long i=0; i<N; i++) {
+			que.addLast(i);
+		}
+//		System.out.println(que);
+		int[] ary=new int[N];
+		for (int i=0; i<que.size(); i++) {
+//			int x=que.get(i);
+//			if (x!=i) System.out.println(i+" "+x);
+			ary[i]=i;
+		}
+		int idx=0;
+		while (que.size()>0) {
+			long x=que.removeLast();
+			if (ary[N-1-idx]!=x) System.out.println(idx+" "+ary[idx]+" "+x);
+			idx++;
+		}
+		long st2=System.currentTimeMillis();
+		long tm2=st2-st1;
+		System.out.println("end of mainArrayDeque2a "+tm2);
 	}
 	static class MyDeque { //MyDeque_long20250425
 		long[] ary;
@@ -154,8 +218,16 @@ public class Main {
 	}
 }
 /*
-end of main1a 1516
-end of main1a 1885
-end of main2a 979
-end of main2a 2045
+end of mainMyDeque1a 1575
+end of mainMyDeque1a 2049
+end of mainMyDeque2a 1067
+end of mainMyDeque2a 1986
+end of mainMyDeque1a 556
+end of mainMyDeque1a 961
+end of mainMyDeque2a 602
+end of mainMyDeque2a 1143
+end of mainArrayDeque1a 2348
+end of mainArrayDeque1a 4272
+end of mainArrayDeque2a 3496
+end of mainArrayDeque2a 3307
 */
