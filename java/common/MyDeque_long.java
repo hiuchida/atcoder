@@ -26,7 +26,7 @@
 		}
 		private void grow() {
 			int s0=ary.length-1;
-			int[] tmp=new int[s0 * 2 + 1];
+			long[] tmp=new long[s0 * 2 + 1];
 			int s1=ary.length/2;
 			int s2=ary.length-head;
 			int s3=s1+s2;
