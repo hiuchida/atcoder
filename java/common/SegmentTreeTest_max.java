@@ -97,7 +97,7 @@ public class Main {
 		System.out.println("end of main1Segment "+tm2+" "+tm3);
 		return ans;
 	}
-	static class SegmentTree { //SegmentTree_max20250427
+	static class SegmentTree { //SegmentTree_max20250428
 		int siz;
 		int[] ary;
 		int def;
@@ -109,12 +109,15 @@ public class Main {
 			this.inf = inf;
 			Arrays.fill(ary, def);
 		}
+		int max(int a, int b) {
+			return Math.max(a, b);
+		}
 		void update(int i, int value) {
 			i += siz - 1;
 			ary[i] = value;
 			while (i > 0) {
 				i = (i - 1) / 2;
-				ary[i] = Math.max(ary[2 * i + 1], ary[2 * i + 2]);
+				ary[i] = max(ary[2 * i + 1], ary[2 * i + 2]);
 			}
 		}
 		int query(int a, int b) {
@@ -132,7 +135,7 @@ public class Main {
 //			System.out.println(a+" "+b+" "+k+" "+lt+" "+rt);
 			int vl = query(a, b, 2 * k + 1, lt, (lt + rt) / 2);
 			int vr = query(a, b, 2 * k + 2, (lt + rt) / 2, rt);
-			return Math.max(vl, vr);
+			return max(vl, vr);
 		}
 		@Override
 		public String toString() {
@@ -162,10 +165,10 @@ public class Main {
 	}
 }
 /*
-end of main1Array 14 194
-end of main1Segment 62 1
-end of main1Array 104 1951
-end of main1Segment 605 1
-end of main1Array 1004 19850
-end of main1Segment 6634 1
+end of main1Array 14 187
+end of main1Segment 61 1
+end of main1Array 104 1991
+end of main1Segment 601 1
+end of main1Array 981 20142
+end of main1Segment 6372 1
 */

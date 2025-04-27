@@ -1,4 +1,4 @@
-	static class SegmentTree { //SegmentTree_max20250427
+	static class SegmentTree { //SegmentTree_max20250428
 		int siz;
 		int[] ary;
 		int def;
@@ -10,12 +10,15 @@
 			this.inf = inf;
 			Arrays.fill(ary, def);
 		}
+		int max(int a, int b) {
+			return Math.max(a, b);
+		}
 		void update(int i, int value) {
 			i += siz - 1;
 			ary[i] = value;
 			while (i > 0) {
 				i = (i - 1) / 2;
-				ary[i] = Math.max(ary[2 * i + 1], ary[2 * i + 2]);
+				ary[i] = max(ary[2 * i + 1], ary[2 * i + 2]);
 			}
 		}
 		int query(int a, int b) {
@@ -33,7 +36,7 @@
 //			System.out.println(a+" "+b+" "+k+" "+lt+" "+rt);
 			int vl = query(a, b, 2 * k + 1, lt, (lt + rt) / 2);
 			int vr = query(a, b, 2 * k + 2, (lt + rt) / 2, rt);
-			return Math.max(vl, vr);
+			return max(vl, vr);
 		}
 		@Override
 		public String toString() {
