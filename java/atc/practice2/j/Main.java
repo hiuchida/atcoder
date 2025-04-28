@@ -1,3 +1,34 @@
+import java.util.*;
+public class Main {
+	public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+		int n=sc.nextInt();
+		int q=sc.nextInt();
+		SegmentTree st=new SegmentTree(n, 0, Integer.MIN_VALUE);
+		for (int i=0; i<n; i++) {
+			int a=sc.nextInt();
+			st.update(i, a);
+		}
+		for (int qq=0; qq<q; qq++) {
+			int cmd=sc.nextInt();
+			if (cmd==1) {
+				int pos=sc.nextInt();
+				int x=sc.nextInt();
+				st.update(pos-1, x);
+//				System.out.println(st);
+			} else if (cmd==2) {
+				int l=sc.nextInt();
+				int r=sc.nextInt();
+				int v=st.query(l-1, r);
+				System.out.println(v);
+			} else {
+				int pos=sc.nextInt();
+				int x=sc.nextInt();
+				int idx=st.findLeft(pos-1, n, x);
+				System.out.println(idx+1);
+			}
+		}
+	}
 	static class SegmentTree { //SegmentTree_max20250429
 		int siz;
 		int[] ary;
@@ -96,3 +127,11 @@
 			*/
 		}
 	}
+}
+/*
+8 4
+1 3 16
+2 4 7
+1 5 13
+2 4 7
+*/

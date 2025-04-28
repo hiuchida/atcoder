@@ -266,6 +266,33 @@ abc168/dより共通化
 static classとしてMain内部に貼り付ける。
 Deque<Que>に使うことを前提にする。
 
+# SegmentTree\_max
+tessoku_book/a58
+practice2/j
+## SegmentTree\_max20250427
+tessoku_book/a58
+## SegmentTree\_max20250428
+未使用
+int max()を独立。
+## SegmentTree\_max20250429
+practice2/j
+findLeft(),findRight()追加
+
+# SegmentTree\_min
+未使用
+## SegmentTree\_min20250428
+未使用
+
+# SegmentTree\_sum
+tessoku_book/a59
+## SegmentTree\_sum20250427
+tessoku_book/a59
+
+# SegmentTree\_xor
+abc185/f
+## SegmentTree\_xor20250427
+abc185/f
+
 # staticFields
 static変数としてMain内部に貼り付ける。
 原則、staticメソッドを必要とするものはクラス化する。

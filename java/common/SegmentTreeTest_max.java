@@ -10,8 +10,8 @@ public class Main {
 		int n = 14;
 		int[] ary=new int[n];
 		for (int i=0; i<n; i++) {
-//			int v=(i * 3) % n + 1;
-			int v=i+1;
+			int v=(i * 3) % n + 1;
+//			int v=i+1;
 			ary[i]=v;
 		}
 		System.out.println(Arrays.toString(ary));
@@ -20,12 +20,28 @@ public class Main {
 			st.update(i, ary[i]);
 		}
 		System.out.println(st);
-		for (int j=0; j<n; j++) {
-			for (int i=j; i<=n; i++) {
-				int v=st.query(j, i);
-				System.out.println(j+" "+i+" "+v);
+//		for (int j=0; j<n; j++) {
+//			for (int i=j; i<=n; i++) {
+//				int v=st.query(j, i);
+//				System.out.println(j+" "+i+" "+v);
+//			}
+//		}
+		for (int i=n; i>0; i--) {
+			for (int j=0; j<i; j++) {
+				int x=3;
+				int idx=st.findLeft(j, i, x);
+				int v=st.query(idx, idx + 1);
+				System.out.println(j+" "+i+" "+x+" -> "+idx+"="+v);
 			}
 		}
+//		for (int j=0; j<n; j++) {
+//			for (int i=n; i>j; i--) {
+//				int x=3;
+//				int idx=st.findRight(j, i, x);
+//				int v=st.query(idx, idx + 1);
+//				System.out.println(j+" "+i+" "+x+" -> "+idx+"="+v);
+//			}
+//		}
 	}
 	public static void main1(int n) {
 		final int N=n*1024*1024;
@@ -97,7 +113,7 @@ public class Main {
 		System.out.println("end of main1Segment "+tm2+" "+tm3);
 		return ans;
 	}
-	static class SegmentTree { //SegmentTree_max20250428
+	static class SegmentTree { //SegmentTree_max20250429
 		int siz;
 		int[] ary;
 		int def;
@@ -136,6 +152,38 @@ public class Main {
 			int vl = query(a, b, 2 * k + 1, lt, (lt + rt) / 2);
 			int vr = query(a, b, 2 * k + 2, (lt + rt) / 2, rt);
 			return max(vl, vr);
+		}
+		int findLeft(int a, int b, int x) {
+			return findLeft(a, b, x, 0, 0, siz);
+		}
+		int findRight(int a, int b, int x) {
+			return findRight(a, b, x, 0, 0, siz);
+		}
+		int findLeft(int a, int b, int x, int k, int lt, int rt) {
+			if (ary[k] < x || rt <= a || b <= lt) {
+				return b;
+			}
+			if (k >= siz - 1) {
+				return k - (siz - 1);
+			}
+			int vl = findLeft(a, b, x, 2 * k + 1, lt, (lt + rt) / 2);
+			if (vl != b) {
+				return vl;
+			}
+			return findLeft(a, b, x, 2 * k + 2, (lt + rt) / 2, rt);
+		}
+		int findRight(int a, int b, int x, int k, int lt, int rt) {
+			if (ary[k] < x || rt <= a || b <= lt) {
+				return a - 1;
+			}
+			if (k >= siz - 1) {
+				return k - (siz - 1);
+			}
+			int vr = findRight(a, b, x, 2 * k + 2, (lt + rt) / 2, rt);
+			if (vr != a- 1) {
+				return vr;
+			}
+			return findRight(a, b, x, 2 * k + 1, lt, (lt + rt) / 2);
 		}
 		@Override
 		public String toString() {
