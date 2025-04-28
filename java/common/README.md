@@ -163,6 +163,18 @@ size(),removeLast()
 未使用
 addFirst()、addLast()の中で、grow()により自動拡張する。
 
+# MyHeapque_int
+abc217/eより共通化
+static classとしてMain内部に貼り付ける。
+PriorityQueue<Integer>で十分使えるが、int\[\]で管理した方が低コスト。
+MyArrayと同様に、add()の際に自動拡張する。
+int型のためnullが表現できないため、削除フラグとしてInteger.MAX_VALUEを使用している。
+このためInteger.MAX_VALUEをデータ値として管理することはできない。
+デバッグ出力の際にInteger.MAX_VALUEを削減するため、末尾の2つの葉がInteger.MAX_VALUEとなった場合のみ
+0でリセットし、cnt-=2する。
+## MyHeapque_int20250428
+abc217/e
+
 # PairL
 abc349/dより共通化
 static classとしてMain内部に貼り付ける。
