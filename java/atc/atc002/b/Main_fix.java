@@ -2,47 +2,25 @@ import java.util.*;
 public class Main {
 	public static void main(String[] args) {
 		Scanner sc=new Scanner(System.in);
-		int a=sc.nextInt();
-		int b=sc.nextInt();
-		int c=sc.nextInt();
-		int d=sc.nextInt();
-		int n=sc.nextInt();
-		int m=sc.nextInt();
-		int k=sc.nextInt();
-		int[] ary=new int[n];
-		for (int i=0; i<n; i++) {
-			ary[i]=sc.nextInt();
+		long n=sc.nextLong();
+		long m=sc.nextLong();
+		long p=sc.nextLong();
+		long ans=modpow(n, p, m);
+		System.out.println(ans);
+	}
+	//a^n mod mを計算する
+	static long modpow(long a, long n, long m) { //ModFunc20250427
+		long ans = 1;
+		while (n > 0) {
+			if ((n & 1) > 0) ans = ans * a % m;
+			a = a * a % m;
+			n >>= 1;
 		}
-		int h=sc.nextInt();
-		int w=sc.nextInt();
-		for (int y=0; y<h; y++) {
-			for (int x=0; x<w; x++) {
-			}
-		}
-		long x=sc.nextLong();
-		long y=sc.nextLong();
-		long z=sc.nextLong();
-		String s=sc.next();
-		char[] ary=s.toCharArray();
-		
-		List<Integer> list=new ArrayList<>();
-		Set<Integer> set=new HashSet<>();
-		TreeSet<Integer> set=new TreeSet<>();
-		TreeMap<Integer,Integer> map=new TreeMap<>();
-		Deque<Integer> que=new ArrayDeque<>();
-		PriorityQueue<Integer> que=new PriorityQueue<>();
-		StringBuilder sb=new StringBuilder();
-		
-		Arrays.sort(ary);
-		System.out.println(Arrays.toString(ary));
-		System.out.println();
-		System.out.println("Yes");
-		System.out.println("No");
-		System.exit(0);
+		return ans;
 	}
 }
 /*
+12 15 7
 
-
-
+123456789 234567894 6574837563712
 */
