@@ -175,6 +175,11 @@ int型のためnullが表現できないため、削除フラグとしてInteger
 ## MyHeapque_int20250428
 abc217/e
 
+# MyHeapque_long
+abc212/dより共通化
+## MyHeapque_long20250428
+abc212/d
+
 # PairL
 abc349/dより共通化
 static classとしてMain内部に貼り付ける。

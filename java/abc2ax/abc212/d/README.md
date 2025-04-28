@@ -12,3 +12,7 @@ TreeSetからTreeMapに変更し、valueに個数を追加する。
 # Main_PriorityQueue
 重複し、昇順にソートされているデータ構造として、PriorityQueueに書き換える。
 カウントは不要なので短く書ける。
+
+# Main_MyHeapque
+MyHeapque_long20250428適用
+
