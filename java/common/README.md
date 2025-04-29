@@ -313,19 +313,32 @@ MapのValueに入れることを前提にする。
 atc001/bより共通化
 static classとしてMain内部に貼り付ける。
 経路圧縮とサイズによる連結を実装したもの。
+## UnionFind20250102
+atc001/b
+practice2/a
 
 # UnionFind\_2d
 abc269/dより共通化
 static classとしてMain内部に貼り付ける。
 (x,y)をx+y\*wの添字に変換して管理する。
+## UnionFind_2d20250416
+abc269/d
+abc351/d
+typical90/012
 
 # UnionFind_ltrt
+abc370/dより共通化
 UnionFindに左端と右端を持たせる。
 mergeは連続していることを前提に使う。
 本来、low/highやfloor/ceilingかもしれない。
+## UnionFind_ltrt20250416
+abc228/d
+abc370/d
 
 # UnionFind\_map
 abc277/dより共通化
 static classとしてMain内部に貼り付ける。
 int[] uf;の代わりにMap<Integer, Integer> map=new TreeMap<>();で管理する。
+## UnionFind\_map20250416
+abc277/d
 
