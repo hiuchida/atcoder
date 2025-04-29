@@ -1,3 +1,40 @@
+import java.util.*;
+public class Main {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int q = sc.nextInt();
+		SegmentTree st=new SegmentTree(q, Integer.MAX_VALUE, Integer.MAX_VALUE);
+		int idx=0;
+		int que=1;
+		for (int i=0; i<q; i++) {
+			int c = sc.nextInt();
+			int x;
+			switch (c) {
+			case 1:
+				x = sc.nextInt();
+				st.update(idx, x);
+				idx++;
+//				System.out.println(st+" idx="+idx);
+				break;
+			case 2:
+				do {
+					x=st.query(0, que);
+					if (x==Integer.MAX_VALUE) {
+						que++;
+					}
+				} while (x==Integer.MAX_VALUE);
+				int v=st.findRight(0, que, x);
+				st.update(v, Integer.MAX_VALUE);
+//				System.out.println(st+" x="+x+" v="+v+" que="+que);
+				System.out.println(x);
+				break;
+			case 3:
+				if (idx>0) que=idx;
+//				System.out.println(st+" que="+que);
+				break;
+			}
+		}
+	}
 	static class SegmentTree { //SegmentTree_min20250429
 		int siz;
 		int[] ary;
@@ -99,3 +136,26 @@
 			*/
 		}
 	}
+}
+/*
+8
+1 4
+1 3
+1 2
+1 1
+3
+2
+1 0
+2
+
+9
+1 5
+1 5
+1 3
+2
+3
+2
+1 6
+3
+2
+*/

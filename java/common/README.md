@@ -282,6 +282,9 @@ findLeft(),findRight()追加
 未使用
 ## SegmentTree\_min20250428
 未使用
+## SegmentTree\_min20250429
+abc217/e
+findLeft(),findRight()追加
 
 # SegmentTree\_sum
 tessoku_book/a59
