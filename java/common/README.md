@@ -266,9 +266,17 @@ abc168/dより共通化
 static classとしてMain内部に貼り付ける。
 Deque<Que>に使うことを前提にする。
 
+# SegmentTree\_ave
+未使用
+Bean(cnt,sum)を集計する。
+平均値はsum/cntを計算する。
+## SegmentTree\_ave20250429
+未使用
+
 # SegmentTree\_max
 tessoku_book/a58
 practice2/j
+最大値を集計する。
 ## SegmentTree\_max20250427
 tessoku_book/a58
 ## SegmentTree\_max20250428
@@ -280,6 +288,7 @@ findLeft(),findRight()追加
 
 # SegmentTree\_min
 未使用
+最小値を集計する。
 ## SegmentTree\_min20250428
 未使用
 ## SegmentTree\_min20250429
@@ -288,11 +297,13 @@ findLeft(),findRight()追加
 
 # SegmentTree\_sum
 tessoku_book/a59
+合計値を集計する。
 ## SegmentTree\_sum20250427
 tessoku_book/a59
 
 # SegmentTree\_xor
 abc185/f
+xor値を集計する。
 ## SegmentTree\_xor20250427
 abc185/f
 
