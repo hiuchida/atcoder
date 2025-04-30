@@ -95,6 +95,16 @@ Map<String, List<String>> mapを使って、int kに関連したString valをリ
 未使用。
 Map<String, TreeSet<String>> mapを使って、int kに関連したString valをセットで管理する。
 
+# FenwickTree_int
+practice2/bで作成したが、未使用。
+## FenwickTree_int20250427
+practice2/bで作成したが、未使用。
+
+# FenwickTree_long
+practice2/b
+## FenwickTree_long20250427
+practice2/b
+
 # Label
 abc128/bより共通化
 static classとしてMain内部に貼り付ける。

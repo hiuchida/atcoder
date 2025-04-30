@@ -1,38 +1,38 @@
 import java.util.*;
 public class Main {
 	public static void main(String[] args) {
-//		main0(args);
-		main1(args);
+//		main0(100);
+		main1(100);
 	}
-	public static void main0(String[] args) {
+	public static void main0(int k) {
 		final int N=10;
 		UnionFind uf=new UnionFind();
 		for (int i=1; i+2<N; i+=2) {
 			System.out.println(uf);
-			uf.merge(i, i+2);
+			uf.merge(k*i, k*(i+2));
 		}
 		System.out.println(uf);
 	}
 	//1,000,000,000 ----ms ----ms ----ms
 	//  100,000,000 ----ms ----ms ----ms
-	//   10,000,000    1ms 3091ms 2042ms
-	//    1,000,000    1ms  264ms  210ms
-	public static void main1(String[] args) {
+	//   10,000,000    1ms 3140ms 2116ms
+	//    1,000,000    1ms  271ms  195ms
+	public static void main1(int k) {
 //		final int N=1000;
 		final int N=1*1000*1000;
 		long st1=System.currentTimeMillis();
 		UnionFind uf=new UnionFind();
 		long st2=System.currentTimeMillis();
 		for (int i=1; i+2<N; i+=2) {
-			uf.merge(i, i+2);
+			uf.merge(k*i, k*(i+2));
 		}
 //		System.out.println(uf);
 		long st3=System.currentTimeMillis();
 		for (int i=1; i+2<N; i+=2) {
-			if (!uf.same(1, i)) {
+			if (!uf.same(k*1, k*i)) {
 				System.out.println(i);
 			}
-			if (uf.same(1, i-1)) {
+			if (uf.same(k*1, k*i-1)) {
 				System.out.println(i);
 			}
 		}

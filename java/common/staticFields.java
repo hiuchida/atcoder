@@ -1,3 +1,9 @@
+	//Doubling size
+	static final int m=17; //2^17=131,072
+	static final int m=18; //2^18=262,144
+	static final int m=30; //2^30=1,073,741,824
+	static final int m=60; //2^60=1,152,921,504,606,846,976
+
 	static final int[] DY = { -1, 1, 0, 0 }; //U,D,L,R
 	static final int[] DX = {  0, 0,-1, 1 }; //U,D,L,R
 	static final String DS = "UDLR";
