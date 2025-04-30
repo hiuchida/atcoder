@@ -325,6 +325,11 @@ static変数としてMain内部に貼り付ける。
 staticメソッドとしてMain内部に貼り付ける。
 原則、static変数を必要とするものはクラス化する。
 
+# StringHash
+tessoku_book/a56より共通化
+## StringHash20250430
+tessoku_book/a56
+
 # Twin\_int
 abc289/bより共通化
 static classとしてMain内部に貼り付ける。
