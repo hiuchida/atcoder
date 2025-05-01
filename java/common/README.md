@@ -147,6 +147,8 @@ abc301/b: String join(String delimiter)
 abc296/d: String toString()
 ## MyArray\_int20250425
 Prime20250426: size()、get()を追加。
+## MyArray\_int20250501
+typical90/032: peek()追加。remove()で0クリア。
 
 # MyDeque\_int
 typical90/061より共通化
