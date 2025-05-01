@@ -150,6 +150,13 @@ Prime20250426: size()、get()を追加。
 ## MyArray\_int20250501
 typical90/032: peek()追加。remove()で0クリア。
 
+# MyArray\_str
+abc302/cより共通化
+List<String>と変わりないが、スタックとして利用する際に、
+peek()やremove()がわざわざsize()-1を指定しないので使いやすい。
+## MyArray\_str20250501
+abc302/c
+
 # MyDeque\_int
 typical90/061より共通化
 static classとしてMain内部に貼り付ける。
