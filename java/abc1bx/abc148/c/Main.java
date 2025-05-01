@@ -8,6 +8,7 @@ public class Main {
 		long ans=a/gcd*b;
 		System.out.println(ans);
 	}
+	//aとbの最大公約数
 	static long gcd(long a, long b) {
 		if (b<a) {
 			long t=a;

@@ -61,6 +61,8 @@
 		}
 		return sb.toString();
 	}
+	//abc032_a,abc070_c,abc109_c,abc118_c,abc125_c,abc148_c,abc253_d,abc276_d,abc284_d,typical90_022,typical90_038:
+	//aとbの最大公約数
 	static long gcd(long a, long b) {
 		if (b<a) {
 			long t=a;

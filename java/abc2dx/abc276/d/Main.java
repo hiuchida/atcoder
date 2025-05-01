@@ -31,6 +31,7 @@ public class Main {
 		if (min!=max) ans=-1;
 		System.out.println(ans);
 	}
+	//aとbの最大公約数
 	static long gcd(long a, long b) {
 		if (b<a) {
 			long t=a;

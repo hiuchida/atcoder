@@ -34,6 +34,7 @@ public class Main {
 		ans/=2;
 		return ans;
 	}
+	//aとbの最大公約数
 	static long gcd(long a, long b) {
 		if (a < b) {
 			if (a == 0) return b;

@@ -64,6 +64,7 @@ public class Main {
 //		if (b == 0) return a;
 //		else return gcd(b, a % b);
 //	}
+	//aとbの最大公約数
 	static long gcd(long a, long b) {
 		if (b<a) {
 			long t=a;
