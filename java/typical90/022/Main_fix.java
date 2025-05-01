@@ -10,15 +10,6 @@ public class Main {
 	static void DEBUG(int[] x) {
 		if (DEBUG) DEBUG(Arrays.toString(x));
     }
-	//【旧版】aとbの最大公約数
-	static long gcd(long a, long b) {
-		if (a < b) {
-			if (a == 0) return b;
-			else return gcd(a, b % a);
-		}
-		if (b == 0) return a;
-		else return gcd(b, a % b);
-	}
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		long a = sc.nextLong();
@@ -30,5 +21,19 @@ public class Main {
 		DEBUG(gabc);
 		long ans = (a/gabc-1)+(b/gabc-1)+(c/gabc-1);
 		System.out.println(ans);
+	}
+	//aとbの最大公約数
+	static long gcd(long a, long b) {
+		if (b<a) {
+			long t=a;
+			a=b;
+			b=t;
+		}
+		while (a>0) {
+			long t=b%a;
+			b=a;
+			a=t;
+		}
+		return b;
 	}
 }
