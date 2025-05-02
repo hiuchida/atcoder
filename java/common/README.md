@@ -322,6 +322,14 @@ tessoku_book/a59
 ## SegmentTree\_sum20250427
 tessoku_book/a59
 
+# SegmentTree\_summap
+未使用
+int\[\] aryの代わりにMap<Integer, Integer> mapで管理する。
+
+# SegmentTree\_sumtree
+未使用
+int\[\] aryの代わりにSegmentTreeNode rootで管理する。
+
 # SegmentTree\_xor
 abc185/f
 xor値を集計する。
