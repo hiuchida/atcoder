@@ -1,7 +1,12 @@
-	static class Counter { //Counter_int_setint250414
+	static class Counter { //Counter_int_setint250502
 		Map<Integer, TreeSet<Integer>> map = new TreeMap<>();
 		int size() {
 			return map.size();
+		}
+		int size(int k) {
+			TreeSet<Integer> v = map.get(k);
+			if (v == null) return 0;
+			return v.size();
 		}
 		TreeSet<Integer> get(int k) {
 			TreeSet<Integer> v = map.get(k);

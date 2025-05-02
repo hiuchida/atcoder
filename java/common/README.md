@@ -68,6 +68,8 @@ del()ですべて削除しても、0件でmapに残る。
 abc223/d: WAソース。Counter_int_listint20250410に変更
 abc273/d: get().lower(),get().higher()使用
 abc278/c: del(),is()使用
+## Counter_int_setint250502
+abc302/e: size(int k)
 
 # Counter_long_int
 abc233/dより共通化

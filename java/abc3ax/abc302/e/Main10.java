@@ -29,7 +29,7 @@ public class Main {
 			System.out.println(ans);
 		}
 	}
-	static class Counter { //Counter_int_setint250502
+	static class Counter { //unused Counter_int_setint250414
 		Map<Integer, HashSet<Integer>> map = new HashMap<>();
 		int size() {
 			return map.size();

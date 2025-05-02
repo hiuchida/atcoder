@@ -83,3 +83,7 @@ AC 1709ms->1847ms
 Main03を元に、BufferedReader inに置き換え。
 AC 1834ms
 
+# Main\_fix
+Mainを元に、
+Counter_int_setint250502を適用
+

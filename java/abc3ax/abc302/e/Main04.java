@@ -21,24 +21,15 @@ public class Main {
 				for (Integer u : cnt.get(v)) {
 					cnt.del(u, v);
 					if (cnt.get(u).size()==0) ans++;
-//					if (cnt.get(u).size()==0) cnt.remove(u);
 				}
 				if (cnt.get(v).size()>0) ans++;
 				cnt.remove(v);
 //				System.out.println(cnt);
 			}
-//			int ans=n-calc(cnt);
 			System.out.println(ans);
 		}
 	}
-//	static int calc(Counter cnt) {
-//		int ans=0;
-//		for (int u : cnt.keySet()) {
-//			if (cnt.get(u).size()>0) ans++;
-//		}
-//		return ans;
-//	}
-	static class Counter { //Counter_int_setint250414
+	static class Counter { //unused Counter_int_setint250414
 		Map<Integer, TreeSet<Integer>> map = new TreeMap<>();
 		int size() {
 			return map.size();

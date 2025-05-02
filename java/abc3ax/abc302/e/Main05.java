@@ -22,19 +22,11 @@ public class Main {
 				cnt.remove(v);
 //				System.out.println(cnt);
 			}
-//			int ans=n-calc(cnt);
 			int ans=n-cnt.size();
 			System.out.println(ans);
 		}
 	}
-//	static int calc(Counter cnt) {
-//		int ans=0;
-//		for (int u : cnt.keySet()) {
-//			if (cnt.get(u).size()>0) ans++;
-//		}
-//		return ans;
-//	}
-	static class Counter { //Counter_int_setint250414
+	static class Counter { //unused Counter_int_setint250414
 		Map<Integer, TreeSet<Integer>> map = new TreeMap<>();
 		int size() {
 			return map.size();
