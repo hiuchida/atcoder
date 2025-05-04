@@ -15,7 +15,9 @@ public class Main {
 		}
 		int h=sc.nextInt();
 		int w=sc.nextInt();
+		String[] ary=new String[h];
 		for (int y=0; y<h; y++) {
+			ary[y]=sc.next();
 			for (int x=0; x<w; x++) {
 			}
 		}
