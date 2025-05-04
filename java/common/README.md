@@ -195,6 +195,11 @@ int型のためnullが表現できないため、削除フラグとしてInteger
 0でリセットし、cnt-=2する。
 ## MyHeapque_int20250428
 abc217/e
+abc223/d
+## MyHeapque_int20250504
+remove()の改善とsize==cntのためcntの廃止
+abc217/e
+abc223/d
 
 # MyHeapque_long
 abc212/dより共通化
