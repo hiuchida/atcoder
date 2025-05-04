@@ -85,40 +85,31 @@ public class Main {
 		long tm2=st2-st1;
 		System.out.println("end of mainPriorityQueue1a "+tm2);
 	}
-	static class MyHeapque { //MyHeapque_long20250428
+	static class MyHeapque { //MyHeapque_long20250504
 		long[] ary;
-		int cnt;
 		int size;
 		MyHeapque() {
 			this(100);
 		}
 		MyHeapque(int n) {
 			this.ary=new long[n];
-			this.cnt=0;
 			this.size=0;
 		}
 		int size() {
 			return size;
 		}
 		void add(long i) {
-			if (ary.length == cnt) ary = Arrays.copyOf(ary, cnt * 2);
-			ary[cnt]=i;
-			upheap(ary, cnt);
-			cnt++;
+			if (ary.length == size) ary = Arrays.copyOf(ary, size * 2);
+			ary[size]=i;
+			upheap(ary, size);
 			size++;
 		}
 		long remove() {
 			long x=ary[0];
-			ary[0]=Integer.MAX_VALUE;
-			downheap(ary, cnt);
-			if (cnt%2==0) {
-				while (cnt>=2 && ary[cnt-2]==Integer.MAX_VALUE && ary[cnt-1]==Integer.MAX_VALUE) {
-					ary[cnt-2]=0;
-					ary[cnt-1]=0;
-					cnt-=2;
-				}
-			}
 			size--;
+			ary[0]=ary[size];
+			ary[size]=0;
+			downheap(ary, size);
 			return x;
 		}
 		private void upheap(long[] ary, int i) {
@@ -151,15 +142,15 @@ public class Main {
 		}
 		@Override
 		public String toString() {
-			return Arrays.toString(ary)+" cnt=" + cnt + ", size=" + size;
+			return Arrays.toString(ary)+" "+size;
 		}
 	}
 }
 /*
-end of mainMyHeapque1a 16999
-end of mainMyHeapque1a 19274
-end of mainMyHeapque1a 7878
-end of mainMyHeapque1a 8068
-end of mainPriorityQueue1a 53675
-end of mainPriorityQueue1a 51643
+end of mainMyHeapque1a 25705
+end of mainMyHeapque1a 26451
+end of mainMyHeapque1a 12681
+end of mainMyHeapque1a 13167
+end of mainPriorityQueue1a 54339
+end of mainPriorityQueue1a 52348
 */

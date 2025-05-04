@@ -197,14 +197,17 @@ int型のためnullが表現できないため、削除フラグとしてInteger
 abc217/e
 abc223/d
 ## MyHeapque_int20250504
-remove()の改善とsize==cntのためcntの廃止
 abc217/e
 abc223/d
+remove()の改善とsize==cntのためcntの廃止
 
 # MyHeapque_long
 abc212/dより共通化
 ## MyHeapque_long20250428
 abc212/d
+## MyHeapque_long20250504
+abc212/d
+remove()の改善とsize==cntのためcntの廃止
 
 # PairL
 abc349/dより共通化

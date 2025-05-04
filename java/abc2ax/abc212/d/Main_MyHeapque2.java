@@ -1,3 +1,31 @@
+import java.util.*;
+public class Main {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		MyHeapque que=new MyHeapque();
+		int q = sc.nextInt();
+		long base=0;
+		for (int i=0; i<q; i++) {
+			int c = sc.nextInt();
+			long v;
+			switch (c) {
+			case 1:
+				v = sc.nextInt();
+				v-=base;
+				que.add(v);
+				break;
+			case 2:
+				v = sc.nextInt();
+				base+=v;
+				break;
+			case 3:
+				v = que.remove();
+				long ans=v+base;
+				System.out.println(ans);
+				break;
+			}
+		}
+	}
 	static class MyHeapque { //MyHeapque_long20250504
 		long[] ary;
 		int size;
@@ -58,3 +86,26 @@
 			return Arrays.toString(ary)+" "+size;
 		}
 	}
+}
+/*
+4 3
+2 1
+3 4
+2 4
+
+2 3
+1 2
+1 2
+2 1
+*/
+/*
+9 3
+3 4
+4 5
+5 2
+
+9 3
+1 2
+1 2
+1 2
+*/
