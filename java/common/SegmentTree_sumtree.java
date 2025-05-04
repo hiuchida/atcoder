@@ -1,4 +1,4 @@
-	static class SegmentTreeNode { //SegmentTree_sumtree20250502
+	static class SegmentTreeNode { //SegmentTree_sumtree20250504
 		String id;
 		int value;
 		SegmentTreeNode left;
@@ -6,23 +6,25 @@
 		SegmentTreeNode(String id, int value) {
 			this.id=id;
 			this.value=value;
+			this.left=SegmentTree.nil;
+			this.right=SegmentTree.nil;
 		}
 		@Override
 		public String toString() {
-			String l=(left!=null) ? left.id : "nul";
-			String r=(right!=null) ? right.id : "nul";
+			String l=(left!=null) ? left.id : "null";
+			String r=(right!=null) ? right.id : "null";
 			return "("+value+" : "+id+","+l+","+r+")";
 		}
 	}
-	static class SegmentTree { //SegmentTree_sumtree20250502
+	static class SegmentTree { //SegmentTree_sumtree20250504
+		static final SegmentTreeNode nil=new SegmentTreeNode("nil", 0);
 		SegmentTreeNode root;
 		List<SegmentTreeNode> list=new ArrayList<>();
 		int siz;
 		int def;
 		int inf;
 		SegmentTree(int n, int def, int inf) {
-			this.root = new SegmentTreeNode("0_"+n, def);
-			list.add(root);
+			this.root = nil;
 			this.siz = n;
 			this.def = def;
 			this.inf = inf;
@@ -31,7 +33,7 @@
 			return a+b;
 		}
 		void update(int i, int value) {
-			update(i, value, root, 0, siz);
+			root=update(i, value, root, 0, siz);
 		}
 		int get(int i) {
 			return get(i, root, 0, siz);
@@ -39,33 +41,30 @@
 		int query(int lt, int rt) {
 			return query(lt, rt, root, 0, siz);
 		}
-		void update(int i, int value, SegmentTreeNode node, int a, int b) {
+		SegmentTreeNode update(int i, int value, SegmentTreeNode node, int a, int b) {
+			if (node==nil) {
+				node=new SegmentTreeNode(""+a+"_"+b, def);
+				list.add(node);
+			}
 			if (a+1==b) {
 				node.value=value;
-				return;
+				return node;
 			}
 			int mid=(a+b)/2;
 			if (i<mid) {
-				if (node.left==null) {
-					node.left=new SegmentTreeNode(""+a+"_"+mid, def);
-					list.add(node.left);
-				}
-				update(i, value, node.left, a, mid);
+				node.left=update(i, value, node.left, a, mid);
 			} else {
-				if (node.right==null) {
-					node.right=new SegmentTreeNode(""+mid+"_"+b, def);
-					list.add(node.right);
-				}
-				update(i, value, node.right, mid, b);
+				node.right=update(i, value, node.right, mid, b);
 			}
 			int vl=def;
 			int vr=def;
 			if (node.left!=null) vl=node.left.value;
 			if (node.right!=null) vr=node.right.value;
 			node.value=add(vl, vr);
+			return node;
 		}
 		int get(int i, SegmentTreeNode node, int a, int b) {
-			if (node==null) return def;
+			if (node==nil) return def;
 			if (a+1==b) return node.value;
 			int mid=(a+b)/2;
 			if (i<mid) {
@@ -75,7 +74,7 @@
 			}
 		}
 		int query(int lt, int rt, SegmentTreeNode node, int a, int b) {
-			if (node==null || b <= lt || rt <= a) {
+			if (node==nil || b <= lt || rt <= a) {
 				return inf;
 			}
 			if (lt <= a && b <= rt) {

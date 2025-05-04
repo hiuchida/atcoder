@@ -325,10 +325,18 @@ tessoku_book/a59
 # SegmentTree\_summap
 未使用
 int\[\] aryの代わりにMap<Integer, Integer> mapで管理する。
+# SegmentTree\_summap20250502
+未使用
 
 # SegmentTree\_sumtree
 未使用
 int\[\] aryの代わりにSegmentTreeNode rootで管理する。
+## SegmentTree\_sumtree20250502
+未使用
+## SegmentTree\_sumtree20250504
+未使用
+定数nilを追加し、left,rightの初期値をnullの代わりにnilに置き換え。
+rootの初期値をインスタンス("0_"+n,def)からnilに置き換え。
 
 # SegmentTree\_xor
 abc185/f
