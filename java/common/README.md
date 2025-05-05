@@ -165,6 +165,9 @@ abc296/d: String toString()
 Prime20250426: size()、get()を追加。
 ## MyArray\_int20250501
 typical90/032: peek()追加。remove()で0クリア。
+## MyArray\_int20250505
+未使用
+sort()、unique()、binarySearch()を追加。
 
 # MyArray\_str
 abc302/cより共通化
