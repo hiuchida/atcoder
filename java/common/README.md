@@ -1,3 +1,10 @@
+# Aggregate2D
+abc005/dより共通化
+static classとしてMain内部に貼り付ける。
+int[][] aryの累積和を計算する。
+## Aggregate2D20250505
+abc005/d
+
 # Bean\_int
 abc168/dより共通化
 static classとしてMain内部に貼り付ける。
