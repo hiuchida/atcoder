@@ -175,6 +175,10 @@ List<String>と変わりないが、スタックとして利用する際に、
 peek()やremove()がわざわざsize()-1を指定しないので使いやすい。
 ## MyArray\_str20250501
 abc302/c
+## MyArray\_str20250505
+未使用
+int\[\] toArray()をString[] toArray()に修正。
+sort()、unique()、binarySearch()を追加。
 
 # MyDeque\_int
 typical90/061より共通化

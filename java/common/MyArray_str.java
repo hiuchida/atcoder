@@ -1,4 +1,4 @@
-	static class MyArray { //MyArray_str20250501
+	static class MyArray { //MyArray_str20250505
 		String[] array;
 		int size=0;
 		MyArray() {
@@ -26,11 +26,26 @@
 			array[size]=null;
 			return x;
 		}
+		void sort() {
+			Arrays.sort(array, 0, size);
+		}
+		void unique() {
+			if (size==0) return;
+			int idx=1;
+			for (int i=1; i<size; i++) {
+				if (!array[i-1].equals(array[i])) array[idx++]=array[i];
+			}
+			for (int i=idx; i<size; i++) array[i]=null;
+			size=idx;
+		}
+		int binarySearch(String key) {
+			return Arrays.binarySearch(array, 0, size, key);
+		}
 		void trimToSize() {
 			if (size < array.length) array = Arrays.copyOf(array, size);
 		}
-		int[] toArray() {
-			int[] ans=new int[size];
+		String[] toArray() {
+			String[] ans=new String[size];
 			System.arraycopy(array, 0, ans, 0, size);
 			return ans;
 		}
