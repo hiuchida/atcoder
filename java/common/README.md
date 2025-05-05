@@ -176,7 +176,7 @@ peek()やremove()がわざわざsize()-1を指定しないので使いやすい�
 ## MyArray\_str20250501
 abc302/c
 ## MyArray\_str20250505
-未使用
+abc036/c
 int\[\] toArray()をString[] toArray()に修正。
 sort()、unique()、binarySearch()を追加。
 
