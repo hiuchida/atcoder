@@ -20,4 +20,13 @@ TreeSetでは1件となってしまい、indeg\[nxt\]が-1しかされず残っ�
 1 2
 1 2
 1 2
+AC 1328ms
+
+# Main\_fix
+MyHeapque_int20250428適用
+AC 1576ms
+
+# Main\_fix2
+MyHeapque_int20250504適用
+AC 1247ms
 
