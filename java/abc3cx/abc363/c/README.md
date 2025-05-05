@@ -44,10 +44,11 @@ Main09を元に、Set<Long> strs = new HashSet<>(3628800);を廃止し、long an
 Main10を元に、void dfs(char[] buf, int len, long v)として、calc(char[] buf)を廃止。TLE1個。2075ms→2019ms。
 
 # Main
-Main11を元に、冒頭のArrays.sort(ary);を廃止。WA。2019ms→1998ms。
+Main11を元に、冒頭のArrays.sort(ary);を廃止。AC。2019ms→1998ms。
 
 # Main\_fix
 Mainのソースをリファクタリング。
 
 # Main\_final
-Main\_fixを元に、char[] aryとint[] flagから同じ文字の個数を管理し、Set<Long> uniqを廃止。WA。1998ms→247ms。
+Main\_fixを元に、char[] aryとint[] flagから同じ文字の個数を管理し、Set<Long> uniqを廃止。AC。1998ms→247ms。
+
