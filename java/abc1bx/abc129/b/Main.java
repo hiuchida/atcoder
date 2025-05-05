@@ -22,7 +22,7 @@ public class Main {
 		}
 	}
 
-	public static class Aggregate {
+	public static class Aggregate { //unused Aggregate
 		private int n;
 		private int[] element;
 
