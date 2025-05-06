@@ -27,13 +27,13 @@ public class Main {
 		String s=sc.next();
 		char[] ary=s.toCharArray();
 		
-		List<Integer> list=new ArrayList<>();
-		Set<Integer> set=new HashSet<>();
-		TreeSet<Integer> set=new TreeSet<>();
-		TreeMap<Integer,Integer> map=new TreeMap<>();
-		Deque<Integer> que=new ArrayDeque<>();
-		PriorityQueue<Integer> que=new PriorityQueue<>();
-		StringBuilder sb=new StringBuilder();
+//		List<Integer> list=new ArrayList<>();
+//		Set<Integer> set=new HashSet<>();
+//		TreeSet<Integer> set=new TreeSet<>();
+//		TreeMap<Integer,Integer> map=new TreeMap<>();
+//		Deque<Integer> que=new ArrayDeque<>();
+//		PriorityQueue<Integer> que=new PriorityQueue<>();
+//		StringBuilder sb=new StringBuilder();
 		
 		Arrays.sort(ary);
 		System.out.println(Arrays.toString(ary));
