@@ -2,6 +2,13 @@ import java.util.*;
 public class Main {
 	public static void main(String[] args) {
 		Scanner sc=new Scanner(System.in);
+		final int N=3;
+		int[] ary=new int[N];
+		String[] ary=new String[N];
+		for (int i=0; i<N; i++) {
+			ary[i]=sc.nextInt();
+			ary[i]=sc.next();
+		}
 		int a=sc.nextInt();
 		int b=sc.nextInt();
 		int c=sc.nextInt();
