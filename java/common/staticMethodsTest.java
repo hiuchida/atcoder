@@ -2,6 +2,7 @@ import java.util.*;
 public class Main {
 	public static void main(String[] args) {
 		test_binarySearch();
+		test_lowerBound();
 		test_unique();
 		System.out.println("end of main");
 	}
@@ -10,6 +11,14 @@ public class Main {
 		System.out.println("test_binarySearch");
 		for (int x=0; x<5; x++) {
 			int idx=binarySearch(ary, x);
+			System.out.println(Arrays.toString(ary)+" x="+x+" idx="+idx);
+		}
+	}
+	static void test_lowerBound() {
+		int[] ary={ 1, 1, 2, 2, 3, 3 };
+		System.out.println("test_lowerBound");
+		for (int x=0; x<5; x++) {
+			int idx=lowerBound(ary, x);
 			System.out.println(Arrays.toString(ary)+" x="+x+" idx="+idx);
 		}
 	}
@@ -33,6 +42,17 @@ public class Main {
 		}
 		return lt;
 	}
+	//ソートされた配列int[] aryに対して、ary[i]>=xとなる最小のiを求める関数
+	static int lowerBound(int[] ary, int x) {
+		int lt=-1;
+		int rt=ary.length;
+		while (lt+1<rt) {
+			int mid=(lt+rt)/2;
+			if (ary[mid]>=x) rt=mid;
+			else lt=mid;
+		}
+		return rt;
+	}
 	//ソート済のary[i]の重複を省く
 	static int unique(int[] ary) {
 		if (ary.length==0) return 0;
@@ -46,6 +66,12 @@ public class Main {
 }
 /*
 test_binarySearch
+[1, 1, 2, 2, 3, 3] x=0 idx=0
+[1, 1, 2, 2, 3, 3] x=1 idx=0
+[1, 1, 2, 2, 3, 3] x=2 idx=2
+[1, 1, 2, 2, 3, 3] x=3 idx=4
+[1, 1, 2, 2, 3, 3] x=4 idx=6
+test_lowerBound
 [1, 1, 2, 2, 3, 3] x=0 idx=0
 [1, 1, 2, 2, 3, 3] x=1 idx=0
 [1, 1, 2, 2, 3, 3] x=2 idx=2

@@ -27,6 +27,17 @@
 		}
 		return lt;
 	}
+	//ソートされた配列int[] aryに対して、ary[i]>=xとなる最小のiを求める関数
+	static int lowerBound(int[] ary, int x) {
+		int lt=-1;
+		int rt=ary.length;
+		while (lt+1<rt) {
+			int mid=(lt+rt)/2;
+			if (ary[mid]>=x) rt=mid;
+			else lt=mid;
+		}
+		return rt;
+	}
 	//abc082_b,abc192_c: 指定された配列の要素の順序を逆にします。see Collections.reverse()
 	static void reverse(char[] ary) {
 		for (int i=0, mid=ary.length/2, j=ary.length-1; i<mid; i++, j--) {
