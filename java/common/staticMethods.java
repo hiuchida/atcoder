@@ -16,6 +16,17 @@
 		System.out.println("No");
 		System.exit(0);
 	}
+	//abc077_c: ary[mid]<x条件のバイナリーサーチ
+	static int binarySearch(int[] ary, int x) {
+		int lt=0;
+		int rt=ary.length-1;
+		while (lt<=rt) {
+			int mid=(lt+rt)/2;
+			if (ary[mid]<x) lt=mid+1;
+			else rt=mid-1;
+		}
+		return lt;
+	}
 	//abc082_b,abc192_c: 指定された配列の要素の順序を逆にします。see Collections.reverse()
 	static void reverse(char[] ary) {
 		for (int i=0, mid=ary.length/2, j=ary.length-1; i<mid; i++, j--) {
