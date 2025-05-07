@@ -2,9 +2,10 @@ import java.util.*;
 public class Main {
 	public static void main(String[] args) {
 		Scanner sc=new Scanner(System.in);
+		final int N=3;
 		int n=sc.nextInt();
 		Set<Integer> set=new HashSet<>();
-		for (int i=0; i<3; i++) {
+		for (int i=0; i<N; i++) {
 			int a=sc.nextInt();
 			set.add(a);
 			if (n==a) {

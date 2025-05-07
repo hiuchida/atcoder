@@ -2,9 +2,10 @@ import java.util.*;
 public class Main {
 	public static void main(String[] args) {
 		Scanner sc=new Scanner(System.in);
+		final int N=3;
 		int n=sc.nextInt();
-		int[] ary=new int[3];
-		for (int i=0; i<3; i++) {
+		int[] ary=new int[N];
+		for (int i=0; i<N; i++) {
 			ary[i]=sc.nextInt();
 			if (n==ary[i]) {
 				System.out.println("NO");
