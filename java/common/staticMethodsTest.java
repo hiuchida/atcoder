@@ -1,12 +1,37 @@
 import java.util.*;
 public class Main {
 	public static void main(String[] args) {
+		test_binarySearch();
+		test_unique();
+		System.out.println("end of main");
+	}
+	static void test_binarySearch() {
 		int[] ary={ 1, 1, 2, 2, 3, 3 };
+		System.out.println("test_binarySearch");
+		for (int x=0; x<5; x++) {
+			int idx=binarySearch(ary, x);
+			System.out.println(Arrays.toString(ary)+" x="+x+" idx="+idx);
+		}
+	}
+	static void test_unique() {
+		int[] ary={ 1, 1, 2, 2, 3, 3 };
+		System.out.println("test_unique");
 		System.out.println(Arrays.toString(ary));
 		int len=unique(ary);
-		System.out.println(Arrays.toString(ary)+" "+len);
+		System.out.println(Arrays.toString(ary)+" len="+len);
 		int[] ary2=Arrays.copyOf(ary, len);
 		System.out.println(Arrays.toString(ary2));
+	}
+	//abc077_c: ary[mid]<x条件のバイナリーサーチ
+	static int binarySearch(int[] ary, int x) {
+		int lt=0;
+		int rt=ary.length-1;
+		while (lt<=rt) {
+			int mid=(lt+rt)/2;
+			if (ary[mid]<x) lt=mid+1;
+			else rt=mid-1;
+		}
+		return lt;
 	}
 	//ソート済のary[i]の重複を省く
 	static int unique(int[] ary) {
@@ -20,4 +45,15 @@ public class Main {
 	}
 }
 /*
+test_binarySearch
+[1, 1, 2, 2, 3, 3] x=0 idx=0
+[1, 1, 2, 2, 3, 3] x=1 idx=0
+[1, 1, 2, 2, 3, 3] x=2 idx=2
+[1, 1, 2, 2, 3, 3] x=3 idx=4
+[1, 1, 2, 2, 3, 3] x=4 idx=6
+test_unique
+[1, 1, 2, 2, 3, 3]
+[1, 2, 3, 0, 0, 0] len=3
+[1, 2, 3]
+end of main
 */
