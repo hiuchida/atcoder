@@ -9,6 +9,10 @@ public class Main {
 			ary[i]=sc.nextInt();
 			ary[i]=sc.next();
 		}
+		int q=sc.nextInt();
+		for (int qq=0; qq<q; qq++) {
+			System.out.println();
+		}
 		int a=sc.nextInt();
 		int b=sc.nextInt();
 		int c=sc.nextInt();

@@ -3,6 +3,9 @@
 	static final long M=1000000000; //10^9
 	static final long M=1000000007; //10^9+7
 	
+	static final long M_2=modinv(2, M);
+	static final long M_10=modinv(10, M);
+	
 	//valをMで割った余り
 	static long mod(long val) { //ModFunc20250427
 		val%=M;
