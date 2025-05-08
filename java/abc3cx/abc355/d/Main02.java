@@ -14,7 +14,7 @@ public class Main {
 		Arrays.sort(ar);
 //		System.out.println(Arrays.toString(al));
 //		System.out.println(Arrays.toString(ar));
-		long ans=n*(n-1)/2L;
+		long ans=n*(n-1)/2L; //WA overflow
 		int ir=0;
 		for (int il=0; il<n; il++) {
 			while (ar[ir]<al[il]) {

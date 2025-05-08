@@ -8,3 +8,6 @@ ans=0を用意し、cnt.keySet()の要素keyでループし、
 v=cnt.get(key)に入れ、ans+=(long)v*(v-1)/2を加える。（nC2=n(n-1)/2）
 
 ansを出力する。
+
+# Main\_fix
+static long calc(int a, int b) { //abc295_d,abc350\_d,abc355_d,typical90_084: aCbの組み合わせ数

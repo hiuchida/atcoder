@@ -14,7 +14,7 @@ public class Main {
 		Arrays.sort(ar);
 //		System.out.println(Arrays.toString(al));
 //		System.out.println(Arrays.toString(ar));
-		long ans=(long)n*(n-1)/2L; //abc295_d,abc350_d,abc355_d,typical90_084: aCbの組み合わせ数
+		long ans=calc(n, 2);
 		int ir=0;
 		for (int il=0; il<n; il++) {
 			while (ar[ir]<al[il]) {
@@ -24,6 +24,12 @@ public class Main {
 			ans -= ir;
 		}
 		System.out.println(ans);
+	}
+	static long calc(int a, int b) { //abc295_d,abc350_d,abc355_d,typical90_084: aCbの組み合わせ数
+		long ans=1;
+		for (int i=0; i<b; i++) ans*=a-i;
+		for (int i=1; i<=b; i++) ans/=i;
+		return ans;
 	}
 }
 /*

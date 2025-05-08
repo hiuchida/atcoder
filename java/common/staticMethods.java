@@ -119,6 +119,13 @@
 		long ans=n*(a+b)/2;
 		return ans;
 	}
+	//abc295_d,abc350_d,abc355_d,typical90_084: aCbの組み合わせ数
+	static long calc(int a, int b) {
+		long ans=1;
+		for (int i=0; i<b; i++) ans*=a-i;
+		for (int i=1; i<=b; i++) ans/=i;
+		return ans;
+	}
 	//abc048_b: a以上の最小のbの倍数
 	static long ceil(long a, long b) {
 		if (a < 0) {

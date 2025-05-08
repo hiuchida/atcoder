@@ -31,7 +31,7 @@ public class Main {
 			int val=map.get(i);
 			int r=uf.root(i);
 			int s=uf.size(r);
-			int all=s*(s-1)/2;
+			int all=s*(s-1)/2; //abc295_d,abc350_d,abc355_d,typical90_084: aCbの組み合わせ数
 			ans+=(all-val/2);
 		}
 		System.out.println(ans);

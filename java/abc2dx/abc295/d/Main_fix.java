@@ -19,9 +19,15 @@ public class Main {
 		long ans=0;
 		for (int key : cnt.keySet()) {
 			int v=cnt.get(key);
-			ans+=(long)v*(v-1)/2; //abc295_d,abc350_d,abc355_d,typical90_084: aCbの組み合わせ数
+			ans+=calc(v, 2);
 		}
 		System.out.println(ans);
+	}
+	static long calc(int a, int b) { //abc295_d,abc350_d,abc355_d,typical90_084: aCbの組み合わせ数
+		long ans=1;
+		for (int i=0; i<b; i++) ans*=a-i;
+		for (int i=1; i<=b; i++) ans/=i;
+		return ans;
 	}
 	static class Counter { //Counter_int_int20250416
 		Map<Integer, Integer> map = new TreeMap<>();

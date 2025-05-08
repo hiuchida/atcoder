@@ -17,4 +17,5 @@ s\*(s-1)のときにオーバーフローしていた。
 
 # Main\_fix
 Counter_int_int20250410を適用
+static long calc(int a, int b) { //abc295_d,abc350\_d,abc355_d,typical90_084: aCbの組み合わせ数
 

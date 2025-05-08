@@ -13,3 +13,6 @@ WA18個。
 # Main
 long ans=n*(n-1)/2L;をlong ans=(long)n*(n-1)/2L;と、longで計算する。
 
+# Main\_fix
+static long calc(int a, int b) { //abc295_d,abc350_d,abc355_d,typical90_084: aCbの組み合わせ数
+
