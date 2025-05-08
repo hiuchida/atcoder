@@ -38,6 +38,21 @@ w>1の場合、ans=calc(w-1, w)を呼び出す。
 
 n-=w-1を更新し、nn=modmul(n, n+1)、nn2=modmul(nn, M_2)を入れ、modadd(ans, nn2)を返す。
 
+AC 74ms
+
 # Main\_fix
 ModFunc20250424を適用して、M_2=modinv(2, M)を計算する。
+
+# Main\_fix2
+typical90\_082と同じスタイルに書き直す。
+
+calc(long x)の中で、
+ans=0、m=10を用意し、iを1から18までループし、
+m/10<=x && x<mの場合、ans=modadd(ans, calc(m/10, x))を呼び出し、中断する。
+ans=modadd(ans, calc(m/10, m-1))を呼び出し、m*=10を入れる。
+ansを返す。
+
+calc(1,9)+calc(10,99)+calc(100,123)のように呼び出す。
+
+AC 76ms
 
