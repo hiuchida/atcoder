@@ -1,21 +1,5 @@
 import java.util.*;
 public class Main {
-	static class Counter {
-		Map<Integer, Integer> map = new TreeMap<>();
-		int get(int c) {
-			Integer v = map.get(c);
-			if (v == null) v = 0;
-			return v;
-		}
-		void inc(int c) {
-			int v = get(c);
-			v++;
-			map.put(c, v);
-		}
-		Set<Integer> keySet() {
-			return map.keySet();
-		}
-	}
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int n = sc.nextInt();
@@ -53,10 +37,57 @@ public class Main {
 		ans += n;
 		for (int c : cnt.keySet()) {
 			int v=cnt.get(c);
-			long nc = (long)c*(c+1)/2;
+			long nc = calc(1, c);
 			ans += nc*v;
 		}
 		System.out.println(ans);
+	}
+	static long calc(int a, int b) { //abc181_b,abc369_c: 初項a、末項bの等差数列の和
+		long n=b-a+1;
+		long ans=n*(a+b)/2;
+		return ans;
+	}
+	static class Counter { //Counter_int_int20250410
+		Map<Integer, Integer> map = new TreeMap<>();
+		int size() {
+			return map.size();
+		}
+		int get(int k) {
+			Integer v = map.get(k);
+			if (v == null) v = 0;
+			return v;
+		}
+		void put(int k, int v) {
+			if (v==0) map.remove(k);
+			else map.put(k, v);
+		}
+		void inc(int k) {
+			int v = get(k);
+			v++;
+			put(k, v);
+		}
+		void dec(int k) {
+			int v = get(k);
+			v--;
+			put(k, v);
+		}
+		void add(int k, int x) {
+			int v = get(k);
+			v += x;
+			put(k, v);
+		}
+		void sub(int k, int x) {
+			int v = get(k);
+			v -= x;
+			put(k, v);
+		}
+		Set<Integer> keySet() {
+			return map.keySet();
+		}
+		@Override
+		public String toString() {
+			return map.toString();
+		}
 	}
 }
 /*

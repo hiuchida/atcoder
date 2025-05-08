@@ -113,7 +113,7 @@
 		}
 		return b;
 	}
-	//abc181_b: 初項a、末項bの等差数列の和
+	//abc181_b,abc369_c: 初項a、末項bの等差数列の和
 	static long calc(int a, int b) {
 		long n=b-a+1;
 		long ans=n*(a+b)/2;

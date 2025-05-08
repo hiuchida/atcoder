@@ -38,3 +38,6 @@ int[] dif = new int[n+2];に増やし、dif[n+1] = Integer.MAX_VALUE;の番兵�
 
 # Main_counter
 Map<Integer, Integer>を使って、keyに対するカウントをするCounterクラスを作成し、利用する。
+
+static long calc(int a, int b) { //abc181_b,abc369_c: 初項a、末項bの等差数列の和
+

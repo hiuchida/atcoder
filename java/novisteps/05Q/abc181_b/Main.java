@@ -11,7 +11,7 @@ public class Main {
 		}
 		System.out.println(ans);
 	}
-	static long calc(int a, int b) { //abc181_b: 初項a、末項bの等差数列の和
+	static long calc(int a, int b) { //abc181_b,abc369_c: 初項a、末項bの等差数列の和
 		long n=b-a+1;
 		long ans=n*(a+b)/2;
 		return ans;

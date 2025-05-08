@@ -50,7 +50,7 @@ public class Main {
 		ans += n;
 		for (int c : map.keySet()) {
 			int v=map.get(c);
-			long nc = (long)c*(c+1)/2;
+			long nc = (long)c*(c+1)/2; //abc181_b,abc369_c: 初項a、末項bの等差数列の和
 			ans += nc*v;
 		}
 		if (n==1)

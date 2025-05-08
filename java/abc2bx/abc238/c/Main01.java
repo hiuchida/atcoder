@@ -19,17 +19,17 @@ public class Main {
 		return 0;
 	}
 	static long calc1(long ans, long n) {
-		return ans+n*(n+1)/2;
+		return ans+n*(n+1)/2; //abc181_b,abc369_c: 初項a、末項bの等差数列の和
 	}
 	static long calc2(long ans, long n) {
 		ans+=calc1(ans, 9);
 		n-=10-1;
-		return ans+n*(n+1)/2;
+		return ans+n*(n+1)/2; //abc181_b,abc369_c: 初項a、末項bの等差数列の和
 	}
 	static long calc3(long ans, long n) {
 		ans+=calc2(ans, 99);
 		n-=100-1;
-		return ans+n*(n+1)/2;
+		return ans+n*(n+1)/2; //abc181_b,abc369_c: 初項a、末項bの等差数列の和
 	}
 }
 /*
