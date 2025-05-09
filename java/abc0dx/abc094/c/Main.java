@@ -46,23 +46,6 @@ public class Main {
 		}
 	}
 
-	void solve1() {
-		int n = readNum();
-		int[] ia = readNums();
-		for (int i=0; i<n; i++) {
-			int[] na = new int[n-1];
-			int ni=0;
-			for (int j=0; j<n; j++) {
-				if (i != j) {
-					na[ni++] = ia[j];
-				}
-			}
-			Arrays.sort(na);
-			int mi=(n-1)/2;
-			pln(na[mi]);
-		}
-	}
-
 	class Info implements Comparable<Info> {
 		int idx;
 		int val;

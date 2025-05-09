@@ -2,7 +2,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class Main {
 	final int _intMax = Integer.MAX_VALUE; //=2147483647>10^9
@@ -12,6 +18,35 @@ public class Main {
 	static boolean bElapsed = false;
 
 	void solve() {
+		int n = readNum();
+		int[] ia = readNums();
+		List<Info> l = new ArrayList<>();
+		for (int i=0; i<n; i++) {
+			l.add(new Info(i, ia[i]));
+		}
+		Collections.sort(l, new InfoComp());
+		// M M
+		// M-1 M
+		// M M-1
+		Set<Integer> s1 = new HashSet<>();
+		Set<Integer> s2 = new HashSet<>();
+		for (int i=0; i<n/2; i++) {
+			s1.add(l.get(i).idx);
+		}
+		for (int i=n/2; i<n; i++) {
+			s2.add(l.get(i).idx);
+		}
+		int m1 = l.get(n/2).val;
+		int m2 = l.get(n/2-1).val;
+		for (int i=0; i<n; i++) {
+			if (s1.contains(i))
+				pln(m1);
+			else
+				pln(m2);
+		}
+	}
+
+	void solve1() {
 		int n = readNum();
 		int[] ia = readNums();
 		for (int i=0; i<n; i++) {
@@ -24,10 +59,43 @@ public class Main {
 			}
 			Arrays.sort(na);
 			int mi=(n-1)/2;
-			System.out.println(na[mi]);
+			pln(na[mi]);
 		}
 	}
 
+	class Info implements Comparable<Info> {
+		int idx;
+		int val;
+		public Info(int idx, int val) {
+			this.idx = idx;
+			this.val = val;
+		}
+		public int compareTo(Info o) {
+			if (idx < o.idx) return -1;
+			else if (idx > o.idx) return 1;
+			return 0;
+		}
+		public boolean equals(Object o) {
+			if (o instanceof Info) {
+				Info that = (Info)o;
+				return 0 == compareTo(that);
+			}
+			return false;
+		}
+		public int hashCode() {
+			return idx + (val * 31);
+		}
+		public String toString() {
+			return "(" + idx + ", " + val + ")";
+		}
+	}
+	class InfoComp implements Comparator<Info> {
+		public int compare(Info o1, Info o2) {
+			if (o1.val < o2.val) return -1;
+			else if (o1.val > o2.val) return 1;
+			return 0;
+		}
+	}
 	int pint(String s) {
 		return Integer.parseInt(s);
 	}

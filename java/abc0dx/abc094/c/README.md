@@ -1,8 +1,22 @@
 # Main01
-package arc095.a;を消し忘れ。
-RE21個。
+nを読み込み、int[] iaに読み込む。
+iを0からn回ループし、int[] na、ni=0を用意し、
+jを0からn回ループし、i != jの場合、na[ni++] = ia[j]を入れる。
+naをソートする。
+mi=(n-1)/2を入れ、na[mi]を出力する。
+TLE11個。
 
 # Main
+List<Info> lを用意し、l.add(new Info(i, ia[i]))に追加する。
+lをソートする。
+Set<Integer> s1,s2を用意し、
+iを0からn/2回ループし、s1.add(l.get(i).idx)に追加する。
+iをn/2からn/2回ループし、s2.add(l.get(i).idx)に追加する。
+m1 = l.get(n/2).val、m2 = l.get(n/2-1).valを用意し、
+iを0からn回ループし、s1.contains(i)の場合m1、それ以外はm2を出力する。
+AC 729ms
+
+# Main1
 nを読み込み、List<Info> lに読み込み、lをvalをキーにソートする。
 Set<Integer> s1,s2を用意し、iを0からn/2回ループし、s1.add(l.get(i).idx)を追加し、
 iをn/2からn-1までループし、s2.add(l.get(i).idx)に追加する。

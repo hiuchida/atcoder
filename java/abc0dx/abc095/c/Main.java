@@ -1,32 +1,138 @@
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+
 public class Main {
-	public static void main(String[] args) {
-		Scanner sc=new Scanner(System.in);
-		int a=sc.nextInt();
-		int b=sc.nextInt();
-		int c=sc.nextInt();
-		int x=sc.nextInt();
-		int y=sc.nextInt();
-		long ans=Long.MAX_VALUE;
-		for (int ab=0; ab<=Math.max(x, y)*2; ab+=2) {
-			long a1=(long)ab*c;
-			int x1=x-ab/2;
-			int y1=y-ab/2;
-			if (x1<0) x1=0;
-			if (y1<0) y1=0;
-			long a2=(long)a*x1;
-			long a3=(long)b*y1;
-			long a4=a1+a2+a3;
-//			System.out.println(ab+" "+x1+" "+y1+" "+a1+" "+a2+" "+a3+" "+a4);
-			ans=Math.min(ans, a4);
+	final int _intMax = Integer.MAX_VALUE; // =2147483647>10^9
+	final int _intMin = Integer.MIN_VALUE;
+	final long _longMax = Long.MAX_VALUE; // =9223372036854775807L>10^18
+	final long _longMin = Long.MIN_VALUE;
+	static boolean bElapsed = false;
+
+	void solve() {
+		int[] ia = readNums();
+		int a = ia[0];
+		int b = ia[1];
+		int c = ia[2];
+		int x = ia[3];
+		int y = ia[4];
+		int c2 = c * 2;
+		int m = min(x, y);
+		int ans = 0;
+		if (c2 < a + b) {
+			ans += c2 * m;
+			x -= m;
+			y -= m;
 		}
-		System.out.println(ans);
+		if (x > 0) {
+			if (a > c2) {
+				ans += c2 * x;
+			} else {
+				ans += a * x;
+			}
+		}
+		if (y > 0) {
+			if (b > c2) {
+				ans += c2 * y;
+			} else {
+				ans += b * y;
+			}
+		}
+		pln(ans);
+	}
+
+	int abs(int a) {
+		return (a >= 0) ? a : -a;
+	}
+
+	int max(int a, int b) {
+		return (a > b) ? a : b;
+	}
+
+	int min(int a, int b) {
+		return (a < b) ? a : b;
+	}
+
+	int pint(String s) {
+		return Integer.parseInt(s);
+	}
+
+	long plong(String s) {
+		return Long.parseLong(s);
+	}
+
+	String readLine() {
+		try {
+			return _in.readLine();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	int readNum() {
+		String line = readLine();
+		return pint(line);
+	}
+
+	String[] readFlds() {
+		String line = readLine();
+		return line.split(" ");
+	}
+
+	int[] readNums() {
+		String[] flds = readFlds();
+		int[] nums = new int[flds.length];
+		for (int i = 0; i < flds.length; i++) {
+			nums[i] = pint(flds[i]);
+		}
+		return nums;
+	}
+
+	void p(char c) {
+		_out.print(c);
+	}
+
+	void pln(char c) {
+		_out.println(c);
+	}
+
+	void p(double d) {
+		_out.print(d);
+	}
+
+	void pln(double d) {
+		_out.println(d);
+	}
+
+	void p(long l) {
+		_out.print(l);
+	}
+
+	void pln(long l) {
+		_out.println(l);
+	}
+
+	void p(String s) {
+		_out.print(s);
+	}
+
+	void pln(String s) {
+		_out.println(s);
+	}
+
+	static BufferedReader _in;
+	static PrintWriter _out;
+
+	public static void main(String[] args) {
+		long start = System.currentTimeMillis();
+		_in = new BufferedReader(new InputStreamReader(System.in));
+		_out = new PrintWriter(System.out);
+		new Main().solve();
+		_out.flush();
+		long end = System.currentTimeMillis();
+		if (bElapsed) {
+			System.err.println((end - start) + "ms");
+		}
 	}
 }
-/*
-1500 2000 1600 3 2
-
-1500 2000 1900 3 2
-
-1500 2000 500 90000 100000
-*/
