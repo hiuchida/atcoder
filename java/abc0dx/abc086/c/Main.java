@@ -12,25 +12,31 @@ public class Main {
 
 	void solve() {
 		int n = readNum();
-		int[][] map = new int[2][n];
-		int[] ia1 = readNums();
-		for (int i = 0; i < n; i++)
-			map[0][i] = ia1[i];
-		int[] ia2 = readNums();
-		for (int i = 0; i < n; i++)
-			map[1][i] = ia2[i];
-		int mans = 0;
+		int t = 0;
+		int x = 0;
+		int y = 0;
 		for (int i = 0; i < n; i++) {
-			int ans = 0;
-			for (int j = 0; j <= i; j++) {
-				ans += map[0][j];
+			int[] ia = readNums();
+			int ti = ia[0];
+			int xi = ia[1];
+			int yi = ia[2];
+			int dt = abs(ti - t);
+			int dx = abs(xi - x);
+			int dy = abs(yi - y);
+			if (dt < dx + dy) {
+				pln("No");
+				return;
 			}
-			for (int j = i; j < n; j++) {
-				ans += map[1][j];
+			dt -= dx + dy;
+			if (dt % 2 == 1) {
+				pln("No");
+				return;
 			}
-			mans = max(mans, ans);
+			t = ti;
+			x = xi;
+			y = yi;
 		}
-		pln(mans);
+		pln("Yes");
 	}
 
 	int abs(int a) {

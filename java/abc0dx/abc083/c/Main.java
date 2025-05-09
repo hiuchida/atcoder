@@ -11,26 +11,15 @@ public class Main {
 	static boolean bElapsed = false;
 
 	void solve() {
-		int n = readNum();
-		int[][] map = new int[2][n];
-		int[] ia1 = readNums();
-		for (int i = 0; i < n; i++)
-			map[0][i] = ia1[i];
-		int[] ia2 = readNums();
-		for (int i = 0; i < n; i++)
-			map[1][i] = ia2[i];
-		int mans = 0;
-		for (int i = 0; i < n; i++) {
-			int ans = 0;
-			for (int j = 0; j <= i; j++) {
-				ans += map[0][j];
-			}
-			for (int j = i; j < n; j++) {
-				ans += map[1][j];
-			}
-			mans = max(mans, ans);
+		String[] flds = readFlds();
+		long x = plong(flds[0]);
+		long y = plong(flds[1]);
+		long ans = 0;
+		while (x <= y) {
+			ans++;
+			x *= 2;
 		}
-		pln(mans);
+		pln(ans);
 	}
 
 	int abs(int a) {

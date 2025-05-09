@@ -2,6 +2,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class Main {
 	final int _intMax = Integer.MAX_VALUE; // =2147483647>10^9
@@ -11,29 +14,53 @@ public class Main {
 	static boolean bElapsed = false;
 
 	void solve() {
+		Counter c = new Counter();
 		int n = readNum();
-		int[][] map = new int[2][n];
-		int[] ia1 = readNums();
-		for (int i = 0; i < n; i++)
-			map[0][i] = ia1[i];
-		int[] ia2 = readNums();
-		for (int i = 0; i < n; i++)
-			map[1][i] = ia2[i];
-		int mans = 0;
-		for (int i = 0; i < n; i++) {
-			int ans = 0;
-			for (int j = 0; j <= i; j++) {
-				ans += map[0][j];
-			}
-			for (int j = i; j < n; j++) {
-				ans += map[1][j];
-			}
-			mans = max(mans, ans);
+		int[] ia = readNums();
+		for (int i = 0; i < ia.length; i++) {
+			c.add(ia[i]);
 		}
-		pln(mans);
+		int ans = 0;
+		for (Object o : c.keySet()) {
+			int key = (Integer) o;
+			int cnt = c.get(o);
+			if (key > cnt)
+				ans += cnt;
+			else if (key < cnt)
+				ans += cnt - key;
+		}
+		pln(ans);
+	}
+
+	class Counter {
+		Map<Object, Integer> map = new HashMap<>();
+
+		public void add(Object o) {
+			Integer v = map.get(o);
+			if (v == null)
+				map.put(o, 1);
+			else
+				map.put(o, v + 1);
+		}
+
+		public int get(Object o) {
+			Integer v = map.get(o);
+			if (v == null)
+				return 0;
+			else
+				return v;
+		}
+
+		public Set<Object> keySet() {
+			return map.keySet();
+		}
 	}
 
 	int abs(int a) {
+		return (a >= 0) ? a : -a;
+	}
+
+	long abs(long a) {
 		return (a >= 0) ? a : -a;
 	}
 
@@ -41,7 +68,15 @@ public class Main {
 		return (a > b) ? a : b;
 	}
 
+	long max(long a, long b) {
+		return (a > b) ? a : b;
+	}
+
 	int min(int a, int b) {
+		return (a < b) ? a : b;
+	}
+
+	long min(long a, long b) {
 		return (a < b) ? a : b;
 	}
 
@@ -66,6 +101,11 @@ public class Main {
 		return pint(line);
 	}
 
+	long readLong() {
+		String line = readLine();
+		return plong(line);
+	}
+
 	String[] readFlds() {
 		String line = readLine();
 		return line.split(" ");
@@ -74,9 +114,16 @@ public class Main {
 	int[] readNums() {
 		String[] flds = readFlds();
 		int[] nums = new int[flds.length];
-		for (int i = 0; i < flds.length; i++) {
+		for (int i = 0; i < flds.length; i++)
 			nums[i] = pint(flds[i]);
-		}
+		return nums;
+	}
+
+	long[] readLongs() {
+		String[] flds = readFlds();
+		long[] nums = new long[flds.length];
+		for (int i = 0; i < flds.length; i++)
+			nums[i] = pint(flds[i]);
 		return nums;
 	}
 
@@ -122,8 +169,7 @@ public class Main {
 		new Main().solve();
 		_out.flush();
 		long end = System.currentTimeMillis();
-		if (bElapsed) {
+		if (bElapsed)
 			System.err.println((end - start) + "ms");
-		}
 	}
 }

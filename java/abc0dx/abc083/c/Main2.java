@@ -11,29 +11,22 @@ public class Main {
 	static boolean bElapsed = false;
 
 	void solve() {
-		int n = readNum();
-		int[][] map = new int[2][n];
-		int[] ia1 = readNums();
-		for (int i = 0; i < n; i++)
-			map[0][i] = ia1[i];
-		int[] ia2 = readNums();
-		for (int i = 0; i < n; i++)
-			map[1][i] = ia2[i];
-		int mans = 0;
-		for (int i = 0; i < n; i++) {
-			int ans = 0;
-			for (int j = 0; j <= i; j++) {
-				ans += map[0][j];
-			}
-			for (int j = i; j < n; j++) {
-				ans += map[1][j];
-			}
-			mans = max(mans, ans);
+		long[] la = readLongs();
+		long x = la[0];
+		long y = la[1];
+		long ans = 0;
+		while (x <= y) {
+			ans++;
+			x *= 2;
 		}
-		pln(mans);
+		pln(ans);
 	}
 
 	int abs(int a) {
+		return (a >= 0) ? a : -a;
+	}
+
+	long abs(long a) {
 		return (a >= 0) ? a : -a;
 	}
 
@@ -41,7 +34,15 @@ public class Main {
 		return (a > b) ? a : b;
 	}
 
+	long max(long a, long b) {
+		return (a > b) ? a : b;
+	}
+
 	int min(int a, int b) {
+		return (a < b) ? a : b;
+	}
+
+	long min(long a, long b) {
 		return (a < b) ? a : b;
 	}
 
@@ -66,6 +67,11 @@ public class Main {
 		return pint(line);
 	}
 
+	long readLong() {
+		String line = readLine();
+		return plong(line);
+	}
+
 	String[] readFlds() {
 		String line = readLine();
 		return line.split(" ");
@@ -74,9 +80,16 @@ public class Main {
 	int[] readNums() {
 		String[] flds = readFlds();
 		int[] nums = new int[flds.length];
-		for (int i = 0; i < flds.length; i++) {
+		for (int i = 0; i < flds.length; i++)
 			nums[i] = pint(flds[i]);
-		}
+		return nums;
+	}
+
+	long[] readLongs() {
+		String[] flds = readFlds();
+		long[] nums = new long[flds.length];
+		for (int i = 0; i < flds.length; i++)
+			nums[i] = plong(flds[i]);
 		return nums;
 	}
 
