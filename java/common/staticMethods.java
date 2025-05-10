@@ -119,7 +119,7 @@
 		long ans=n*(a+b)/2;
 		return ans;
 	}
-	//abc295_d,abc350_d,abc355_d,typical90_084: aCbの組み合わせ数
+	//abc159_a,abc295_d,abc350_d,abc355_d,typical90_084: aCbの組み合わせ数
 	static long calc(int a, int b) {
 		long ans=1;
 		for (int i=0; i<b; i++) ans*=a-i;
