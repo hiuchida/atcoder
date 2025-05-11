@@ -13,7 +13,7 @@ map.is(x, y + 1)の場合falseを返す。
 それ以外は、trueを返す。
 AC 123ms
 
-# Main
+# Main2
 r26からr31に変更。
 map.readLines('#')に置き換え。
 map.count4(x, y) == 0の場合falseを返す。

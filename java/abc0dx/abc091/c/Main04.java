@@ -2,6 +2,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class Main {
 	final int _intMax = Integer.MAX_VALUE; // =2147483647>10^9
@@ -11,27 +15,76 @@ public class Main {
 	static boolean bElapsed = false;
 
 	void solve() {
-		int[] ia = readNums();
-		int n = ia[0];
-		int m = ia[1];
-		long ans = 0;
-		if (n == 1 && m == 1)
-			ans = 1;
-		else if (n % 2 == 0 || m % 2 == 0)
-			;
+		List<Point> lr = new ArrayList<>();
+		List<Point> lb = new ArrayList<>();
+		PointComparator pc = new PointComparator();
+		int n = readNum();
+		for (int i = 0; i < n; i++) {
+			int[] ia = readNums();
+			lr.add(new Point(ia[0], ia[1]));
+		}
+		for (int i = 0; i < n; i++) {
+			int[] ia = readNums();
+			lb.add(new Point(ia[0], ia[1]));
+		}
+		Collections.sort(lr, pc);
+		Collections.sort(lb, pc);
+		int ans = 0;
+		for (int i = lb.size() - 1; i >= 0; i--) {
+			Point b = lb.get(i);
+			for (int j = lr.size() - 1; j >= 0; j--) {
+				Point r = lr.get(j);
+				if (pc.compare(r, b) < 0) {
+					ans++;
+					lb.remove(i);
+					lr.remove(j);
+					break;
+				}
+			}
+		}
 		pln(ans);
 	}
 
-	int abs(int a) {
-		return (a >= 0) ? a : -a;
+	class PointComparator implements Comparator<Point> {
+		public int compare(Point p1, Point p2) {
+			if (p1.x == p2.x && p1.y == p2.y) {
+				return 0;
+			} else if (p1.x < p2.x && p1.y < p2.y) {
+				return -1;
+			}
+			return 1;
+		}
 	}
 
-	int max(int a, int b) {
-		return (a > b) ? a : b;
-	}
+	class Point {
+		int x;
+		int y;
 
-	int min(int a, int b) {
-		return (a < b) ? a : b;
+		public Point(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+
+		public Point(Point pt) {
+			this.x = pt.x;
+			this.y = pt.y;
+		}
+
+		public boolean equals(Object o) {
+			if (o instanceof Point) {
+				Point that = (Point) o;
+				return (x == that.x) && (y == that.y);
+			}
+			return false;
+		}
+
+		public int hashCode() {
+			return x + (y * 31);
+		}
+
+		public String toString() {
+			return "(" + x + ", " + y + ")";
+		}
 	}
 
 	int pint(String s) {

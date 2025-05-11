@@ -17,8 +17,10 @@ public class Main {
 		long ans = 0;
 		if (n == 1 && m == 1)
 			ans = 1;
-		else if (n % 2 == 0 || m % 2 == 0)
-			;
+		else if (n == 1)
+			ans = m - 2;
+		else
+			ans = (n - 2) * (m - 2);
 		pln(ans);
 	}
 

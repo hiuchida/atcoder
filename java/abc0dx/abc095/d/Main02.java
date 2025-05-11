@@ -1,72 +1,163 @@
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+
 public class Main {
-	public static void main(String[] args) {
-		Scanner sc=new Scanner(System.in);
-		int n=sc.nextInt();
-		long c=sc.nextLong();
-		long[] ax=new long[n+1];
-		int[] av=new int[n+1];
-		for (int i=1; i<=n; i++) {
-			ax[i]=sc.nextLong();
-			av[i]=sc.nextInt();
+	final int _intMax = Integer.MAX_VALUE; // =2147483647>10^9
+	final int _intMin = Integer.MIN_VALUE;
+	final long _longMax = Long.MAX_VALUE; // =9223372036854775807L>10^18
+	final long _longMin = Long.MIN_VALUE;
+	static boolean bElapsed = false;
+
+	void solve() {
+		long[] la = readLNums();
+		int n = (int) la[0];
+		long c = la[1];
+		long[] ix = new long[n];
+		long[] iv = new long[n];
+		for (int i = 0; i < n; i++) {
+			long[] lb = readLNums();
+			ix[i] = lb[0];
+			iv[i] = lb[1];
 		}
-		long[] sum1=new long[n+1];
-		for (int i=1; i<=n; i++) {
-			sum1[i]=sum1[i-1]+av[i];
+		long[] rans = new long[n];
+		for (int i = 0; i < n; i++) {
+			long px = (i == 0) ? 0 : ix[i - 1];
+			rans[i] = iv[i] - (ix[i] - px);
 		}
-		long[] ay=new long[n+1];
-		long[] sum2=new long[n+1];
-		for (int i=1; i<=n; i++) {
-			int j=n+1-i;
-			ay[i]=c-ax[j];
-			sum2[i]=sum2[i-1]+av[j];
+		long[] lans = new long[n];
+		for (int i = 0; i < n; i++) {
+			long px = (i == 0) ? c : ix[n - i];
+			lans[i] = iv[n - i - 1] - (px - ix[n - i - 1]);
 		}
-//		System.out.println(Arrays.toString(ax));
-//		System.out.println(Arrays.toString(ay));
-//		System.out.println(Arrays.toString(sum1));
-//		System.out.println(Arrays.toString(sum2));
-		long ans=0;
-		for (int i=0; i<=n; i++) {
-			long v1=sum1[i]-ax[i];
-			for (int j=0; i+j<=n; j++) {
-				long v2=sum2[j]-ay[j];
-				long z=-Math.min(ax[i], ay[j]);
-				long a1=v1+v2+z;
-//				System.out.println(i+","+j+": "+v1+" "+v2+" "+z+"="+a1);
-				ans=Math.max(ans, a1);
+		long mans = 0;
+		for (int i = 0; i < n; i++) {
+			long ans = 0;
+			for (int j = 0; j <= i; j++) {
+				ans += rans[j];
+				if (mans < ans) {
+					mans = ans;
+				}
+			}
+			ans -= ix[i];
+			for (int j = 0; j < n - i - 1; j++) {
+				ans += lans[j];
+				if (mans < ans) {
+					mans = ans;
+				}
 			}
 		}
-		System.out.println(ans);
+		for (int i = 0; i < n; i++) {
+			long ans = 0;
+			for (int j = 0; j <= i; j++) {
+				ans += lans[j];
+				if (mans < ans) {
+					mans = ans;
+				}
+			}
+			ans -= c - ix[n - i - 1];
+			for (int j = 0; j < n - i - 1; j++) {
+				ans += rans[j];
+				if (mans < ans) {
+					mans = ans;
+				}
+			}
+		}
+		pln(mans);
+	}
+
+	int abs(int a) {
+		return (a >= 0) ? a : -a;
+	}
+
+	int max(int a, int b) {
+		return (a > b) ? a : b;
+	}
+
+	int min(int a, int b) {
+		return (a < b) ? a : b;
+	}
+
+	int pint(String s) {
+		return Integer.parseInt(s);
+	}
+
+	long plong(String s) {
+		return Long.parseLong(s);
+	}
+
+	String readLine() {
+		try {
+			return _in.readLine();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	int readNum() {
+		String line = readLine();
+		return pint(line);
+	}
+
+	String[] readFlds() {
+		String line = readLine();
+		return line.split(" ");
+	}
+
+	long[] readLNums() {
+		String[] flds = readFlds();
+		long[] nums = new long[flds.length];
+		for (int i = 0; i < flds.length; i++) {
+			nums[i] = plong(flds[i]);
+		}
+		return nums;
+	}
+
+	void p(char c) {
+		_out.print(c);
+	}
+
+	void pln(char c) {
+		_out.println(c);
+	}
+
+	void p(double d) {
+		_out.print(d);
+	}
+
+	void pln(double d) {
+		_out.println(d);
+	}
+
+	void p(long l) {
+		_out.print(l);
+	}
+
+	void pln(long l) {
+		_out.println(l);
+	}
+
+	void p(String s) {
+		_out.print(s);
+	}
+
+	void pln(String s) {
+		_out.println(s);
+	}
+
+	static BufferedReader _in;
+	static PrintWriter _out;
+
+	public static void main(String[] args) {
+		long start = System.currentTimeMillis();
+		_in = new BufferedReader(new InputStreamReader(System.in));
+		_out = new PrintWriter(System.out);
+		new Main().solve();
+		_out.flush();
+		long end = System.currentTimeMillis();
+		if (bElapsed) {
+			System.err.println((end - start) + "ms");
+		}
 	}
 }
-/*
-3 20
-2 80
-9 120
-16 1
-
-3 20
-2 80
-9 1
-16 120
-
-1 100000000000000
-50000000000000 1
-
-15 10000000000
-400000000 1000000000
-800000000 1000000000
-1900000000 1000000000
-2400000000 1000000000
-2900000000 1000000000
-3300000000 1000000000
-3700000000 1000000000
-3800000000 1000000000
-4000000000 1000000000
-4100000000 1000000000
-5200000000 1000000000
-6600000000 1000000000
-8000000000 1000000000
-9300000000 1000000000
-9700000000 1000000000
-*/

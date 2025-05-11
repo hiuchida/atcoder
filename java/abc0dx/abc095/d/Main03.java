@@ -11,15 +11,74 @@ public class Main {
 	static boolean bElapsed = false;
 
 	void solve() {
-		int[] ia = readNums();
-		int n = ia[0];
-		int m = ia[1];
-		long ans = 0;
-		if (n == 1 && m == 1)
-			ans = 1;
-		else if (n % 2 == 0 || m % 2 == 0)
-			;
-		pln(ans);
+		long[] la = readLNums();
+		int n = (int) la[0];
+		long c = la[1];
+		long[] ix = new long[n];
+		long[] iv = new long[n];
+		for (int i = 0; i < n; i++) {
+			long[] lb = readLNums();
+			ix[i] = lb[0];
+			iv[i] = lb[1];
+		}
+		long[] rans = new long[n];
+		long mr = 0;
+		long an = 0;
+		for (int i = 0; i < n; i++) {
+			long px = (i == 0) ? 0 : ix[i - 1];
+			rans[i] = iv[i] - (ix[i] - px);
+			an += rans[i];
+			if (mr < an)
+				mr = an;
+		}
+		long ml = 0;
+		an = 0;
+		long[] lans = new long[n];
+		for (int i = 0; i < n; i++) {
+			long px = (i == 0) ? c : ix[n - i];
+			lans[i] = iv[n - i - 1] - (px - ix[n - i - 1]);
+			an += lans[i];
+			if (ml < an)
+				ml = an;
+		}
+		long mans = 0;
+		for (int i = 0; i < n; i++) {
+			long ans = 0;
+			for (int j = 0; j <= i; j++) {
+				ans += rans[j];
+				if (mans < ans) {
+					mans = ans;
+				}
+			}
+			ans -= ix[i];
+			if (ans + ml > mans) {
+				for (int j = 0; j < n - i - 1; j++) {
+					ans += lans[j];
+					if (mans < ans) {
+						mans = ans;
+					}
+				}
+			}
+		}
+		for (int i = 0; i < n; i++) {
+			long ans = 0;
+			for (int j = 0; j <= i; j++) {
+				ans += lans[j];
+				if (mans < ans) {
+					mans = ans;
+				}
+			}
+			ans -= c - ix[n - i - 1];
+			if (ans + mr > mans) {
+				for (int j = 0; j < n - i - 1; j++) {
+					ans += rans[j];
+					if (mans < ans) {
+						mans = ans;
+					}
+				}
+			}
+		}
+		pln(mans);
 	}
 
 	int abs(int a) {
@@ -60,11 +119,11 @@ public class Main {
 		return line.split(" ");
 	}
 
-	int[] readNums() {
+	long[] readLNums() {
 		String[] flds = readFlds();
-		int[] nums = new int[flds.length];
+		long[] nums = new long[flds.length];
 		for (int i = 0; i < flds.length; i++) {
-			nums[i] = pint(flds[i]);
+			nums[i] = plong(flds[i]);
 		}
 		return nums;
 	}

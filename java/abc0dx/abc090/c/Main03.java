@@ -17,8 +17,12 @@ public class Main {
 		long ans = 0;
 		if (n == 1 && m == 1)
 			ans = 1;
-		else if (n % 2 == 0 || m % 2 == 0)
-			;
+		else if (n == 1)
+			ans = max(0, m - 2);
+		else if (m == 1)
+			ans = max(0, n - 2);
+		else
+			ans = max(0, n - 2) * max(0, m - 2);
 		pln(ans);
 	}
 
