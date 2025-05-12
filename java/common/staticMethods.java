@@ -233,6 +233,20 @@
 		}
 		return ans;
 	}
+	//abc404_b: 時計周りに90度回転する
+	static String[] rotate(String[] as) {
+		char[][] ary=new char[n][n];
+		for (int y=0; y<n; y++) {
+			for (int x=0; x<n; x++) {
+				ary[y][x]=as[n-1-x].charAt(y);
+			}
+		}
+		String[] ans=new String[n];
+		for (int y=0; y<n; y++) {
+			ans[y]=new String(ary[y]);
+		}
+		return ans;
+	}
 	//abc298_b: aa[i][j]が1の場合のみab[i][j]と比較する
 	static boolean comp(int n, int[][] aa, int[][] ab) {
 		for (int y=0; y<n; y++) {
