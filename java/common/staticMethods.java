@@ -149,7 +149,7 @@
 		}
 		return ans;
 	}
-	//abc353_d: x<10^kを満たす最小の10^k
+	//abc020_b,abc353_d: x<10^kを満たす最小の10^k
 	static long calc(int x) {
 		long v=1;
 		while (v<=x) v*=10;
