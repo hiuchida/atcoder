@@ -7,3 +7,4 @@ UnionFindを使って作り直し。
 
 04_kill_overflow_0は、きっとTreeMap<Integer, Long> mapがIntegerで値を持っていると、
 10^9の差の積み重ねで2^31を越えるのだろう。
+AC 791ms
