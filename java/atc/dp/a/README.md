@@ -1,6 +1,4 @@
 # Main
-dp\_aをコピー
-
 nを読み込み、int[] aryに読み込む。
 int[] dpを用意し、INT\_MAXで初期化し、dp[1]=0を入れる。
 
