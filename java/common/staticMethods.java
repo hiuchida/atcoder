@@ -8,6 +8,9 @@
 	static void DEBUG(int[] x) {
 		if (DEBUG) DEBUG(Arrays.toString(x));
     }
+    static String getCRLF() {
+    	return System.getProperty("line.separator");
+    }
 	static void ok() {
 		System.out.println("Yes");
 		System.exit(0);
