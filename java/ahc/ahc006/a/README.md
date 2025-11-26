@@ -193,5 +193,8 @@ progressをkkの割合
 # Main53
 リファクタリング：Rectangle.dist変更
 
+# Main54
+リファクタリング：非static化
+
 # Main
 
