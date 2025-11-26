@@ -33,6 +33,7 @@ L∞ノルム(L-infinity norm)：lim(p→∞) 最大値
 */
 
 //abc035_b,abc057_b,abc086_c,abc295_b:
+//ahc006_a:
 static int calcL1(int x1, int y1, int x2, int y2) { //x1,y1からx2,y2までのマンハッタン距離
 	int dx=x1-x2;
 	int dy=y1-y2;
