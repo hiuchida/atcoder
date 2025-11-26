@@ -18,3 +18,4 @@ mx=x、my=y、mt=tを入れる。
 ループ終了したらok。
 AC 440ms
 
+calcL1()適用

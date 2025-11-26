@@ -299,12 +299,6 @@
 		long dy=y1-y2;
 		return Math.sqrt(dx*dx+dy*dy);
 	}
-	//abc035_b,abc057_b,abc086_c,abc295_b: x1,y1からx2,y2までのマンハッタン距離
-	static int calc(int x1, int y1, int x2, int y2) {
-		int dx=x1-x2;
-		int dy=y1-y2;
-		return Math.abs(dx)+Math.abs(dy);
-	}
 	//abc180_b: x1,y1からx2,y2までのマンハッタン距離
 	static long calc1(long x1, long y1, long x2, long y2) {
 		long dx=x1-x2;

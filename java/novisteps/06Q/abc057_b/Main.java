@@ -20,7 +20,7 @@ public class Main {
 			int ans = 0;
 			int min = Integer.MAX_VALUE;
 			for (int j=0; j<m; j++) {
-				int d=calc(anx[i], any[i], amx[j], amy[j]);
+				int d=calcL1(anx[i], any[i], amx[j], amy[j]);
 				if (min>d) {
 					min=d;
 					ans=j+1;
@@ -29,7 +29,7 @@ public class Main {
 			System.out.println(ans);
 		}
 	}
-	static int calc(int x1, int y1, int x2, int y2) { //abc057_b: x1,y1からx2,y2までのマンハッタン距離
+	static int calcL1(int x1, int y1, int x2, int y2) { //x1,y1からx2,y2までのマンハッタン距離
 		int dx=x1-x2;
 		int dy=y1-y2;
 		return Math.abs(dx)+Math.abs(dy);

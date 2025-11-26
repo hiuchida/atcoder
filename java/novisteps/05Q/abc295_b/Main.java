@@ -17,7 +17,7 @@ public class Main {
 				if (v>0) {
 					for (int dy=-v; dy<=v; dy++) {
 						for (int dx=-v; dx<=v; dx++) {
-							if (calc(0, 0, dx, dy)<=v) {
+							if (calcL1(0, 0, dx, dy)<=v) {
 								int ny=y+dy;
 								int nx=x+dx;
 								if (mz.checkrange(ny, nx)) {
@@ -39,7 +39,7 @@ public class Main {
 			System.out.println();
 		}
 	}
-	static int calc(int x1, int y1, int x2, int y2) { //abc057_b,abc295_b: x1,y1からx2,y2までのマンハッタン距離
+	static int calcL1(int x1, int y1, int x2, int y2) { //x1,y1からx2,y2までのマンハッタン距離
 		int dx=x1-x2;
 		int dy=y1-y2;
 		return Math.abs(dx)+Math.abs(dy);

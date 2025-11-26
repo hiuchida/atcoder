@@ -10,7 +10,7 @@ public class Main {
 			int t=sc.nextInt();
 			int x=sc.nextInt();
 			int y=sc.nextInt();
-			int d=calc(mx, my, x, y);
+			int d=calcL1(mx, my, x, y);
 			int dt=t-mt;
 			if (d>dt) {
 				System.out.println("No");
@@ -27,7 +27,7 @@ public class Main {
 		}
 		System.out.println("Yes");
 	}
-	static int calc(int x1, int y1, int x2, int y2) { //abc035_b,abc057_b,abc086_c,abc295_b: x1,y1からx2,y2までのマンハッタン距離
+	static int calcL1(int x1, int y1, int x2, int y2) { //x1,y1からx2,y2までのマンハッタン距離
 		int dx=x1-x2;
 		int dy=y1-y2;
 		return Math.abs(dx)+Math.abs(dy);
