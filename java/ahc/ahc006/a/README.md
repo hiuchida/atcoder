@@ -187,5 +187,8 @@ progressをkkの割合
 # Main51
 リファクタリング：calcL1適用
 
+# Main52
+リファクタリング：Point\_yx.calcL1適用
+
 # Main
 

@@ -23,6 +23,11 @@
 				}
 			};
 		}
+		int calcL1(Point that) { //thatまでのマンハッタン距離
+			int dx = this.x - that.x;
+			int dy = this.y - that.y;
+			return Math.abs(dx) + Math.abs(dy);
+		}
 		@Override
 		public int compareTo(Point that) {
 			int cmp = Integer.compare(this.y, that.y);
