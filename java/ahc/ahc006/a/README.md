@@ -196,5 +196,8 @@ progressをkkの割合
 # Main54
 リファクタリング：非static化
 
+# Main55
+リファクタリング：isTimeout(),resetTemperature(),isHot(),updateTemperature(double progress),getProgress()
+
 # Main
 
