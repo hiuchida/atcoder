@@ -190,5 +190,8 @@ progressをkkの割合
 # Main52
 リファクタリング：Point\_yx.calcL1適用
 
+# Main53
+リファクタリング：Rectangle.dist変更
+
 # Main
 

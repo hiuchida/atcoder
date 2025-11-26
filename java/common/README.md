@@ -316,6 +316,11 @@ abc168/dより共通化
 static classとしてMain内部に貼り付ける。
 Deque<Que>に使うことを前提にする。
 
+# Rectangle
+ahc006/aより共通化
+Point\_yxを利用
+static classとしてMain内部に貼り付ける。
+
 # SegmentTree\_ave
 未使用
 Bean(cnt,sum)を集計する。
