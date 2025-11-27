@@ -29,11 +29,34 @@ score    : 910243
 80455366 516位
 
 # Main12
-score1()による計算
+score1()による計算(List<TreeSet<Integer>> lti)
 0:1815880
 iteration: 1049497
 score    : 815880
 80487150 515位
+
+# Main13
+List<List<Integer>> lliに変更
+0:1862242
+iteration: 2486057
+score    : 862242
+80445181 516位
+
+# Main14
+int[][] aai;に変更
+0:1884871
+iteration: 4003409
+score    : 884871
+80920325 512位
+
+# Main15
+パスカル形式：addLast(),remove()をindexOf()を使わない
+0:1884871
+iteration: 5691905
+score    : 884871
+81098654 510位
+
+# Main
 
 # Main
 
