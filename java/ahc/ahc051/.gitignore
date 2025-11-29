@@ -1,0 +1,11 @@
+*.class
+*.exe
+*.html
+*.lock
+*.log
+*.md
+*.rs
+*.svg
+*.toml
+/tools/target/
+/tools/*.java
