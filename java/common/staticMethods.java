@@ -311,3 +311,28 @@
 		long dy=y1-y2;
 		return Math.max(Math.abs(dx), Math.abs(dy));
 	}
+	//符号を返す
+	static int sign(double v) {
+		if (v<0) return -1;
+		else if (v>0) return 1;
+		return 0;
+	}
+	//外積(z軸)の向きを返す
+	static int orientation(Point a, Point b, Point c) {
+		double cross=(b.x-a.x)*(c.y-a.y)-(b.y-a.y)*(c.x-a.x);
+		return sign(cross);
+	}
+	//線分の交差判定
+	static boolean segment_intersect(Point p1, Point p2, Point q1, Point q2) {
+		if (p1.equals(q1) || p1.equals(q2)) return false;
+		if (p2.equals(q1) || p2.equals(q2)) return false;
+		if (Math.max(p1.x, p2.x)<Math.min(q1.x, q2.x)) return false;
+		if (Math.max(q1.x, q2.x)<Math.min(p1.x, p2.x)) return false;
+		if (Math.max(p1.y, p2.y)<Math.min(q1.y, q2.y)) return false;
+		if (Math.max(q1.y, q2.y)<Math.min(p1.y, p2.y)) return false;
+		int o1=orientation(p1, p2, q1);
+		int o2=orientation(p1, p2, q2);
+		int o3=orientation(q1, q2, p1);
+		int o4=orientation(q1, q2, p2);
+		return (o1*o2<=0)&&(o3*o4<=0);
+	}
