@@ -1,3 +1,13 @@
+	Point[] ap;
+	{
+		ap=new Point[n];
+		for (int i=0; i<n; i++) {
+			int x=sc.nextInt();
+			int y=sc.nextInt();
+			ap[i]=new Point(x, y);
+		}
+		System.out.println(Arrays.toString(ap));
+	}
 	static class Point implements Comparable<Point> {
 		final int x;
 		final int y;
@@ -22,6 +32,11 @@
 					return cmp;
 				}
 			};
+		}
+		int calcL1(Point that) { //thatまでのマンハッタン距離
+			int dx = this.x - that.x;
+			int dy = this.y - that.y;
+			return Math.abs(dx) + Math.abs(dy);
 		}
 		@Override
 		public int compareTo(Point that) {

@@ -1,3 +1,13 @@
+	Point[] ap;
+	{
+		ap=new Point[n];
+		for (int i=0; i<n; i++) {
+			int y=sc.nextInt();
+			int x=sc.nextInt();
+			ap[i]=new Point(y, x);
+		}
+		System.out.println(Arrays.toString(ap));
+	}
 	static class Point implements Comparable<Point> {
 		final int y;
 		final int x;

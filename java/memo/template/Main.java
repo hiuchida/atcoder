@@ -1,57 +1,66 @@
 import java.util.*;
 public class Main {
-	public static void main(String[] args) {
+	static final boolean DEBUG = false;
+	static final boolean RELEASE = true;
+	void solve() {
 		Scanner sc=new Scanner(System.in);
-		final int N=3;
-		int[] ary=new int[N];
-		String[] ary=new String[N];
-		for (int i=0; i<N; i++) {
-			ary[i]=sc.nextInt();
-			ary[i]=sc.next();
-		}
-		int q=sc.nextInt();
-		for (int qq=0; qq<q; qq++) {
-			System.out.println();
-		}
-		int a=sc.nextInt();
-		int b=sc.nextInt();
-		int c=sc.nextInt();
-		int d=sc.nextInt();
-		int n=sc.nextInt();
-		int m=sc.nextInt();
-		int k=sc.nextInt();
-		int[] ary=new int[n];
-		for (int i=0; i<n; i++) {
-			ary[i]=sc.nextInt();
-		}
-		int h=sc.nextInt();
-		int w=sc.nextInt();
-		String[] ary=new String[h];
-		for (int y=0; y<h; y++) {
-			ary[y]=sc.next();
-			for (int x=0; x<w; x++) {
-			}
-		}
-		long x=sc.nextLong();
-		long y=sc.nextLong();
-		long z=sc.nextLong();
-		String s=sc.next();
-		char[] ary=s.toCharArray();
-		
-//		List<Integer> list=new ArrayList<>();
-//		Set<Integer> set=new HashSet<>();
-//		TreeSet<Integer> set=new TreeSet<>();
-//		TreeMap<Integer,Integer> map=new TreeMap<>();
-//		Deque<Integer> que=new ArrayDeque<>();
-//		PriorityQueue<Integer> que=new PriorityQueue<>();
-//		StringBuilder sb=new StringBuilder();
-		
-		Arrays.sort(ary);
-		System.out.println(Arrays.toString(ary));
+		init(sc);
 		System.out.println();
-		System.out.println("Yes");
-		System.out.println("No");
-		System.exit(0);
+		long score=0;
+		while (true) {
+			if (isTimeout()) break;
+			iteration++;
+		}
+		long end=System.currentTimeMillis();
+		System.err.println("--- Result ---");
+		System.err.println("elaps    : " + (end-start));
+		System.err.println("iteration: " + iteration);
+		System.err.println("score    : " + score);
+	}
+	final int N=100;
+	int n;
+	int m;
+	int k;
+	int t;
+	int s;
+	void init(Scanner sc) {
+		n=sc.nextInt();
+		m=sc.nextInt();
+		k=sc.nextInt();
+		t=sc.nextInt();
+		s=sc.nextInt();
+	}
+	static Random rand=new Random(42);
+	static long start;
+	static int iteration = 0;
+	static double current_temperature;
+	static final int time_limit = 1700;
+	static final double start_temperature = 2e2;
+	static final double end_temperature = 1e0;
+	static boolean isTimeout() {
+		long lap = System.currentTimeMillis();
+		long elaps = lap - start;
+        return elaps >= time_limit;
+	}
+	static void resetTemperature() {
+		current_temperature = start_temperature;
+	}
+	static boolean isHot(double delta) {
+		double l1 = Math.abs(delta);
+		double ratio = Math.exp(-l1 / current_temperature);
+		return rand.nextFloat() <= ratio;
+	}
+	static void updateTemperature(double progress) {
+        current_temperature=Math.pow(start_temperature, 1.0 - progress) * Math.pow(end_temperature, progress);
+	}
+	static double getProgress() {
+		long lap = System.currentTimeMillis();
+		long elaps = lap - start;
+        return (double)elaps / time_limit;
+	}
+	public static void main(String[] args) {
+		start = System.currentTimeMillis();
+		new Main().solve();
 	}
 }
 /*
