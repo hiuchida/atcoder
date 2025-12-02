@@ -3,18 +3,22 @@ public class Main {
 	void solve() {
 		Scanner sc=new Scanner(System.in);
 		init(sc);
+		int n2=(int)Math.sqrt(n);
 		for (int k=0; k<t; k++) {
 			Answer ans=new Answer();
 			for (int i=0; i<n; i++) {
-				int r=rand.nextInt(2);
-				char d=DS.charAt(rand.nextInt(2));
-				int b=rand.nextInt(i+1)-1;
+				int k2=(i+1)%n2;
+				int r=0;
+				char d=DS.charAt(0);
+				int b;
+				if (k2==1) b=-1;
+				else b=i-1;
 				ans.add(new Prdb(i, r, d, b));
 			}
 			ans.print();
 			int w=sc.nextInt();
 			int h=sc.nextInt();
-			System.err.println("w="+w+", h="+h);
+//			System.err.println("w="+w+", h="+h);
 		}
 	}
 	class Prdb {

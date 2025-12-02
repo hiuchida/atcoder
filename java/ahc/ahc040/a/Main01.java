@@ -6,15 +6,24 @@ public class Main {
 		for (int k=0; k<t; k++) {
 			Answer ans=new Answer();
 			for (int i=0; i<n; i++) {
-				int r=rand.nextInt(2);
-				char d=DS.charAt(rand.nextInt(2));
-				int b=rand.nextInt(i+1)-1;
+				Point p0=ap[i];
+				int r;
+				if (p0.x<p0.y) {
+					r=0;
+				} else {
+					r=1;
+				}
+				char d=DS.charAt(1);
+				int b=-1;
+//				int r=rand.nextInt(2);
+//				char d=DS.charAt(rand.nextInt(2));
+//				int b=rand.nextInt(i+1)-1;
 				ans.add(new Prdb(i, r, d, b));
 			}
 			ans.print();
 			int w=sc.nextInt();
 			int h=sc.nextInt();
-			System.err.println("w="+w+", h="+h);
+//			System.err.println("w="+w+", h="+h);
 		}
 	}
 	class Prdb {
