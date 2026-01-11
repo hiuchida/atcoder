@@ -26,6 +26,10 @@ MapのValueに入れることを前提にする。
 Map<Integer, Integer>ではValueを更新する度にラッパークラスを作り直すが、
 Map<Integer, Bean>ならばBeanの中を更新できる。
 
+# Coords
+ahc002,ahc059より共通化
+static classとしてMain内部に貼り付ける。
+
 # Counter\_int\_int
 abc082/cより共通化
 static classとしてMain内部に貼り付ける。
