@@ -52,7 +52,7 @@ public class Main {
     static Xorshift rng = new Xorshift(1);
 
     static class OilLayout implements Comparable<OilLayout> {
-    	int id;
+    	int id=seq();
         long hash;
         double ln_pR_if_x;  // 対数尤度
         double px_if_R;    // 事後確率
@@ -138,8 +138,13 @@ public class Main {
     }
 
     static final double SMALL_VALUE = 1e-6;
-    
+
+    /**
+     * 油田1個分の計算状態を保持する構造体
+     */
     static class OilState {
+        // topLeftQueryVolumes.get(topLeft).get(q) は、
+        // この油田の左上座標が topLeft にあるとき、q番目のクエリ座標集合に含まれる埋蔵量の合計
         List<List<Integer>> top_left_query_volumes;
         long[] hashes;
         OilState(Input input) {
@@ -151,13 +156,18 @@ public class Main {
         }
     }
 
+    /**
+     * 全体の配置状態を管理するクラス
+     */
     static class State {
         List<OilState> oil_states; // 油田の状態リスト (M個)
-        int[] top_lefts;
-        int[] volumes;
-        List<Integer> queryVolumes;
+        int[] top_lefts;           // 各油田の現在の左上座標ID (M個)
+        int[] volumes;            // 各マスの現在の油の埋蔵量 (N*N個)
+        List<Integer> query_volumes; // 各クエリ(q番目)で占った座標集合の現在の埋蔵量合計
         long hash;
         Input input;
+
+        // 全ての油田が(0,0)にある状態を初期状態とする
         State(Input input) {
             this.input = input;
             this.oil_states = new ArrayList<>(input.m);
@@ -175,25 +185,33 @@ public class Main {
             for (OilState os : oil_states) this.hash ^= os.hashes[0];
             this.top_lefts = new int[input.m]; // 初期値は 0 (座標 (0,0))
             this.volumes = new int[input.n2];
-            this.queryVolumes = new ArrayList<>();
+            this.query_volumes = new ArrayList<>();
         }
 
-        // 差分更新を伴う移動メソッド
-        void moveTo(int oilId, int newTL) {
+        /**
+         * 指定した油田 (oilId) を新しい位置 (newTopLeft) に移動し、
+         * 埋蔵量グリッドやクエリ合計を差分更新する
+         */
+        void moveTo(int oilId, int newTopLeft) {
             OilState os = oil_states.get(oilId);
-            hash ^= os.hashes[top_lefts[oilId]] ^ os.hashes[newTL];
-            for (int q = 0; q < queryVolumes.size(); q++) {
-                queryVolumes.set(q, queryVolumes.get(q)
-                		+ os.top_left_query_volumes.get(newTL).get(q)
-                		- os.top_left_query_volumes.get(top_lefts[oilId]).get(q));
+            int oldTopLeft = top_lefts[oilId];
+            hash ^= os.hashes[top_lefts[oilId]] ^ os.hashes[newTopLeft];
+            // 各クエリにおける埋蔵量合計の差分更新
+            for (int q = 0; q < query_volumes.size(); q++) {
+                query_volumes.set(q, query_volumes.get(q)
+                		+ os.top_left_query_volumes.get(newTopLeft).get(q)
+                		- os.top_left_query_volumes.get(oldTopLeft).get(q));
             }
-            if (volumes.length > 0) {
+
+            // グリッド上の埋蔵量 (volumes) の差分更新
+            // 以前の位置から引き、新しい位置に足す
+            if (volumes!=null) {
                 for (int idCoord : input.oils[oilId].coordinate_ids) {
-                    volumes[idCoord + top_lefts[oilId]]--;
-                    volumes[idCoord + newTL]++;
+                    volumes[idCoord + oldTopLeft]--;
+                    volumes[idCoord + newTopLeft]++;
                 }
             }
-            top_lefts[oilId]=newTL;
+            top_lefts[oilId]=newTopLeft;
         }
 
         void addQuery(List<Integer> queryCoords) {
@@ -202,8 +220,8 @@ public class Main {
             for (int oilId = 0; oilId < input.m; oilId++) {
                 OilShape oil = input.oils[oilId];
                 OilState os = oil_states.get(oilId);
-                for (int di = 0; di <= input.n - 1 - oil.max_i; di++) {
-                    for (int dj = 0; dj <= input.n - 1 - oil.max_j; dj++) {
+                for (int di = 0; di < input.n - oil.max_i; di++) {
+                    for (int dj = 0; dj < input.n - oil.max_j; dj++) {
                         int tl = di * input.n + dj;
                         int c = 0;
                         for (int id : oil.coordinate_ids) if (inQ[tl + id]) c++;
@@ -214,7 +232,7 @@ public class Main {
             int[] currentVol = input.get_volume(top_lefts);
             int sum = 0;
             for (int id : queryCoords) sum += currentVol[id];
-            queryVolumes.add(sum);
+            query_volumes.add(sum);
         }
     }
 
@@ -269,7 +287,7 @@ public class Main {
             // 尤度の事前計算
             for (int k = 1; k <= n2; k++) {
                 for (int s = 0; s <= total; s++) {
-                    double mu = (double)(k - s) * eps + s * (1.0 - eps);
+                    double mu = (k - s) * eps + s * (1.0 - eps);
                     double sigma = Math.sqrt(k * eps * (1.0 - eps));
                     List<double[]> list = new ArrayList<>();
                     int startR = (int)Math.round(mu);
@@ -314,18 +332,19 @@ public class Main {
             rem--;
             System.out.print("q " + coords.size());
             for (int id : coords) System.out.print(" " + (id / n) + " " + (id % n));
-            System.out.println(); System.out.flush();
+            System.out.println();
+            System.out.flush();
             int ret = sc.nextInt();
             // クエリの結果を記録する
             queries.add(new QueryHistory(coords, ret));
             // 埋蔵量Sごとの対数確率を事前計算
             double[] lnPrIfS = new double[total + 1];
             for (int s = 0; s <= total; s++) {
-                double mu = (double)(coords.size() - s) * eps + s * (1.0 - eps);
+                double mu = (coords.size() - s) * eps + s * (1.0 - eps);
                 double sigma = Math.sqrt(coords.size() * eps * (1.0 - eps));
                 lnPrIfS[s] = Math.log(likelihood(mu, sigma, ret));
             }
-            // 尤度補正
+            // 尤度が極小の場合の補正
             for (int i = 0; i < lnPrIfS.length - 1; i++) {
                 if (!Double.isInfinite(lnPrIfS[i]) && Double.isInfinite(lnPrIfS[i+1])) lnPrIfS[i+1] = lnPrIfS[i] - 10.0;
             }
@@ -468,7 +487,7 @@ public class Main {
             }
             double res = 0;
             for (int q = 0; q < ln_pr_if_s_query.size(); q++) {
-            	res += ln_pr_if_s_query.get(q)[state.queryVolumes.get(q)];
+            	res += ln_pr_if_s_query.get(q)[state.query_volumes.get(q)];
             }
             return res;
         }
@@ -580,12 +599,12 @@ public class Main {
     public static void main(String[] args) {
         start=System.currentTimeMillis();
         long startTime = System.currentTimeMillis();
-        Scanner sc = new Scanner(System.in);
+        Scanner sc=new Scanner(System.in);
         Input input=read_input(sc);
 
         List<int[]>[][] swaps = getSwaps(input); // Swap近傍の事前計算
         Sim sim = new Sim(sc, input);
-        State state = new State(input);
+        State state=new State(input);
         List<OilLayout> pool = new ArrayList<>();
         int ITER = 4000000 / (2 * input.n2);
 

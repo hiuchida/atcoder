@@ -52,7 +52,7 @@ public class Main {
     static Xorshift rng = new Xorshift(1);
 
     static class OilLayout implements Comparable<OilLayout> {
-    	int id;
+    	int id=seq();
         long hash;
         double ln_pR_if_x;  // 対数尤度
         double px_if_R;    // 事後確率
@@ -138,7 +138,7 @@ public class Main {
     }
 
     static final double SMALL_VALUE = 1e-6;
-    
+
     /**
      * 油田1個分の計算状態を保持する構造体
      */
@@ -156,13 +156,18 @@ public class Main {
         }
     }
 
+    /**
+     * 全体の配置状態を管理するクラス
+     */
     static class State {
         List<OilState> oil_states; // 油田の状態リスト (M個)
-        int[] top_lefts;
-        int[] volumes;
-        List<Integer> queryVolumes;
+        int[] top_lefts;           // 各油田の現在の左上座標ID (M個)
+        int[] volumes;            // 各マスの現在の油の埋蔵量 (N*N個)
+        List<Integer> query_volumes; // 各クエリ(q番目)で占った座標集合の現在の埋蔵量合計
         long hash;
         Input input;
+
+        // 全ての油田が(0,0)にある状態を初期状態とする
         State(Input input) {
             this.input = input;
             this.oil_states = new ArrayList<>(input.m);
@@ -180,22 +185,33 @@ public class Main {
             for (OilState os : oil_states) this.hash ^= os.hashes[0];
             this.top_lefts = new int[input.m]; // 初期値は 0 (座標 (0,0))
             this.volumes = new int[input.n2];
-            this.queryVolumes = new ArrayList<>();
+            this.query_volumes = new ArrayList<>();
         }
 
-        void moveTo(int oilId, int newTL) {
+        /**
+         * 指定した油田 (oilId) を新しい位置 (newTopLeft) に移動し、
+         * 埋蔵量グリッドやクエリ合計を差分更新する
+         */
+        void moveTo(int oilId, int newTopLeft) {
             OilState os = oil_states.get(oilId);
-            hash ^= os.hashes[top_lefts[oilId]] ^ os.hashes[newTL];
-            for (int q = 0; q < queryVolumes.size(); q++) {
-                queryVolumes.set(q, queryVolumes.get(q)
-                		+ os.top_left_query_volumes.get(newTL).get(q)
-                		- os.top_left_query_volumes.get(top_lefts[oilId]).get(q));
+            int oldTopLeft = top_lefts[oilId];
+            hash ^= os.hashes[top_lefts[oilId]] ^ os.hashes[newTopLeft];
+            // 各クエリにおける埋蔵量合計の差分更新
+            for (int q = 0; q < query_volumes.size(); q++) {
+            	query_volumes.set(q, query_volumes.get(q)
+                		+ os.top_left_query_volumes.get(newTopLeft).get(q)
+                		- os.top_left_query_volumes.get(oldTopLeft).get(q));
             }
-            for (int idCoord : input.oils[oilId].coordinate_ids) {
-                volumes[idCoord + top_lefts[oilId]]--;
-                volumes[idCoord + newTL]++;
+
+            // グリッド上の埋蔵量 (volumes) の差分更新
+            // 以前の位置から引き、新しい位置に足す
+            if (volumes!=null) {
+                for (int idCoord : input.oils[oilId].coordinate_ids) {
+                    volumes[idCoord + oldTopLeft]--;
+                    volumes[idCoord + newTopLeft]++;
+                }
             }
-            top_lefts[oilId]=newTL;
+            top_lefts[oilId]=newTopLeft;
         }
 
         void addQuery(List<Integer> queryCoords) {
@@ -216,7 +232,7 @@ public class Main {
             int[] currentVol = input.get_volume(top_lefts);
             int sum = 0;
             for (int id : queryCoords) sum += currentVol[id];
-            queryVolumes.add(sum);
+            query_volumes.add(sum);
         }
     }
 
@@ -268,6 +284,7 @@ public class Main {
             this.pr_if_x = new ArrayList<>(n2 + 1);
             for(int i=0; i<=n2; i++) pr_if_x.add(new HashMap<>());
             
+            // 尤度の事前計算
             for (int k = 1; k <= n2; k++) {
                 for (int s = 0; s <= total; s++) {
                     double mu = (k - s) * eps + s * (1.0 - eps);
@@ -375,7 +392,7 @@ public class Main {
             }
             double res = 0;
             for (int q = 0; q < ln_pr_if_s_query.size(); q++) {
-            	res += ln_pr_if_s_query.get(q)[state.queryVolumes.get(q)];
+            	res += ln_pr_if_s_query.get(q)[state.query_volumes.get(q)];
             }
             return res;
         }
@@ -479,8 +496,8 @@ public class Main {
         int[] volume;
         int coordinate_size;
         List<OilLayout> pool;
-        Query(Input in, List<OilLayout> pool) {
-            this.in_query = new boolean[in.n2];
+        Query(Input input, List<OilLayout> pool) {
+            this.in_query = new boolean[input.n2];
             this.volume = new int[pool.size()];
             this.coordinate_size = 0;
             this.pool = pool;
@@ -489,17 +506,19 @@ public class Main {
             if (in_query[ij]) {
             	in_query[ij] = false;
                 for(int x=0; x<pool.size(); x++) {
-                	volume[x] -= pool.get(x).volume[ij]; 
+                	volume[x] -= pool.get(x).volume[ij];
                 }
-            	coordinate_size--;
+                coordinate_size--;
             } else {
             	in_query[ij] = true;
                 for(int x=0; x<pool.size(); x++) {
                 	volume[x] += pool.get(x).volume[ij];
                 }
-            	coordinate_size++;
+                coordinate_size++;
             }
         }
+
+        // 相互情報量 I(X;R) / cost の評価 (Source 53-54)
         double eval(Sim sim) {
             if (coordinate_size == 0) return -1e20;
             double cost = 1.0 / Math.sqrt(coordinate_size);
@@ -531,6 +550,7 @@ public class Main {
             }
             return info / cost;
         }
+
         List<Integer> getCoords() {
             List<Integer> res = new ArrayList<>();
             for (int i = 0; i < in_query.length; i++) if (in_query[i]) res.add(i);
@@ -587,15 +607,15 @@ public class Main {
         }
         return query.getCoords();
     }
-    
+
     public static void main(String[] args) {
-		start=System.currentTimeMillis();
+        start=System.currentTimeMillis();
         long startTime = System.currentTimeMillis();
-        Scanner sc = new Scanner(System.in);
+        Scanner sc=new Scanner(System.in);
         Input input=read_input(sc);
 
         Sim sim = new Sim(sc, input);
-        State state = new State(input);
+        State state=new State(input);
         List<OilLayout> pool = new ArrayList<>();
         int ITER = 1000000 / (2 * input.n2);
 

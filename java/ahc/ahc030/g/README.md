@@ -72,6 +72,15 @@
 3.  **`addQuery` の全探索**: クエリが発行されるたびに、そのクエリ座標と、油田が置かれ得る**全ての左上座標 ID** との重なりを計算して `OilState` に保存します。これにより、後から配置を評価する際にグリッドを走査する必要がなくなります。
 4.  **座標表現**: 以前のご指摘通り、Java 版でも `i * N + j` 形式の整数（ID）をメインのインデックスとして使用し、計算効率を確保しています。
 
+# Main12d
+sync cpp
+!log timeup
+
+# Main13
+OilLayout.mask
+Sim.failedMap
+ans(BitSet T)
+
 # 03_all_pool_hill_climb.cpp
 
 # Main21
@@ -106,6 +115,15 @@
 
 # Main22c
 7760876477
+
+# Main22d
+sync cpp
+!log timeup
+
+# Main23
+OilLayout.mask
+Sim.failedMap
+ans(BitSet T)
 
 # 02_random_pool.cpp
 
@@ -185,6 +203,23 @@ int ITER = 1000000 / (2 * input.n2);
 if (get_time() > 2.8) {
 8748470314
 
+# Main32h
+sync cpp
+!log timeup
+bug if (input.m != 2) {
+7760734170
+
+# Main32i
+//if (ed2-st2>100) {
+//if (input.m != 2) {
+8270517933
+
+# Main33
+OilLayout.mask
+Sim.failedMap
+ans(BitSet T)
+8261435695
+
 # 01_simple_neighbor.cpp
 
 # Main41
@@ -234,7 +269,22 @@ TLE3
 
 # Main42c
 if (get_time() > 2.7) {
-965892759
+7929237900
+
+# Main42d
+sync cpp
+!log timeup
+12328757115
+
+# Main42e
+fix ln_prob_state
+6171768192
+
+# Main43
+OilLayout.mask
+Sim.failedMap
+ans(BitSet T)
+5217645092
 
 # 00_complete.cpp
 
@@ -285,6 +335,35 @@ WA27
 TLE16
 RE1
 
+# Main52c
+set_volume(pool, input);
+TLE39
+
+# Main52d
+if (ed2-st2>100) {
+TLE32
+
+# Main52e
+int ITER = 1000000 / (2 * input.n2);
+TLE2
+
+# Main52f
+if (get_time() > 2.6) {
+7730036194
+
+# Main52g
+sync cpp
+!log timeup
+fix ln_prob_state
+fix(from cpp) i2 >= 0 && j2 >= 0
+4506289310
+
+# Main53
+OilLayout.mask
+Sim.failedMap
+ans(BitSet T)
+4382076058
+
 # 10_after_publication.cpp
 
 # Main61
@@ -323,4 +402,14 @@ RE1
     *   `input.oils[oilId]` などのインデックス指定を、全てのデータ構造取得箇所（BitSet更新、埋蔵量計算、SA近傍、Swap事前計算など）で徹底しました。
 
 この Java コードにより、AHC030 においてベイズ推定と焼きなましを駆使した、コンテスト当日1位を上回る最高峰のアルゴリズムが正確に動作します。
+
+# Main62c
+sync cpp
+4885057264
+
+# Main63
+OilLayout.mask
+Sim.failedMap
+ans(BitSet T)
+5011665263
 

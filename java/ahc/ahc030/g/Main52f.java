@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Main {
 	static final boolean DEBUG = false;
-	static final boolean RELEASE = false;
+	static final boolean RELEASE = true;
 	
 	static int lastid=1;
 	static int seq() {
@@ -82,26 +82,26 @@ public class Main {
         int n2;
         int m;
         double eps;
-        double difficulty;
         OilShape[] oils;
         int total;
 
-        void setDifficult() { difficulty = (double)n2 * m * m * eps; } //
-        boolean isDifficult() { return difficulty > 2000; } //
-
-        BitSet get_positives(int[] topLefts) {
+        // 指定した配置で埋蔵量1以上のマスを返す
+        List<Integer> get_positives(int[] topLefts) {
             BitSet bits = new BitSet(n2);
             for (int i = 0; i < m; i++) {
                 for (int id : oils[i].coordinate_ids) bits.set(id + topLefts[i]);
             }
-            return bits;
+            List<Integer> res = new ArrayList<>();
+            for (int i = bits.nextSetBit(0); i >= 0; i = bits.nextSetBit(i + 1)) res.add(i);
+            return res;
         }
 
+        // 指定した配置での各マスの埋蔵量を計算
         int[] get_volume(int[] topLefts) {
             int[] volume = new int[n2];
-            for (int oilId = 0; oilId < m; oilId++) {
-                for (int id : oils[oilId].coordinate_ids) {
-                    volume[id + topLefts[oilId]] += 1;
+            for (int i = 0; i < m; i++) {
+                for (int id : oils[i].coordinate_ids) {
+                    volume[id + topLefts[i]]++;
                 }
             }
             return volume;
@@ -216,25 +216,38 @@ public class Main {
             top_lefts[oilId]=newTopLeft;
         }
 
+        /**
+         * 占いクエリを実行した際、その座標集合との重なりを全候補地について記録する
+         */
         void addQuery(List<Integer> queryCoords) {
-            boolean[] inQ = new boolean[input.n2];
-            for (int id : queryCoords) inQ[id] = true;
+            // 高速判定用のフラグ配列
+            boolean[] inQuery = new boolean[input.n2];
+            for (int id : queryCoords) inQuery[id] = true;
             for (int oilId = 0; oilId < input.m; oilId++) {
                 OilShape oil = input.oils[oilId];
                 OilState os = oil_states.get(oilId);
+                // この油田が配置可能な全ての (di, dj) について重なりを計算
                 for (int di = 0; di < input.n - oil.max_i; di++) {
                     for (int dj = 0; dj < input.n - oil.max_j; dj++) {
-                        int tl = di * input.n + dj;
-                        int c = 0;
-                        for (int id : oil.coordinate_ids) if (inQ[tl + id]) c++;
-                        os.top_left_query_volumes.get(tl).add(c);
+                        int topLeft = di * input.n + dj;
+                        int count = 0;
+                        for (int id : oil.coordinate_ids) {
+                            if (inQuery[topLeft + id]) {
+                                count++;
+                            }
+                        }
+                        os.top_left_query_volumes.get(topLeft).add(count);
                     }
                 }
             }
-            int[] currentVol = input.get_volume(top_lefts);
-            int sum = 0;
-            for (int id : queryCoords) sum += currentVol[id];
-            query_volumes.add(sum);
+
+            // 現在の配置におけるこのクエリの埋蔵量合計を計算して保持
+            int[] currentVolume = input.get_volume(top_lefts);
+            int totalCount = 0;
+            for (int ij : queryCoords) {
+                totalCount += currentVolume[ij];
+            }
+            query_volumes.add(totalCount);
         }
     }
 
@@ -248,6 +261,7 @@ public class Main {
     		this.ret=ret;
     	}
     }
+    // 占い結果の管理と確率計算
     static class Sim {
     	Scanner sc;
         int n;
@@ -309,6 +323,7 @@ public class Main {
             }
         }
 
+        // 回答クエリの実行
         boolean ans(List<Integer> list) {
             if (rem == 0) {
             	System.err.println("!log giveup ");
@@ -319,13 +334,15 @@ public class Main {
             for (int id : list) System.out.print(" " + (id / n) + " " + (id % n));
             System.out.println();
             System.out.flush();
-            if (sc.nextInt() == 1) return true;
-            int[] f = new int[list.size()];
-            for(int i=0; i<list.size(); i++) f[i] = list.get(i);
-            failed.add(f);
+            int ret = sc.nextInt();
+            if (ret == 1) return true;
+            int[] failedArr = new int[list.size()];
+            for(int i=0; i<list.size(); i++) failedArr[i] = list.get(i);
+            failed.add(failedArr);
             return false;
         }
 
+        // 占いクエリの実行
         int query(List<Integer> coords) {
             if (rem == 0) {
             	System.err.println("!log giveup ");
@@ -341,9 +358,10 @@ public class Main {
             queries.add(new QueryHistory(coords, ret));
             // 埋蔵量Sごとの対数確率を事前計算
             double[] lnPrIfS = new double[total + 1];
+            int k = coords.size();
             for (int s = 0; s <= total; s++) {
-                double mu = (coords.size() - s) * eps + s * (1.0 - eps);
-                double sigma = Math.sqrt(coords.size() * eps * (1.0 - eps));
+                double mu = (k - s) * eps + s * (1.0 - eps);
+                double sigma = Math.sqrt(k * eps * (1.0 - eps));
                 lnPrIfS[s] = Math.log(likelihood(mu, sigma, ret));
             }
             // 尤度が極小の場合の補正
@@ -379,6 +397,7 @@ public class Main {
             return 0.5 * (1.0 + erf((x - mu) / (sigma * Math.sqrt(2.0))));
         }
 
+        // 誤差関数erfの近似
         double erf(double x) {
             double t = 1.0 / (1.0 + 0.5 * Math.abs(x));
             double ans = 1 - t * Math.exp(-x * x - 1.26551223 + t * (1.00002368 + t * (0.37409196 + t * (0.09678418 + 
@@ -387,21 +406,23 @@ public class Main {
             return (x >= 0) ? ans : -ans;
         }
 
-        // BFSによる最後の掘り
+        // 時間切れやクエリ切れの救済措置
         void giveup() {
             Deque<Point> que = new ArrayDeque<>();
             que.add(new Point(n / 2, n / 2));
-            List<Integer> found = new ArrayList<>();
-            int remT = total;
+            List<Integer> list = new ArrayList<>();
+            int rCount = total;
             boolean[][] used = new boolean[n][n];
             while (!que.isEmpty()) {
                 Point p = que.pollFirst();
+                int r = p.r, c = p.c;
                 if (used[p.r][p.c]) continue;
                 used[p.r][p.c] = true;
                 int ret = mine(p.r, p.c);
                 if (ret > 0) {
-                    found.add(p.r * n + p.c);
-                    remT -= ret; if (remT <= 0) break;
+                    list.add(p.r * n + p.c);
+                    rCount -= ret;
+                    if (rCount == 0) break;
                 }
                 for (int[] d : DIJ) {
                 	int nr = p.r + d[0], nc = p.c + d[1];
@@ -411,9 +432,10 @@ public class Main {
                     }
                 }
             }
-            ans(found);
+            ans(list);
             System.exit(0);
         }
+
         // volumesとfailed_coordinatesが異なるかどうかを返す
         boolean is_different(int[] volumes, int[] failed_coordinates) {
             for (int ij : failed_coordinates) {
@@ -423,7 +445,7 @@ public class Main {
             }
             return false;
         }
-            
+        
         // 油田配置がtop_leftsにある場合、
         // q番目のクエリで占った油田集合の埋蔵量合計
         int get_query_volume(List<OilState> oilStates, int q, int[] topLefts) {
@@ -439,7 +461,7 @@ public class Main {
             }
             return S;
         }
-            
+        
         // 油田配置がこの状態になる確率を求める
         // vs: 各座標の埋蔵量
         // top_lefts: 油田の左上座標郡
@@ -503,10 +525,12 @@ public class Main {
         boolean[] in_query;
         int[] volume;
         int coordinate_size;
-        Query(Input input) {
+        List<OilLayout> pool;
+        Query(Input input, List<OilLayout> pool) {
             this.in_query = new boolean[input.n2];
             this.volume = new int[pool.size()];
             this.coordinate_size = 0;
+            this.pool = pool;
         }
         void flip(int ij) {
             if (in_query[ij]) {
@@ -526,7 +550,7 @@ public class Main {
         // 相互情報量評価
         double eval(Sim sim, int addK, int addV) {
             int k = coordinate_size + addK;
-            if (k == 0) return -1e100;
+            if (k == 0) return -1e20;
             double cost = 1.0 / Math.sqrt(k);
             List<Double> prR = new ArrayList<>();
             for (int x = 0; x < pool.size(); x++) {
@@ -555,47 +579,117 @@ public class Main {
         }
     }
 
+    // プールの油田配置の全座標の埋蔵量を計算する
+    static void set_volume(List<OilLayout> pool, Input input) {
+        for (OilLayout layout : pool) {
+            layout.volume = input.get_volume(layout.top_lefts);
+        }
+    }
+
+	// 占いクエリを取得する
+    static List<Integer> getDivinationQuery(Input input, List<OilLayout> pool, Sim sim) {
+        boolean[] same = new boolean[input.n2]; Arrays.fill(same, true);
+        for (int x=1; x<pool.size(); x++) {
+        	for (int i=0; i<input.n2; i++) {
+        		same[i] &= (pool.get(x).volume[i] == pool.get(0).volume[i]);
+        	}
+        }
+        Query qh = new Query(input, pool);
+        List<Double> evals = new ArrayList<>();
+        for (int i=0; i<input.n2; i++) {
+        	if (!same[i]) {
+        		qh.flip(i);
+        		evals.add(qh.eval(sim,0,0));
+        		qh.flip(i);
+        	} else {
+        		evals.add(-1e20);
+        	}
+        }
+        List<Integer> idx = new ArrayList<>();
+        for (int i=0; i<input.n2; i++) idx.add(i);
+        idx.sort((a,b) -> Double.compare(evals.get(b), evals.get(a)));
+        long st2=System.currentTimeMillis();
+        double bestE = -1e20;
+        for (int iter = 0; iter < 3; iter++) {
+            boolean changed = false;
+        	long ed2=System.currentTimeMillis();
+            for (int i : idx) {
+            	ed2=System.currentTimeMillis();
+            	if (ed2-st2>100) {
+//            		System.err.println("Timeout "+(ed2-st2)+"ms");
+            		break;
+            	}
+                if (evals.get(i) < -1e19) continue;
+                qh.flip(i);
+                double e = qh.eval(sim,0,0);
+                if (e > bestE) {
+                	bestE = e;
+                	changed = true;
+                } else {
+                	qh.flip(i);
+                }
+            }
+            if (!changed) break;
+        	if (ed2-st2>100) break;
+        }
+        List<Integer> res = new ArrayList<>();
+        for(int i=0; i<input.n2; i++) {
+        	if(qh.in_query[i]) res.add(i);
+        }
+        if (res.isEmpty()) res.add(rng.randRange(input.n2));
+        return res;
+    }
+
     public static void main(String[] args) {
         start=System.currentTimeMillis();
-        Scanner sc = new Scanner(System.in);
-        Input input = read_input(sc);
+        Scanner sc=new Scanner(System.in);
+        Input input=read_input(sc);
 
-        List<int[]>[][] swaps = getSwaps(input);
+        List<int[]>[][] swaps = getSwaps(input); // Swap近傍の事前計算
         Sim sim = new Sim(sc, input);
-        State state = new State(input);
-        
-        // 難しくない時は探索数を5倍にする
-        int ITER = (int)(4000000 * 5 / (2 * input.n2));
-        if (input.isDifficult()) ITER /= 5;
+        State state=new State(input);
+        List<OilLayout> pool = new ArrayList<>();
+        int ITER = 1000000 / (2 * input.n2);
 
         for (int t = 0;; t++) {
-            if (sim.rem <= 0) break;
-            if ((System.currentTimeMillis() - start) / 1000.0 > timeLimit - 0.1) sim.giveup();
-
+            if (sim.rem == 0) {
+                System.err.println("!There is no more query");
+                break;
+            }
+            if (get_time() > 2.6) {
+                sim.giveup();
+                break;
+            }
+            // 各配置の対数尤度を更新する
             for (OilLayout layout : pool) {
-                if (layout.volume == null && !sim.failed.isEmpty()) {
-                    layout.volume = input.get_volume(layout.top_lefts);
+                if (layout.volume==null && !sim.failed.isEmpty()) {
+                    layout.volume=input.get_volume(layout.top_lefts);
                 }
                 layout.ln_pR_if_x=sim.get_ln_pR_if_x(state.oil_states, layout.volume, layout.top_lefts);
             }
+            // 尤度更新
 //            for (OilLayout l : pool) {
-//                if (l.volume == null && !sim.failed.isEmpty()) l.volume = in.get_volume(l.top_lefts);
-//                l.ln_pR_if_x = sim.lnProbState(new State(in) {
+//                if (l.volume == null && !sim.failed.isEmpty()) {
+//                	l.volume = input.get_volume(l.top_lefts);
+//                }
+//                l.ln_pR_if_x = sim.lnProbState(new State(input) {
 //                	{
 //                		top_lefts=l.top_lefts;
 //                		volumes=(l.volume!=null?l.volume:new int[input.n2]);
-//                		query_volumes=state.query_volumes;
+//                		queryVolumes=state.queryVolumes;
 //                		oil_states=state.oil_states;
 //                	}
 //                });
 //            }
+            // 同じ尤度の配置を散らすためにシャッフル
             Collections.shuffle(pool);
-            sortPool();
+            pool.sort((a, b) -> Double.compare(b.ln_pR_if_x, a.ln_pR_if_x));
 
             Map<Long, Double> seen = new HashMap<>();
             for (OilLayout l : pool) seen.put(l.hash, l.ln_pR_if_x);
 
             if (t == 0) {
+                // 初回ランダム生成
                 for (int i = 0; i < ITER; i++) {
                     for (int m = 0; m < input.m; m++) {
                         int r = rng.randRange(input.n - input.oils[m].max_i);
@@ -608,7 +702,8 @@ public class Main {
                     }
                 }
             } else {
-                performSA(input, sim, state, seen, swaps, ITER);
+                // 工夫された焼きなましによるプール補充
+                performSA(input, sim, state, pool, seen, swaps, ITER);
             }
 
             double maxLn = pool.get(0).ln_pR_if_x;
@@ -618,58 +713,50 @@ public class Main {
             while (pool.size() > 1 && pool.get(pool.size() - 1).px_if_R < 1e-9) pool.remove(pool.size() - 1);
 
             OilLayout best = pool.get(0);
+            set_volume(pool, input);
             double bestProb = pool.get(0).px_if_R;
-            concatPool(input, ITER);
+            concatPool(pool, ITER); // 時間経過でプールを絞る
 
             long elap=System.currentTimeMillis();
             if (!RELEASE) System.err.println((t+1)+"("+(elap-start)+"):id="+best.id+" px_if_R="+best.px_if_R);
             if (bestProb > 0.8) {
-                BitSet bits = input.get_positives(pool.get(0).top_lefts);
-                List<Integer> target = new ArrayList<>();
-                List<Integer> rev = new ArrayList<>();
-                for(int i=0; i<input.n2; i++) { if(bits.get(i)) target.add(i); else rev.add(i); }
-                
-                // 難易度が低い場合や、直前の占いが反転一致する場合に回答
-                if (!input.isDifficult() || (sim.queries.size() > 0 && sim.queries.get(sim.queries.size()-1).equals(rev))) {
-                    if (sim.ans(target)) break;
-                    else if (sim.failed.size() == 1) state.volumes = input.get_volume(state.top_lefts);
-                } else {
-                    sim.query(rev);
-                    state.addQuery(rev);
-                }
+                List<Integer> target = input.get_positives(pool.get(0).top_lefts);
+                if (sim.ans(target)) break;
             } else {
-                List<Integer> qCoords = getDivinationQuery(input, sim);
+                // MIクエリ選択
+                List<Integer> qCoords = getDivinationQuery(input, pool, sim);
                 sim.query(qCoords);
                 state.addQuery(qCoords);
             }
         }
     }
 
-    static void performSA(Input in, Sim sim, State state, Map<Long, Double> seen, List<int[]>[][] swaps, int ITER) {
+    static void performSA(Input in, Sim sim, State state, List<OilLayout> pool, Map<Long, Double> seen, List<int[]>[][] swaps, int ITER) {
         double currentL = pool.get(0).ln_pR_if_x;
         for(int i=0; i<in.m; i++) state.moveTo(i, pool.get(0).top_lefts[i]);
         double maxL = currentL;
-        ITER = (int)(ITER * Math.min(timeLimit - (System.currentTimeMillis()-start)/1000.0, 1.0));
+        int saIter = (int)(ITER * Math.min(3.0 - (double)(System.currentTimeMillis()-start)/1000.0, 1.0));
         
-        for (int t = 0; t < ITER; t++) {
-            double temp = 2.0 + (1.0 - 2.0) * t / (double)ITER;
+        for (int i = 0; i < saIter; i++) {
+            double temp = 2.0 + (1.0 - 2.0) * i / saIter;
             int coin = rng.randRange(100);
             int id = rng.randRange(in.m);
             int oldTL = state.top_lefts[id];
 
-            if (coin < 30) {
+            if (coin < 30) { // Slide: 1マス移動
                 int[] d = DIJ[rng.randRange(4)];
                 int ni = oldTL / in.n + d[0], nj = oldTL % in.n + d[1];
                 if (ni >= 0 && nj >= 0 && ni < in.n - in.oils[id].max_i && nj < in.n - in.oils[id].max_j) {
                     state.moveTo(id, ni * in.n + nj);
-                    currentL = updateSA(sim, state, seen, maxL, currentL, temp, oldTL, id);
+                    updatePool(sim, state, pool, seen, maxL, currentL, temp, oldTL, id);
                 }
-            } else if (coin < 40) {
+            } else if (coin < 40) { // Warp: ランダム移動
                 int nextTL = rng.randRange(in.n - in.oils[id].max_i) * in.n + rng.randRange(in.n - in.oils[id].max_j);
                 state.moveTo(id, nextTL);
-                currentL = updateSA(sim, state, seen, maxL, currentL, temp, oldTL, id);
-            } else {
-                int id2 = rng.randRange(in.m); if(id == id2) continue;
+                updatePool(sim, state, pool, seen, maxL, currentL, temp, oldTL, id);
+            } else { // Swap: 2つを入れ替え
+                int id2 = rng.randRange(in.m);
+                if(id == id2) continue;
                 int oldTL2 = state.top_lefts[id2];
                 int[] daij = swaps[id2][id].get(rng.randRange(swaps[id2][id].size()));
                 int[] dbij = swaps[id][id2].get(rng.randRange(swaps[id][id2].size()));
@@ -687,65 +774,22 @@ public class Main {
                     else { state.moveTo(id, oldTL); state.moveTo(id2, oldTL2); }
                 }
             }
-            if (maxL < currentL) maxL = currentL;
         }
-        sortPool();
     }
 
-    static double updateSA(Sim sim, State state, Map<Long, Double> seen, double maxL, double curL, double temp, int oldTL, int id) {
-        double next = seen.getOrDefault(state.hash, sim.lnProbState(state));
+    static void updatePool(Sim sim, State state, List<OilLayout> pool, Map<Long, Double> seen, double maxL, double currentL, double temp, int oldTL, int id) {
+        double nextL = seen.getOrDefault(state.hash, sim.lnProbState(state));
         if (!seen.containsKey(state.hash)) {
-            seen.put(state.hash, next);
-            if (next - maxL >= -10.0) pool.add(new OilLayout(state.hash, next, 0.0, state.top_lefts, state.volumes.clone()));
+            seen.put(state.hash, nextL);
+            if (nextL - maxL >= -10.0) pool.add(new OilLayout(state.hash, nextL, 0.0, state.top_lefts, null));
         }
-        if (curL <= next || rng.gen_bool(Math.exp((next - curL) / temp))) return next;
-        else { state.moveTo(id, oldTL); return curL; }
+        if (nextL >= currentL || rng.gen_bool(Math.exp((nextL - currentL)/temp))) currentL = nextL;
+        else state.moveTo(id, oldTL);
     }
 
-    static List<Integer> getDivinationQuery(Input in, Sim sim) {
-        boolean[] same = new boolean[in.n2]; Arrays.fill(same, true);
-        for(int x=1; x<pool.size(); x++) for(int i=0; i<in.n2; i++) same[i] &= (pool.get(x).volume[i] == pool.get(0).volume[i]);
-        Query qh = new Query(in);
-        List<Double> evals = new ArrayList<>();
-        for(int i=0; i<in.n2; i++) {
-            if(!same[i]) { qh.flip(i); evals.add(qh.eval(sim,0,0)); qh.flip(i); } 
-            else evals.add(-1e100);
-        }
-        List<Integer> idx = new ArrayList<>(); for(int i=0; i<in.n2; i++) idx.add(i);
-        idx.sort((a,b) -> Double.compare(evals.get(b), evals.get(a)));
-        
-        double crt = -1e100; int addK = 0, addV = 0;
-        List<Integer> noInfo = new ArrayList<>();
-        for(int i=0; i<in.n2; i++) if(same[i]) noInfo.add(i);
-        
-        for (int iter = 0; iter < 3; iter++) {
-            boolean change = false;
-            for (int i : idx) {
-                if(evals.get(i) < -1e90) continue;
-                qh.flip(i); double e = qh.eval(sim, addK, addV);
-                if (crt < e) { crt = e; change = true; } else qh.flip(i);
-            }
-            if(!in.isDifficult()) {
-                while(addK < noInfo.size()) {
-                    double e = qh.eval(sim, addK+1, addV + pool.get(0).volume[noInfo.get(addK)]);
-                    if(crt < e) { crt = e; addV += pool.get(0).volume[noInfo.get(addK)]; addK++; change = true; } else break;
-                }
-                while(addK > 0) {
-                    double e = qh.eval(sim, addK-1, addV - pool.get(0).volume[noInfo.get(addK-1)]);
-                    if(crt < e) { crt = e; addV -= pool.get(0).volume[noInfo.get(addK-1)]; addK--; change = true; } else break;
-                }
-            }
-            if(!change) break;
-        }
-        List<Integer> res = new ArrayList<>();
-        for(int i=0; i<in.n2; i++) if(qh.in_query[i]) res.add(i);
-        for(int i=0; i<addK; i++) res.add(noInfo.get(i));
-        return res;
-    }
-
-    static void concatPool(Input in, int ITER) {
-        double remTime = Math.min(timeLimit - (double)(System.currentTimeMillis()-start)/1000.0, 1.0);
-        int target = (int)Math.max(2, (ITER * 0.01) * remTime);
+    static void concatPool(List<OilLayout> pool, int ITER) {
+        double remTime = Math.max(0, 3.0 - (double)(System.currentTimeMillis()-start)/1000.0);
+        int target = (int)Math.max(2, (ITER * 0.01) * Math.min(remTime, 1.0));
         if(pool.size() > target) {
             int s = pool.size();
             while(s > 2 && pool.get(0).px_if_R * 1e-4 > pool.get(s-1).px_if_R) s--;
@@ -753,24 +797,23 @@ public class Main {
         }
     }
 
-    static void sortPool() { pool.sort((a, b) -> Double.compare(b.ln_pR_if_x, a.ln_pR_if_x)); }
-
-    static List<int[]>[][] getSwaps(Input in) {
-        List<int[]>[][] res = new List[in.m][in.m];
-        for (int a = 0; a < in.m; a++) {
-            boolean[] isA = new boolean[in.n2];
-            for(int id : in.oils[a].coordinate_ids) isA[id] = true;
-            for (int b = 0; b < in.m; b++) {
-                res[a][b] = new ArrayList<>(); if(a == b) continue;
+    static List<int[]>[][] getSwaps(Input input) {
+        List<int[]>[][] res = new List[input.m][input.m];
+        for (int a = 0; a < input.m; a++) {
+            boolean[] isA = new boolean[input.n2];
+            for(int id : input.oils[a].coordinate_ids) isA[id] = true;
+            for (int b = 0; b < input.m; b++) {
+                res[a][b] = new ArrayList<>();
+                if(a == b) continue;
                 List<int[]> list = new ArrayList<>();
-                for (int di = -in.oils[b].max_i; di <= in.oils[a].max_i; di++) {
-                    for (int dj = -in.oils[b].max_j; dj <= in.oils[a].max_j; dj++) {
-                        int v = 0;
-                        for(int id : in.oils[b].coordinate_ids) {
-                            int ni = id/in.n + di, nj = id%in.n + dj;
-                            if(ni>=0 && nj>=0 && ni<in.n && nj<in.n && isA[ni*in.n+nj]) v++;
+                for (int di = -input.oils[b].max_i; di <= input.oils[a].max_i; di++) {
+                    for (int dj = -input.oils[b].max_j; dj <= input.oils[a].max_j; dj++) {
+                        int vol = 0;
+                        for(int id : input.oils[b].coordinate_ids) {
+                            int ni = id/input.n + di, nj = id%input.n + dj;
+                            if(ni>=0 && nj>=0 && ni<input.n && nj<input.n && isA[ni*input.n+nj]) vol++;
                         }
-                        list.add(new int[]{v, di, dj});
+                        list.add(new int[]{vol, di, dj});
                     }
                 }
                 list.sort((x, y) -> y[0] - x[0]);
@@ -782,8 +825,6 @@ public class Main {
         return res;
     }
 	static long start;
-    static double timeLimit = 3.0;
 	static int iteration = 0;
 	static double cost=0;
-    static List<OilLayout> pool = new ArrayList<>(); // グローバルなプール
 }

@@ -19,8 +19,6 @@ public class Main {
     static Random rand=new Random(0);
 
     static final int[][] DIJ = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
-//    static final int[] DR = {0, 1, 0, -1};
-//    static final int[] DC = {1, 0, -1, 0};
 
     // Xorshiftによる乱数生成器
     static class Xorshift {
@@ -40,6 +38,11 @@ public class Main {
             x ^= x << 5;
             return x;
         }
+        public int randRange(int stop) {
+            long v=next();
+            v=v & Long.MAX_VALUE;
+            return (int)(v % stop);
+        }
         public boolean gen_bool(double p) {
 //        	return rand.nextBoolean();
             double r = random();
@@ -54,14 +57,12 @@ public class Main {
         double px_if_R;    // 事後確率
         int[] top_lefts;
         int[] volume;
-
         OilLayout(double ln, double px, int[] tls, int[] vol) {
             this.ln_pR_if_x = ln;
             this.px_if_R = px;
             this.top_lefts = tls.clone();
             this.volume = (vol != null) ? vol.clone() : null;
         }
-
 		@Override
 		public int compareTo(OilLayout that) {
 			return -1*Double.compare(this.ln_pR_if_x, that.ln_pR_if_x);
@@ -72,7 +73,6 @@ public class Main {
         int max_i, max_j;
         List<Integer> coordinate_ids = new ArrayList<>();
         List<Point> coordinates = new ArrayList<>();
-        BitSet mask = new BitSet(400);
     }
 
     static class Input {
@@ -83,7 +83,7 @@ public class Main {
         OilShape[] oils;
         int total;
 
-        // 指定した配置で埋蔵量1以上のマスをBitSetで返す
+        // 指定した配置で埋蔵量1以上のマスを返す
         List<Integer> get_positives(int[] topLefts) {
             BitSet bits = new BitSet(n2);
             for (int i = 0; i < m; i++) {
@@ -146,7 +146,6 @@ public class Main {
         // topLeftQueryVolumes.get(topLeft).get(q) は、
         // この油田の左上座標が topLeft にあるとき、q番目のクエリ座標集合に含まれる埋蔵量の合計
         List<List<Integer>> top_left_query_volumes;
-
         OilState(Input input) {
             this.top_left_query_volumes = new ArrayList<>(input.n2);
             for (int i = 0; i < input.n2; i++) {
@@ -173,7 +172,6 @@ public class Main {
                 this.oil_states.add(new OilState(input));
             }
             this.top_lefts = new int[input.m]; // 初期値は 0 (座標 (0,0))
-//            this.volumes = new int[input.n2];
             this.volumes=null;
             this.query_volumes = new ArrayList<>();
         }
@@ -185,45 +183,41 @@ public class Main {
         void moveTo(int oilId, int newTopLeft) {
             OilState os = oil_states.get(oilId);
             int oldTopLeft = top_lefts[oilId];
-
             // 各クエリにおける埋蔵量合計の差分更新
             for (int q = 0; q < query_volumes.size(); q++) {
-                int diff = os.top_left_query_volumes.get(newTopLeft).get(q) 
-                         - os.top_left_query_volumes.get(oldTopLeft).get(q);
-                query_volumes.set(q, query_volumes.get(q) + diff);
+                query_volumes.set(q, query_volumes.get(q)
+                		+ os.top_left_query_volumes.get(newTopLeft).get(q)
+                		- os.top_left_query_volumes.get(oldTopLeft).get(q));
             }
 
             // グリッド上の埋蔵量 (volumes) の差分更新
             // 以前の位置から引き、新しい位置に足す
             if (volumes!=null) {
-                for (int coordId : input.oils[oilId].coordinate_ids) {
-                    volumes[coordId + oldTopLeft]--;
-                    volumes[coordId + newTopLeft]++;
+                for (int idCoord : input.oils[oilId].coordinate_ids) {
+                    volumes[idCoord + oldTopLeft]--;
+                    volumes[idCoord + newTopLeft]++;
                 }
             }
-
-            top_lefts[oilId] = newTopLeft;
+            top_lefts[oilId]=newTopLeft;
         }
 
         /**
          * 占いクエリを実行した際、その座標集合との重なりを全候補地について記録する
          */
-        void addQuery(List<Integer> queryCoordinates) {
+        void addQuery(List<Integer> queryCoords) {
             // 高速判定用のフラグ配列
             boolean[] inQuery = new boolean[input.n2];
-            for (int ij : queryCoordinates) inQuery[ij] = true;
-
+            for (int id : queryCoords) inQuery[id] = true;
             for (int oilId = 0; oilId < input.m; oilId++) {
                 OilShape oil = input.oils[oilId];
                 OilState os = oil_states.get(oilId);
-
                 // この油田が配置可能な全ての (di, dj) について重なりを計算
-                for (int di = 0; di <= input.n - 1 - oil.max_i; di++) {
-                    for (int dj = 0; dj <= input.n - 1 - oil.max_j; dj++) {
+                for (int di = 0; di < input.n - oil.max_i; di++) {
+                    for (int dj = 0; dj < input.n - oil.max_j; dj++) {
                         int topLeft = di * input.n + dj;
                         int count = 0;
-                        for (int coordId : oil.coordinate_ids) {
-                            if (inQuery[topLeft + coordId]) {
+                        for (int id : oil.coordinate_ids) {
+                            if (inQuery[topLeft + id]) {
                                 count++;
                             }
                         }
@@ -235,12 +229,13 @@ public class Main {
             // 現在の配置におけるこのクエリの埋蔵量合計を計算して保持
             int[] currentVolume = input.get_volume(top_lefts);
             int totalCount = 0;
-            for (int ij : queryCoordinates) {
+            for (int ij : queryCoords) {
                 totalCount += currentVolume[ij];
             }
             query_volumes.add(totalCount);
         }
     }
+
     // 過去の占いの(油田配置、占い結果)の集合
     // vector<pair<vector<size_t>, size_t>> queries;
     static class QueryHistory {
@@ -265,13 +260,13 @@ public class Main {
         List<int[]> failed = new ArrayList<>();
         // クエリサイズk、埋蔵量総量Sに対して、
         // pr_if_xがもつrの値の下限
-//        vector<vector<size_t>> pr_if_x_lb;
+//        int[][] pr_if_x_lb;
         // 真の配置xを過程したときに占い結果がrになる確率(尤度とも呼ぶ)
         // 真の配置xを過程したときはクエリサイズk、埋蔵量総量Sも固定されるため、
         // クエリサイズk、埋蔵量総量Sの時に占い結果がrになる確率を記録しておけばいい
         // 小さすぎる確率は無視するため、配列はr=lb以上のものだけ格納する。
         // pr_if_x[k][S][r-lb] = (prob, log(prob))
-//        vector<vector<vector<pair<double, double>>>> pr_if_x;
+//        List<Map<Integer, List<double[]>>> pr_if_x; 
         // クエリごとにあり得る埋蔵量総量Sごとに
         // 埋蔵量Sのときにそのクエリで得られた結果になる確率P(r|S)の対数を記録
         List<double[]> ln_pr_if_s_query = new ArrayList<>();
@@ -301,7 +296,6 @@ public class Main {
             System.out.flush();
             int ret = sc.nextInt();
             if (ret == 1) return true;
-            
             int[] failedArr = new int[list.size()];
             for(int i=0; i<list.size(); i++) failedArr[i] = list.get(i);
             failed.add(failedArr);
@@ -326,7 +320,7 @@ public class Main {
             double[] lnPrIfS = new double[total + 1];
             int k = coords.size();
             for (int s = 0; s <= total; s++) {
-                double mu = ((double) k - s) * eps + s * (1.0 - eps);
+                double mu = (k - s) * eps + s * (1.0 - eps);
                 double sigma = Math.sqrt(k * eps * (1.0 - eps));
                 lnPrIfS[s] = Math.log(likelihood(mu, sigma, ret));
             }
@@ -373,7 +367,6 @@ public class Main {
             int rCount = total;
             boolean[][] used = new boolean[n][n];
             while (!que.isEmpty()) {
-            	if (rem==0) break;
                 Point p = que.pollFirst();
                 if (used[p.r][p.c]) continue;
                 used[p.r][p.c] = true;
@@ -440,7 +433,7 @@ public class Main {
                 	}
                 }
         	}
-        	
+
             // 今までのクエリ結果Rから、
             // 配置x=oil_statesにおける尤度P(R|x)を求める
             // 公式は以下の通り
@@ -461,7 +454,7 @@ public class Main {
             return ln_pR_if_x;
         }
     }
-    
+
 	// プールの確率を正規化する
     static void normalize_pool(List<OilLayout> pool) {
         double total = 0;
@@ -472,6 +465,7 @@ public class Main {
             layout.px_if_R /= total;
         }
     }
+
     // プールの油田配置の全座標の埋蔵量を計算する
     static void set_volume(List<OilLayout> pool, Input input) {
         for (OilLayout layout : pool) {
@@ -481,15 +475,15 @@ public class Main {
 
 	// 占いクエリを取得する
     static List<Integer> getDivinationQuery(Input input, List<OilLayout> pool) {
-        // クエリを作成
-		List<Integer> query_coordinates = new ArrayList<>();
+        // ランダムな占い (各マス50%)
+		List<Integer> coords = new ArrayList<>();
         for (int ij = 0; ij < input.n2; ++ij) {
             if (rng.gen_bool(0.5)) {
-                query_coordinates.add(ij);
+            	coords.add(ij);
             }
         }
-        assert(query_coordinates.size() > 0);
-        return query_coordinates;
+        assert(coords.size() > 0);
+        return coords;
     }
     
     static void sort_pool(List<OilLayout> pool) {
@@ -497,7 +491,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-		start=System.currentTimeMillis();
+        start=System.currentTimeMillis();
         Scanner sc=new Scanner(System.in);
         Input input=read_input(sc);
 
@@ -513,7 +507,8 @@ public class Main {
         int ITER = 4000000 / (2 * input.n2);
         
         // 全パターンの生成 (M=2を前提とした二重ループ)
-        OilShape oilA = input.oils[0], oilB = input.oils[1];
+        OilShape oilA = input.oils[0]; 
+        OilShape oilB = input.oils[1];
         for (int iA = 0; iA <= input.n - 1 - oilA.max_i; iA++) {
             for (int jA = 0; jA <= input.n - 1 - oilA.max_j; jA++) {
                 for (int iB = 0; iB <= input.n - 1 - oilB.max_i; iB++) {
@@ -536,7 +531,6 @@ public class Main {
                 break;
             }
             // 各配置の対数尤度を更新する
-            // t=0のときはpoolになにも入っていないので何もしない
             for (OilLayout layout : pool) {
                 if (layout.volume==null && !sim.failed.isEmpty()) {
                     layout.volume=input.get_volume(layout.top_lefts);
@@ -547,7 +541,6 @@ public class Main {
             Collections.shuffle(pool);
             // 対数尤度が高い順に配置候補をソート
             sort_pool(pool);
-
             // この時点でpoolはソート済み
             double max_prob = pool.get(0).ln_pR_if_x;
             // 対数尤度から尤度に戻す
@@ -566,12 +559,12 @@ public class Main {
 //            pool.sort((a, b) -> Double.compare(b.px_if_R, a.px_if_R));
             OilLayout best = pool.get(0);
             set_volume(pool, input);
-            if (!RELEASE) System.err.println((t+1)+":id="+best.id+" px_if_R="+best.px_if_R);
+            long elap=System.currentTimeMillis();
+            if (!RELEASE) System.err.println((t+1)+"("+(elap-start)+"):id="+best.id+" px_if_R="+best.px_if_R);
             if (best.px_if_R > 0.8) {
                 List<Integer> target = input.get_positives(best.top_lefts);
                 if (sim.ans(target)) break;
             } else {
-                // ランダムな占い (各マス50%)
                 List<Integer> qCoords = getDivinationQuery(input, pool);
                 sim.query(qCoords);
                 state.addQuery(qCoords);
