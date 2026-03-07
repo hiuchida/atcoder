@@ -1,5 +1,5 @@
 import java.util.*;
-public class Main_ahc030 {
+public class Main {
 	static final boolean DEBUG = false;
 	static boolean RELEASE = true;
 
@@ -399,28 +399,6 @@ public class Main_ahc030 {
 			this.ret=ret;
 		}
 	}
-	static class PreCalc {
-		// クエリサイズk、埋蔵量総量Sに対して、
-		// pr_if_xがもつrの値の下限
-		int lb;
-		// 真の配置xを過程したときに占い結果がrになる確率(尤度とも呼ぶ)
-		// 真の配置xを過程したときはクエリサイズk、埋蔵量総量Sも固定されるため、
-		// クエリサイズk、埋蔵量総量Sの時に占い結果がrになる確率を記録しておけばいい
-		// 小さすぎる確率は無視するため、配列はr=lb以上のものだけ格納する。
-		// pr_if_x[k][S][r-lb] = (prob, log(prob))
-		double[] pr_if_x;
-		double[] ln_pr_if_x;
-		PreCalc(int lb, List<Double> list) {
-			this.lb = lb;
-			this.pr_if_x = new double[list.size()];
-			this.ln_pr_if_x = new double[list.size()];
-			for (int i = 0; i < list.size(); i++) {
-				double p = list.get(i);
-				pr_if_x[i] = p;
-				ln_pr_if_x[i] = Math.log(p);
-			}
-		}
-	}
 	// 占い結果の管理と確率計算
 	static class Sim {
 		Scanner sc;
@@ -434,7 +412,15 @@ public class Main_ahc030 {
 		// 既に油田配置を答えるクエリを投げて失敗した油田配置の集合
 //		List<int[]> failed = new ArrayList<>();
 		Map<Integer, List<BitSet>> failedMap = new TreeMap<>();
-		PreCalc[][] precalc;
+		// クエリサイズk、埋蔵量総量Sに対して、
+		// pr_if_xがもつrの値の下限
+		int[][] pr_if_x_lb;
+		// 真の配置xを過程したときに占い結果がrになる確率(尤度とも呼ぶ)
+		// 真の配置xを過程したときはクエリサイズk、埋蔵量総量Sも固定されるため、
+		// クエリサイズk、埋蔵量総量Sの時に占い結果がrになる確率を記録しておけばいい
+		// 小さすぎる確率は無視するため、配列はr=lb以上のものだけ格納する。
+		// pr_if_x[k][S][r-lb] = (prob, log(prob))
+		List<Map<Integer, List<double[]>>> pr_if_x; 
 		double[] ln_pr_buffer;
 		// クエリごとにあり得る埋蔵量総量Sごとに
 		// 埋蔵量Sのときにそのクエリで得られた結果になる確率P(r|S)の対数を記録
@@ -450,30 +436,31 @@ public class Main_ahc030 {
 			this.total = input.total;
 			this.eps = input.eps;
 			this.rem = n * n * 2;
-			this.precalc = new PreCalc[input.n2 + 1][input.total + 1];
+			this.pr_if_x_lb = new int[input.n2 + 1][input.total + 1];
+			this.pr_if_x = new ArrayList<>(input.n2 + 1);
 			this.ln_pr_buffer = new double[input.n2 + 100];
+			for(int i=0; i<=input.n2; i++) pr_if_x.add(new HashMap<>());
 
 			// 尤度の事前計算 (Source 42-43)
 			for (int k = 1; k <= input.n2; k++) {
 				for (int s = 0; s <= input.total; s++) {
-					int lb = 0;
 					double mu = (double)(k - s) * input.eps + s * (1.0 - input.eps);
 					double sigma = Math.sqrt(k * input.eps * (1.0 - input.eps));
-					List<Double> list = new ArrayList<>();
+					List<double[]> list = new ArrayList<>();
 					int startR = (int)Math.round(mu);
 					
 					for (int r = startR; r >= 0; r--) {
 						double p = likelihood(mu, sigma, r);
-						if (p < SMALL_VALUE) { lb = r + 1; break; }
-						list.add(p);
+						if (p < SMALL_VALUE) { pr_if_x_lb[k][s] = r + 1; break; }
+						list.add(new double[]{p, Math.log(p)});
 					}
 					Collections.reverse(list);
 					for (int r = startR + 1; ; r++) {
 						double p = likelihood(mu, sigma, r);
 						if (p < SMALL_VALUE) break;
-						list.add(p);
+						list.add(new double[]{p, Math.log(p)});
 					}
-					precalc[k][s] = new PreCalc(lb, list);
+					pr_if_x.get(k).put(s, list);
 				}
 			}
 		}
@@ -671,10 +658,11 @@ public class Main_ahc030 {
 		/// 時間切れしたときはBFSで掘る。
 		void giveup(List<IntDouble> elist) {
 			System.err.println("!log giveup start");
+			int eidx=0;
+			IntDouble id=elist.get(eidx++);
 			Deque<Point> que = new ArrayDeque<>();
-			for (IntDouble id : elist) {
-				que.addLast(new Point(id.i/n, id.i%n));
-			}
+			que.add(new Point(id.i / n, id.i % n));
+//			que.add(new Point(n / 2, n / 2));
 			List<Integer> list = new ArrayList<>();
 			int cnt = total;
 			boolean[][] used = new boolean[n][n];
@@ -698,6 +686,11 @@ public class Main_ahc030 {
 							que.addFirst(new Point(i2, j2));
 						}
 					}
+				} else {
+					do {
+						id=elist.get(eidx++);
+					} while (eidx<elist.size() && used[id.i/n][id.i%n]);
+					que.addLast(new Point(id.i/n, id.i%n));
 				}
 			}
 			ans(list);
@@ -869,22 +862,26 @@ public class Main_ahc030 {
 			// ln_pr[r] = クエリ結果がrとなる確率の対数
 			// 最後にlogをとるまで、普通の確率として計算する
 			Arrays.fill(sim.ln_pr_buffer, 0);
+//			List<Double> ln_pr = new ArrayList<>();
 			for (int x = 0; x < pool.size(); x++) {
 				int v = volume[x] + add_k;
-				int lb = sim.precalc[k][v].lb;
-				double[] probs = sim.precalc[k][v].pr_if_x;
+				int lb = sim.pr_if_x_lb[k][v];
+				List<double[]> probs = sim.pr_if_x.get(k).get(v);
 //				while (ln_pr.size() < lb + probs.size()) {
 //					ln_pr.add(0.0);
 //				}
 				double px = pool.get(x).px_if_R;
 				// 公式 p(r)=Σp(r|x)p(x)
 				// この公式を使って、p(r)を求める
-				for (int pi = 0; pi < probs.length; pi++) {
-					double pr_if_x = probs[pi];
+				for (int pi = 0; pi < probs.size(); pi++) {
+					double pr_if_x = probs.get(pi)[0];
 					sim.ln_pr_buffer[lb + pi] += pr_if_x * px;
+//					ln_pr.set(lb + pi, ln_pr.get(lb + pi) + pr_if_x * px);
 				}
 			}
 			for (int x = 0; x < sim.ln_pr_buffer.length; x++) {
+//			for (int x = 0; x < ln_pr.size(); x++) {
+//				ln_pr.set(x, Math.log(ln_pr.get(x) + 1e-20));
 				sim.ln_pr_buffer[x] = Math.log(sim.ln_pr_buffer[x] + 1e-20);
 			}
 			// I(X;R) = ΣΣp(x,r)log(p(x,r)/(p(x)p(r))
@@ -896,13 +893,13 @@ public class Main_ahc030 {
 			for (int x = 0; x < pool.size(); x++) {
 				double px = pool.get(x).px_if_R;
 				int v = volume[x] + add_v;
-				int lb = sim.precalc[k][v].lb;
-				double[] probs = sim.precalc[k][v].pr_if_x;
-				double[] probs2 = sim.precalc[k][v].ln_pr_if_x;
-				for (int pi = 0; pi < probs.length; pi++) {
-					double pr_if_x = probs[pi];
-					double ln_pr_if_x = probs2[pi];
+				int lb = sim.pr_if_x_lb[k][v];
+				List<double[]> probs = sim.pr_if_x.get(k).get(v);
+				for (int pi = 0; pi < probs.size(); pi++) {
+					double pr_if_x = probs.get(pi)[0];
+					double ln_pr_if_x = probs.get(pi)[1];
 					double ln_prr = sim.ln_pr_buffer[lb + pi];
+//					double ln_prr = ln_pr.get(lb + pi);
 					info += pr_if_x * px * (ln_pr_if_x - ln_prr);
 				}
 			}

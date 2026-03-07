@@ -1,5 +1,5 @@
 import java.util.*;
-public class Main_ahc030 {
+public class Main {
 	static final boolean DEBUG = false;
 	static boolean RELEASE = true;
 

@@ -364,6 +364,26 @@ Sim.failedMap
 ans(BitSet T)
 4382076058
 
+# Main53b
+sim.ln_pr_buffer
+4449566280
+
+# Main53c
+calculatePxMap
+4315482197
+
+# Main53d
+fix giveup que
+3923155312
+
+# Main53e
+PreCalc
+3447519301
+
+# Main53f
+PreCalc pr_if_x,ln_pr_if_x
+3214061268
+
 # 10_after_publication.cpp
 
 # Main61

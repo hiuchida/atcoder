@@ -1,5 +1,5 @@
 import java.util.*;
-public class Main_ahc030 {
+public class Main {
 	static final boolean DEBUG = false;
 	static boolean RELEASE = true;
 
@@ -33,10 +33,6 @@ public class Main_ahc030 {
 		@Override
 		public int compareTo(IntDouble that) {
 			return -1 * Double.compare(this.v, that.v);
-		}
-		@Override
-		public String toString() {
-			return "[i=" + i + ", v=" + v + "]";
 		}
 	}
 	static class IntAryInt implements Comparable<IntAryInt> {
@@ -370,23 +366,6 @@ public class Main_ahc030 {
 				query_volumes.add(c);
 			}
 		}
-
-		@Override
-		public String toString() {
-			StringBuilder sb = new StringBuilder();
-			sb.append(Arrays.toString(top_lefts)).append("\n");
-			sb.append(mask).append("\n");
-			for (int y=0; y<input.n; y++) {
-				for (int x=0; x<input.n; x++) {
-					sb.append(""+volumes[y*input.n+x]).append(" ");
-				}
-				sb.append("\n");
-			}
-			return sb.toString();
-//			return "State [oil_states=" + oil_states + ", top_lefts=" + Arrays.toString(top_lefts) + ", volumes="
-//					+ Arrays.toString(volumes) + ", mask=" + mask + ", query_volumes=" + query_volumes + ", hash="
-//					+ hash + ", input=" + input + "]";
-		}
 	}
 
 	// 過去の占いの(油田配置、占い結果)の集合
@@ -397,28 +376,6 @@ public class Main_ahc030 {
 		QueryHistory(List<Integer> coords, int ret) {
 			this.coords=coords;
 			this.ret=ret;
-		}
-	}
-	static class PreCalc {
-		// クエリサイズk、埋蔵量総量Sに対して、
-		// pr_if_xがもつrの値の下限
-		int lb;
-		// 真の配置xを過程したときに占い結果がrになる確率(尤度とも呼ぶ)
-		// 真の配置xを過程したときはクエリサイズk、埋蔵量総量Sも固定されるため、
-		// クエリサイズk、埋蔵量総量Sの時に占い結果がrになる確率を記録しておけばいい
-		// 小さすぎる確率は無視するため、配列はr=lb以上のものだけ格納する。
-		// pr_if_x[k][S][r-lb] = (prob, log(prob))
-		double[] pr_if_x;
-		double[] ln_pr_if_x;
-		PreCalc(int lb, List<Double> list) {
-			this.lb = lb;
-			this.pr_if_x = new double[list.size()];
-			this.ln_pr_if_x = new double[list.size()];
-			for (int i = 0; i < list.size(); i++) {
-				double p = list.get(i);
-				pr_if_x[i] = p;
-				ln_pr_if_x[i] = Math.log(p);
-			}
 		}
 	}
 	// 占い結果の管理と確率計算
@@ -434,7 +391,15 @@ public class Main_ahc030 {
 		// 既に油田配置を答えるクエリを投げて失敗した油田配置の集合
 //		List<int[]> failed = new ArrayList<>();
 		Map<Integer, List<BitSet>> failedMap = new TreeMap<>();
-		PreCalc[][] precalc;
+		// クエリサイズk、埋蔵量総量Sに対して、
+		// pr_if_xがもつrの値の下限
+		int[][] pr_if_x_lb;
+		// 真の配置xを過程したときに占い結果がrになる確率(尤度とも呼ぶ)
+		// 真の配置xを過程したときはクエリサイズk、埋蔵量総量Sも固定されるため、
+		// クエリサイズk、埋蔵量総量Sの時に占い結果がrになる確率を記録しておけばいい
+		// 小さすぎる確率は無視するため、配列はr=lb以上のものだけ格納する。
+		// pr_if_x[k][S][r-lb] = (prob, log(prob))
+		List<Map<Integer, List<double[]>>> pr_if_x; 
 		double[] ln_pr_buffer;
 		// クエリごとにあり得る埋蔵量総量Sごとに
 		// 埋蔵量Sのときにそのクエリで得られた結果になる確率P(r|S)の対数を記録
@@ -450,30 +415,31 @@ public class Main_ahc030 {
 			this.total = input.total;
 			this.eps = input.eps;
 			this.rem = n * n * 2;
-			this.precalc = new PreCalc[input.n2 + 1][input.total + 1];
+			this.pr_if_x_lb = new int[input.n2 + 1][input.total + 1];
+			this.pr_if_x = new ArrayList<>(input.n2 + 1);
 			this.ln_pr_buffer = new double[input.n2 + 100];
+			for(int i=0; i<=input.n2; i++) pr_if_x.add(new HashMap<>());
 
 			// 尤度の事前計算 (Source 42-43)
 			for (int k = 1; k <= input.n2; k++) {
 				for (int s = 0; s <= input.total; s++) {
-					int lb = 0;
 					double mu = (double)(k - s) * input.eps + s * (1.0 - input.eps);
 					double sigma = Math.sqrt(k * input.eps * (1.0 - input.eps));
-					List<Double> list = new ArrayList<>();
+					List<double[]> list = new ArrayList<>();
 					int startR = (int)Math.round(mu);
 					
 					for (int r = startR; r >= 0; r--) {
 						double p = likelihood(mu, sigma, r);
-						if (p < SMALL_VALUE) { lb = r + 1; break; }
-						list.add(p);
+						if (p < SMALL_VALUE) { pr_if_x_lb[k][s] = r + 1; break; }
+						list.add(new double[]{p, Math.log(p)});
 					}
 					Collections.reverse(list);
 					for (int r = startR + 1; ; r++) {
 						double p = likelihood(mu, sigma, r);
 						if (p < SMALL_VALUE) break;
-						list.add(p);
+						list.add(new double[]{p, Math.log(p)});
 					}
-					precalc[k][s] = new PreCalc(lb, list);
+					pr_if_x.get(k).put(s, list);
 				}
 			}
 		}
@@ -669,14 +635,12 @@ public class Main_ahc030 {
 		}
 
 		/// 時間切れしたときはBFSで掘る。
-		void giveup(List<IntDouble> elist) {
+		void giveup() {
 			System.err.println("!log giveup start");
 			Deque<Point> que = new ArrayDeque<>();
-			for (IntDouble id : elist) {
-				que.addLast(new Point(id.i/n, id.i%n));
-			}
+			que.add(new Point(n / 2, n / 2));
 			List<Integer> list = new ArrayList<>();
-			int cnt = total;
+			int rem = total;
 			boolean[][] used = new boolean[n][n];
 			while (!que.isEmpty()) {
 				Point p = que.pollFirst();
@@ -687,14 +651,18 @@ public class Main_ahc030 {
 				int ret = mine(i, j);
 				if (ret > 0) {
 					list.add(i * n + j);
-					cnt -= ret;
-					if (cnt == 0) break;
-					for (int[] dij : DIJ) {
-						int di = dij[0];
-						int dj = dij[1];
-						int i2 = i + di;
-						int j2 = j + dj;
-						if (i2 >= 0 && i2 < n && j2 >= 0 && j2 < n) {
+					rem -= ret;
+					if (rem == 0) break;
+				}
+				for (int[] dij : DIJ) {
+					int di = dij[0];
+					int dj = dij[1];
+					int i2 = i + di;
+					int j2 = j + dj;
+					if (i2 >= 0 && i2 < n && j2 >= 0 && j2 < n) {
+						if (ret == 0) {
+							que.addLast(new Point(i2, j2));
+						} else {
 							que.addFirst(new Point(i2, j2));
 						}
 					}
@@ -869,22 +837,26 @@ public class Main_ahc030 {
 			// ln_pr[r] = クエリ結果がrとなる確率の対数
 			// 最後にlogをとるまで、普通の確率として計算する
 			Arrays.fill(sim.ln_pr_buffer, 0);
+//			List<Double> ln_pr = new ArrayList<>();
 			for (int x = 0; x < pool.size(); x++) {
 				int v = volume[x] + add_k;
-				int lb = sim.precalc[k][v].lb;
-				double[] probs = sim.precalc[k][v].pr_if_x;
+				int lb = sim.pr_if_x_lb[k][v];
+				List<double[]> probs = sim.pr_if_x.get(k).get(v);
 //				while (ln_pr.size() < lb + probs.size()) {
 //					ln_pr.add(0.0);
 //				}
 				double px = pool.get(x).px_if_R;
 				// 公式 p(r)=Σp(r|x)p(x)
 				// この公式を使って、p(r)を求める
-				for (int pi = 0; pi < probs.length; pi++) {
-					double pr_if_x = probs[pi];
+				for (int pi = 0; pi < probs.size(); pi++) {
+					double pr_if_x = probs.get(pi)[0];
 					sim.ln_pr_buffer[lb + pi] += pr_if_x * px;
+//					ln_pr.set(lb + pi, ln_pr.get(lb + pi) + pr_if_x * px);
 				}
 			}
 			for (int x = 0; x < sim.ln_pr_buffer.length; x++) {
+//			for (int x = 0; x < ln_pr.size(); x++) {
+//				ln_pr.set(x, Math.log(ln_pr.get(x) + 1e-20));
 				sim.ln_pr_buffer[x] = Math.log(sim.ln_pr_buffer[x] + 1e-20);
 			}
 			// I(X;R) = ΣΣp(x,r)log(p(x,r)/(p(x)p(r))
@@ -896,13 +868,13 @@ public class Main_ahc030 {
 			for (int x = 0; x < pool.size(); x++) {
 				double px = pool.get(x).px_if_R;
 				int v = volume[x] + add_v;
-				int lb = sim.precalc[k][v].lb;
-				double[] probs = sim.precalc[k][v].pr_if_x;
-				double[] probs2 = sim.precalc[k][v].ln_pr_if_x;
-				for (int pi = 0; pi < probs.length; pi++) {
-					double pr_if_x = probs[pi];
-					double ln_pr_if_x = probs2[pi];
+				int lb = sim.pr_if_x_lb[k][v];
+				List<double[]> probs = sim.pr_if_x.get(k).get(v);
+				for (int pi = 0; pi < probs.size(); pi++) {
+					double pr_if_x = probs.get(pi)[0];
+					double ln_pr_if_x = probs.get(pi)[1];
 					double ln_prr = sim.ln_pr_buffer[lb + pi];
+//					double ln_prr = ln_pr.get(lb + pi);
 					info += pr_if_x * px * (ln_pr_if_x - ln_prr);
 				}
 			}
@@ -1068,71 +1040,6 @@ public class Main_ahc030 {
 	
 	static void sort_pool(List<OilLayout> pool) {
 		Collections.sort(pool);
-	}
-
-	static double[][] calculatePxMap(int N, List<OilLayout> pool) {
-	    double[][] entropyMap=new double[N][N];
-	    double totalWeight=0;
-	    // 1. 各マスの「油がある期待値」を計算
-	    double[][] probMap=new double[N][N];
-	    for (OilLayout ol : pool) {
-	        double weight=ol.px_if_R; // 対数尤度を実数に戻す
-	        totalWeight+=weight;
-			for (int y=0; y<N; y++) {
-				for (int x=0; x<N; x++) {
-	                if (ol.volume[y * N + x] > 0) {
-	                    probMap[y][x]+=weight;
-	                }
-	            }
-	        }
-	    }
-	    // 2. エントロピーに変換
-		for (int y=0; y<N; y++) {
-			for (int x=0; x<N; x++) {
-	            double p=probMap[y][x]/totalWeight;
-	            entropyMap[y][x]=p;
-	        }
-	    }
-	    return entropyMap;
-	}
-	static double[][] calculateBinaryEntropyMap(int N, List<OilLayout> pool) {
-	    double[][] entropyMap=new double[N][N];
-	    double totalWeight=0;
-	    // 1. 各マスの「油がある期待値」を計算
-	    double[][] probMap=new double[N][N];
-	    for (OilLayout ol : pool) {
-	        double weight=ol.px_if_R; // 対数尤度を実数に戻す
-	        totalWeight+=weight;
-			for (int y=0; y<N; y++) {
-				for (int x=0; x<N; x++) {
-	                if (ol.volume[y * N + x] > 0) {
-	                    probMap[y][x]+=weight;
-	                }
-	            }
-	        }
-	    }
-	    // 2. エントロピーに変換
-		for (int y=0; y<N; y++) {
-			for (int x=0; x<N; x++) {
-	            double p=probMap[y][x]/totalWeight;
-	            entropyMap[y][x]=calculateBinaryEntropy(p);
-	        }
-	    }
-	    return entropyMap;
-	}
-	static double calculateBinaryEntropy(double p) {
-	    if (p<=0 || p>=1) return 0; // 確信している状態
-	    return -(p*Math.log(p)+(1-p)*Math.log(1-p))/Math.log(2);
-	}
-	static List<IntDouble> sort(int N, double[][] aad) {
-		List<IntDouble> list=new ArrayList<>();
-		for (int y=0; y<N; y++) {
-			for (int x=0; x<N; x++) {
-				list.add(new IntDouble(y * N + x, aad[y][x]));
-			}
-		}
-		Collections.sort(list);
-		return list;
 	}
 
 	// vector<vector<vector<pair<size_t, size_t>>>>のvector<pair<size_t, size_t>>部分
@@ -1346,26 +1253,15 @@ public class Main_ahc030 {
 
 		Sim sim = new Sim(sc, input);
 		State state = new State(input);
-//		state.volumes = input.get_volume(state.top_lefts);
-//		state.mask = input.get_positives(state.top_lefts);
-//		System.err.println(get_time()+":state="+state);
 		List<OilLayout> pool = new ArrayList<>();
 		int ITER = 4000*1000 / (2 * input.n2);
-//		int ITER = 8000*1000 / (2 * input.n2);
 		for (int t = 0;; t++) {
 			if (sim.rem == 0) {
 				System.err.println("!There is no more query");
 				break;
 			}
 			if (get_time() > 2.8) {
-//				double[][] emap=calculateBinaryEntropyMap(input.n, pool);
-				double[][] emap=calculatePxMap(input.n, pool);
-//				for (int y=0; y<input.n; y++) {
-//					System.err.println(Arrays.toString(emap[y]));
-//				}
-				List<IntDouble> elist=sort(input.n, emap);
-//				System.err.println(elist);
-				sim.giveup(elist);
+				sim.giveup();
 				break;
 			}
 
@@ -1398,13 +1294,10 @@ public class Main_ahc030 {
 					}
 					// まだプールに追加していない配置なら追加する
 					if (!hash_ln_lilelihood.containsKey(state.hash)) {
-//						System.err.println("i_="+i_+":state.hash="+state.hash);
 						hash_ln_lilelihood.put(state.hash, 0.0);
 						pool.add(new OilLayout(state.hash, 0.0, 0.0, state.top_lefts, state.volumes, state.mask));
 					}
 				}
-//				System.err.println(get_time()+":pool.size="+pool.size());
-//				System.err.println(get_time()+":state="+state);
 			} else {
 				simulated_annealing(input, sim, state, pool, swaps, hash_ln_lilelihood, ITER);
 			}
@@ -1425,7 +1318,6 @@ public class Main_ahc030 {
 			while (pool.size() > 1 && pool.get(pool.size() - 1).px_if_R < 1e-9) {
 				pool.remove(pool.size() - 1);
 			}
-//			System.err.println(get_time()+":pool.size="+pool.size());
 			OilLayout best_layout = pool.get(0);
 //			BitSet best_bits = best_layout.mask;
 //			BitSet best_bits = input.get_positives(best_layout.top_lefts);
@@ -1438,30 +1330,13 @@ public class Main_ahc030 {
 			set_volume(pool, input);
 			BitSet best_bits = best_layout.mask;
 
-//			System.err.println(get_time()+":pool.size="+pool.size());
-			boolean bHit=true;
-			{
-				double[][] emap=calculatePxMap(input.n, pool);
-//				for (int y=0; y<input.n; y++) {
-//					System.err.println(Arrays.toString(emap[y]));
-//				}
-				List<IntDouble> elist=sort(input.n, emap);
-				while (elist.size()>0 && elist.get(elist.size()-1).v<0.9) elist.remove(elist.size()-1);
-//				System.err.println(elist);
-				if (best_bits.cardinality()!=elist.size()) bHit=false;
-				else {
-					for (IntDouble id : elist) {
-						if (!best_bits.get(id.i)) bHit=false;
-					}
-				}
-			}
 			long elap = System.currentTimeMillis();
 			if (!RELEASE)
 				System.err.println(
 						(t + 1) + "(" + (elap - start) + "):size="+pool.size()
 						+ " id=" + best_layout.id + " px_if_R=" + best_pool_prob);
 
-			if (bHit || best_pool_prob > 0.8) {
+			if (best_pool_prob > 0.8) {
 				// 自信があるとき、推測をう
 				// Mが大きい時は焼き鈍しに失敗して真の解を見落としている可能性が高く推測に失敗することがあるので、
 				// いきなり推測を行わず、一旦それらのマス以外に対して占いを実行
@@ -1485,18 +1360,18 @@ public class Main_ahc030 {
 //					T_vec.add(i);
 //				}
 				BitSet T_vec = best_bits;
-//				if (input.m <= 4 ||
-//						(sim.queries.size() > 0 && sim.queries.get(sim.queries.size() - 1).coords.equals(T_vec_reverse))) {
+				if (input.m <= 4 ||
+						(sim.queries.size() > 0 && sim.queries.get(sim.queries.size() - 1).coords.equals(T_vec_reverse))) {
 					if (sim.ans(T_vec)) {
 						break;
 					} else if (sim.failedMap.size() == 1) {
 						state.volumes = input.get_volume(state.top_lefts);
 						state.mask = input.get_positives(state.top_lefts);
 					}
-//				} else {
-//					sim.query(T_vec_reverse);
-//					state.add_query(T_vec_reverse);
-//				}
+				} else {
+					sim.query(T_vec_reverse);
+					state.add_query(T_vec_reverse);
+				}
 			} else {
 				List<Integer> query_coordinates = getDivinationQuery(input, pool, sim);
 				sim.query(query_coordinates);
