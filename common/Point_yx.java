@@ -15,6 +15,10 @@
 			this.y = y;
 			this.x = x;
 		}
+		Point(Point pt) {
+			this.y=pt.y;
+			this.x=pt.x;
+		}
 		static Comparator<Point> newComparator1() {
 			return new Comparator<Point>() {
 				@Override

@@ -336,3 +336,24 @@
 		int o4=orientation(q1, q2, p2);
 		return (o1*o2<=0)&&(o3*o4<=0);
 	}
+	// 誤差関数 (erf) の近似　※Java22以降はMath.erf()
+	static double erf(double x) {
+		// 精度: 最大誤差は約 1.5e-7
+		double sign = (x < 0) ? -1 : 1;
+		x = Math.abs(x);
+		// 定数
+		double p = 0.3275911;
+		double a1 = 0.254829592;
+		double a2 = -0.284496736;
+		double a3 = 1.421413741;
+		double a4 = -1.453152027;
+		double a5 = 1.061405429;
+		double t = 1.0 / (1.0 + p * x);
+		double y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
+		return sign * y;
+	}
+	// 累積分布関数
+	// 平均mean, 標準偏差std_devに従う正規分布において、x以下の確率を求める
+	static double normal_cdf(double mean, double std_dev, double x) {
+		return 0.5 * (1.0 + erf((x - mean) / (std_dev * Math.sqrt(2.0))));
+	}
