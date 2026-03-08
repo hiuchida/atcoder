@@ -384,6 +384,15 @@ PreCalc
 PreCalc pr_if_x,ln_pr_if_x
 3214061268
 
+# Main53g
+add_query(BitSet T)
+query(BitSet T)
+3517569323
+
+# Main53h
+undo Main53g
+4124528428
+
 # 10_after_publication.cpp
 
 # Main61
