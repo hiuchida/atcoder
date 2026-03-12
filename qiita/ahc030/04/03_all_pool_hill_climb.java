@@ -273,12 +273,152 @@ public class Main {
         }
     }
 
-    static List<Integer> getDivinationQuery(Input input, List<OilLayout> pool, Sim sim, int t) {
-        // ランダムな占い
-        List<Integer> coords = new ArrayList<>();
-        for (int i = 0; i < input.n2; i++) {
-            if (rng.genBool(0.5)) coords.add(i);
+    // 占いの良さを評価するクラス
+    static class Query {
+        boolean[] inQuery;
+        int[] layoutVolumes;
+        int k;
+        List<OilLayout> pool;
+
+        Query(Input in, List<OilLayout> pool) {
+            this.inQuery = new boolean[in.n2];
+            this.layoutVolumes = new int[pool.size()];
+            this.pool = pool;
         }
+
+        void flip0(int ij) {
+            if (inQuery[ij]) {
+                for (int x = 0; x < pool.size(); x++) layoutVolumes[x] -= pool.get(x).volume[ij];
+                k--;
+            } else {
+                for (int x = 0; x < pool.size(); x++) layoutVolumes[x] += pool.get(x).volume[ij];
+                k++;
+            }
+            inQuery[ij] = !inQuery[ij];
+        }
+
+        double eval0(Sim sim, Input input) {
+            if (k == 0) return -1e100;
+            double[] pr_r = new double[sim.total + 100]; // 占い結果rの生起確率 p(r)
+            for (int x = 0; x < pool.size(); x++) {
+                int s = layoutVolumes[x];
+                Cache c = get(sim, input, k, s);
+                for (int r = 0; r < c.pr_if_x.length; r++) {
+                    pr_r[r + c.lb] += c.pr_if_x[r] * pool.get(x).pxIfR;
+                }
+            }
+            for (int r = 0; r < pr_r.length; r++) {
+                pr_r[r] = log(pr_r[r]);
+            }
+            double info = 0.0;
+            for (int x = 0; x < pool.size(); x++) {
+                int s = layoutVolumes[x];
+                Cache c = get(sim, input, k, s);
+                for (int r = 0; r < c.pr_if_x.length; r++) {
+                    double p_r_x = c.pr_if_x[r];
+                    double ln_p_r_x = c.ln_pr_if_x[r];
+                    if (Double.isInfinite(pr_r[r + c.lb])) {
+                        System.err.println("k="+k+" s="+s+" r="+r+" x="+x+" "+pool.get(x).pxIfR+" "+pool.get(x).lnPRifX);
+                        System.exit(0);
+                    }
+                    info += p_r_x * pool.get(x).pxIfR * (ln_p_r_x - pr_r[r + c.lb]);
+                }
+            }
+            return info * Math.sqrt(k); // コスト 1/√k で割る = √k を掛ける
+        }
+        Cache get(Sim sim, Input input, int k, int s) {
+            Cache c=cache[k][s];
+            if (c != null) {
+                evalcnt_hit++;
+                return c;
+            }
+            double[] pr_r = new double[sim.total + 100]; // 占い結果rの生起確率 p(r)
+            double mu = (k - s) * input.eps + s * (1.0 - input.eps);
+            double sigma = Math.sqrt(k * input.eps * (1.0 - input.eps));
+            int lb = 0;
+            for (int r = (int)Math.round(mu); r >= 0; r--) {
+                double v = sim.likelihood(mu, sigma, r);
+                if (v < SMALL_VALUE) {
+                    lb = r + 1;
+                    break;
+                }
+                pr_r[r] = v;
+            }
+            int ub = 0;
+            for (int r = (int)Math.round(mu) + 1; true; r++) {
+                double v = sim.likelihood(mu, sigma, r);
+                if (v < SMALL_VALUE) {
+                    ub = r;
+                    break;
+                }
+                pr_r[r] = v;
+            }
+            c = new Cache(pr_r, lb, ub);
+            cache[k][s] = c;
+            evalcnt_mis++;
+            return c;
+        }
+
+        void flip(int ij) {
+            long mstart=System.currentTimeMillis();
+            try {
+                flip0(ij);
+            } finally {
+                flipcnt++;
+                fliptim+=(System.currentTimeMillis()-mstart);
+            }
+        }
+        double eval(Sim sim, Input input) {
+            long mstart=System.currentTimeMillis();
+            try {
+                return eval0(sim, input);
+            } finally {
+                evalcnt++;
+                evaltim+=(System.currentTimeMillis()-mstart);
+            }
+        }
+    }
+    static class Cache {
+        int lb;
+        double[] pr_if_x;
+        double[] ln_pr_if_x;
+        Cache(double[] pr_r, int lb, int ub) {
+            this.lb = lb;
+            this.pr_if_x = Arrays.copyOfRange(pr_r, lb, ub);
+            this.ln_pr_if_x = new double[pr_if_x.length];
+            for (int r = 0; r < pr_if_x.length; r++) {
+                ln_pr_if_x[r] = log(pr_if_x[r]);
+            }
+        }
+    }
+    static Cache[][] cache;
+
+    static List<Integer> getDivinationQuery(Input input, List<OilLayout> pool, Sim sim, int t) {
+        // 山登り法で占いを決定
+        Query q = new Query(input, pool);
+        double[] evals = new double[input.n2];
+        List<Integer> indices = new ArrayList<>();
+        for (int ij = 0; ij < input.n2; ij++) {
+            q.flip(ij);
+            evals[ij] = q.eval(sim, input);
+            q.flip(ij);
+            indices.add(ij);
+        }
+        Collections.sort(indices, (a, b) -> Double.compare(evals[b], evals[a]));
+        double currentEval = -1e100;
+        for (int iter = 0; iter < 3; iter++) {
+            boolean changed = false;
+            for (int ij : indices) {
+                if (System.currentTimeMillis() - startTime > 4000) throw new RuntimeException("force quit");
+                q.flip(ij);
+                double nextEval = q.eval(sim, input);
+                if (nextEval > currentEval) { currentEval = nextEval; changed = true; }
+                else q.flip(ij);
+            }
+            if (!changed) break;
+        }
+        List<Integer> coords = new ArrayList<>();
+        for (int i = 0; i < input.n2; i++) if (q.inQuery[i]) coords.add(i);
         if (coords.isEmpty()) coords.add(0);
         return coords;
     }
@@ -311,6 +451,7 @@ public class Main {
             System.err.println(now()+"not support m="+input.m);
             System.exit(0);
         }
+        cache = new Cache[input.n2 + 1][input.total + 1];
 
         Sim sim = new Sim(input, sc);
         State state = new State(input);
@@ -371,9 +512,23 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        if (DEBUG) {
+            System.err.println(now()+" evalcnt.hit="+evalcnt_hit);
+            System.err.println(now()+" evalcnt.mis="+evalcnt_mis);
+            System.err.println(now()+" evalcnt="+evalcnt);
+            System.err.println(now()+" evaltim="+evaltim);
+            System.err.println(now()+" flipcnt="+flipcnt);
+            System.err.println(now()+" fliptim="+fliptim);
+        }
     }
     static class AppException extends RuntimeException {
     }
+    static int evalcnt_hit;
+    static int evalcnt_mis;
+    static int evalcnt;
+    static long evaltim;
+    static int flipcnt;
+    static long fliptim;
     static double log(double v) {
         return (v==0) ? -999 : Math.log(v);
     }
