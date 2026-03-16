@@ -21,6 +21,9 @@ public class Main {
 //            return (double)(next() & 0x7FFFFFFFFFFFFFFFL) / Long.MAX_VALUE;
 //        }
 //        public double random() { return (next() >>> 11) * 0x1.0p-53; }
+        public long next() {
+            return rand.nextLong();
+        }
         public double random() {
             return rand.nextDouble();
         }
@@ -31,12 +34,14 @@ public class Main {
 
     // 油田の配置情報
     static class OilLayout {
+        long hash;
         double lnPRifX;
         double pxIfR;
         int[] topLefts;
         int[] volume;
 
-        OilLayout(double ln, double px, int[] tls, int[] vol) {
+        OilLayout(long hash, double ln, double px, int[] tls, int[] vol) {
+            this.hash = hash;
             this.lnPRifX = ln;
             this.pxIfR = px;
             this.topLefts = tls.clone();
@@ -84,9 +89,11 @@ public class Main {
     // 油田の状態管理（高速化のためのメモ化）
     static class OilState {
         List<List<Integer>> topLeftQueryVolumes;
+        long[] hashes;
         OilState(int n2) {
             topLeftQueryVolumes = new ArrayList<>(n2);
             for (int i = 0; i < n2; i++) topLeftQueryVolumes.add(new ArrayList<>());
+            hashes = new long[n2];
         }
     }
 
@@ -95,18 +102,31 @@ public class Main {
         int[] topLefts;
         int[] volumes;
         List<Integer> queryVolumes = new ArrayList<>();
+        long hash;
         Input input;
 
         State(Input input) {
             this.input = input;
             this.oilStates = new OilState[input.m];
-            for (int i = 0; i < input.m; i++) oilStates[i] = new OilState(input.n2);
+            for (int i = 0; i < input.m; i++) {
+                oilStates[i] = new OilState(input.n2);
+                // Zobrist Hashの初期化
+                if (i > 0 && Arrays.equals(input.oils[i-1].coordinateIds, input.oils[i].coordinateIds)) {
+                    this.oilStates[i].hashes = this.oilStates[i-1].hashes;
+                } else {
+                    for (int ij = 0; ij < input.n2; ij++) this.oilStates[i].hashes[ij] = rng.next();
+                }
+            }
             this.topLefts = new int[input.m];
-            this.volumes = new int[input.n2];
+            this.volumes = input.getVolume(topLefts);
+            this.hash = 0;
+            for (OilState os : oilStates) this.hash ^= os.hashes[0];
         }
 
         void moveTo(int oilId, int newTopLeft) {
             OilState os = oilStates[oilId];
+//          hash ^= os.hashes[topLefts[oilId]] ^ os.hashes[newTopLeft];
+            hash += -os.hashes[topLefts[oilId]] + os.hashes[newTopLeft];
             for (int q = 0; q < queryVolumes.size(); q++) {
                 int diff = os.topLeftQueryVolumes.get(newTopLeft).get(q) 
                          - os.topLeftQueryVolumes.get(topLefts[oilId]).get(q);
@@ -319,14 +339,21 @@ public class Main {
         List<OilLayout> pool = new ArrayList<>();
 
         // M=2専用の全配置生成
-        OilShape oilA = input.oils[0], oilB = input.oils[1];
-        for (int iA = 0; iA < input.n - oilA.maxI; iA++) {
-            for (int jA = 0; jA < input.n - oilA.maxJ; jA++) {
-                state.moveTo(0, iA * input.n + jA);
-                for (int iB = 0; iB < input.n - oilB.maxI; iB++) {
-                    for (int jB = 0; jB < input.n - oilB.maxJ; jB++) {
-                        state.moveTo(1, iB * input.n + jB);
-                        pool.add(new OilLayout(0.0, 0.0, state.topLefts, input.getVolume(state.topLefts)));
+        if (input.m == 2) {
+            // プール内の重複管理と配置更新
+            Map<Long, Double> hashLikelihood = new HashMap<>();
+            OilShape oilA = input.oils[0], oilB = input.oils[1];
+            for (int iA = 0; iA < input.n - oilA.maxI; iA++) {
+                for (int jA = 0; jA < input.n - oilA.maxJ; jA++) {
+                    state.moveTo(0, iA * input.n + jA);
+                    for (int iB = 0; iB < input.n - oilB.maxI; iB++) {
+                        for (int jB = 0; jB < input.n - oilB.maxJ; jB++) {
+                            state.moveTo(1, iB * input.n + jB);
+                            if (!hashLikelihood.containsKey(state.hash)) {
+                                hashLikelihood.put(state.hash, 0.0);
+                                pool.add(new OilLayout(state.hash, 0, 0, state.topLefts, state.volumes));
+                            }
+                        }
                     }
                 }
             }
@@ -350,7 +377,7 @@ public class Main {
             }
             for (OilLayout l : pool) l.pxIfR /= sumPx;
 
-            if (DEBUG) System.err.println(now()+t+" pool.get(0).pxIfR="+pool.get(0).pxIfR);
+            if (DEBUG) System.err.println(now()+t+" pool.size()="+pool.size()+" pool.get(0).pxIfR="+pool.get(0).pxIfR);
             // 推測または占い
             if (pool.get(0).pxIfR > 0.8) {
                 BitSet bestBits = input.getPositives(pool.get(0).topLefts);
