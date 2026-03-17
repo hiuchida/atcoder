@@ -159,6 +159,7 @@ public class Main {
             this.rem = n * n * 2; this.sc = sc;
         }
 
+        // 誤差関数の近似
         double erf(double x) {
             double p = 0.3275911, a1 = 0.254829592, a2 = -0.284496736, a3 = 1.421413741, a4 = -1.453152027, a5 = 1.061405429;
             int sign = (x < 0) ? -1 : 1;
@@ -168,14 +169,14 @@ public class Main {
             return sign * y;
         }
 
-        double normalCdf(double m, double s, double x) {
-            return 0.5 * (1.0 + erf((x - m) / (s * Math.sqrt(2.0))));
+        double normalCdf(double mu, double sigma, double x) {
+            return 0.5 * (1.0 + erf((x - mu) / (sigma * Math.sqrt(2.0))));
         }
 
-        double likelihood(double m, double s, int r) {
-            double b = r + 0.5;
-            if (r == 0) return normalCdf(m, s, b);
-            return normalCdf(m, s, b) - normalCdf(m, s, r - 0.5);
+        double likelihood(double mu, double sigma, int res) {
+            double b = res + 0.5;
+            if (res == 0) return normalCdf(mu, sigma, b);
+            return normalCdf(mu, sigma, b) - normalCdf(mu, sigma, res - 0.5);
         }
 
         int query(List<Integer> coords) {
@@ -226,6 +227,7 @@ public class Main {
         }
 
         double getLnPRifX(OilState[] oilStates, int[] layoutVol, int[] topLefts) {
+            // 失敗した配置との比較
             for (List<Integer> f : failed) {
                 int count = 0;
                 for (int i = 0; i < n2; i++) if (layoutVol[i] > 0) count++;
@@ -320,10 +322,6 @@ public class Main {
                 for (int r = 0; r < c.pr_if_x.length; r++) {
                     double p_r_x = c.pr_if_x[r];
                     double ln_p_r_x = c.ln_pr_if_x[r];
-                    if (Double.isInfinite(pr_r[r + c.lb])) {
-                        System.err.println("k="+k+" s="+s+" r="+r+" x="+x+" "+pool.get(x).pxIfR+" "+pool.get(x).lnPRifX);
-                        System.exit(0);
-                    }
                     info += p_r_x * pool.get(x).pxIfR * (ln_p_r_x - pr_r[r + c.lb]);
                 }
             }
@@ -433,7 +431,9 @@ public class Main {
             if (!changed) break;
         }
         List<Integer> coords = new ArrayList<>();
-        for (int i = 0; i < input.n2; i++) if (q.inQuery[i]) coords.add(i);
+        for (int i = 0; i < input.n2; i++) {
+            if (q.inQuery[i]) coords.add(i);
+        }
         if (coords.isEmpty()) coords.add(0);
         return coords;
     }
@@ -487,7 +487,7 @@ public class Main {
         }
         System.err.println(now()+" pool.size()="+pool.size()+" total="+input.total);
 
-        for (int t=0; true; t++) {
+        for (int t = 0; true; t++) {
             if (System.currentTimeMillis() - startTime > 2900) sim.giveup(input, pool);
             // 各配置の対数尤度を更新
             for (OilLayout l : pool) {
@@ -496,6 +496,7 @@ public class Main {
             Collections.shuffle(pool, rand);
             pool.sort((a, b) -> Double.compare(b.lnPRifX, a.lnPRifX));
 
+            // 事後確率の計算
             double maxLn = pool.get(0).lnPRifX, sumPx = 0;
             for (OilLayout l : pool) {
                 l.pxIfR = Math.exp(l.lnPRifX - maxLn);
@@ -504,6 +505,7 @@ public class Main {
             for (OilLayout l : pool) l.pxIfR /= sumPx;
 
             if (DEBUG) System.err.println(now()+t+" pool.get(0).pxIfR="+pool.get(0).pxIfR);
+            // 推測または占い
             if (pool.get(0).pxIfR > 0.8) {
                 BitSet bestBits = input.getPositives(pool.get(0).topLefts);
                 List<Integer> T = new ArrayList<>();

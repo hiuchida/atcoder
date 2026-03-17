@@ -319,10 +319,6 @@ public class Main {
                 for (int r = 0; r < c.pr_if_x.length; r++) {
                     double p_r_x = c.pr_if_x[r];
                     double ln_p_r_x = c.ln_pr_if_x[r];
-                    if (Double.isInfinite(pr_r[r + c.lb])) {
-                        System.err.println("k="+k+" s="+s+" r="+r+" x="+x+" "+pool.get(x).pxIfR+" "+pool.get(x).lnPRifX);
-                        System.exit(0);
-                    }
                     info += p_r_x * pool.get(x).pxIfR * (ln_p_r_x - pr_r[r + c.lb]);
                 }
             }
