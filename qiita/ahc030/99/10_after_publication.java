@@ -248,7 +248,7 @@ class Xorshift
     double random()
     {
         next();
-        return (double)(x_) * (1.0 / (double)(Long.MAX_VALUE));
+        return (double)(x_) * (1.0 / (double)(Long.MAX_VALUE)); //java UINT64_MAXからINT64_MAX相当
     }
 
     // [a, b] or [b, a]
@@ -257,9 +257,9 @@ class Xorshift
     long next()
     {
         x_ ^= x_ << 13;
-        x_ ^= x_ >> 17;
+        x_ ^= x_ >>> 17; //java 論理シフト
         x_ ^= x_ << 5;
-        x_ &= max();
+        x_ &= max(); //java 64ビットを63ビット
         return x_;
     }
 
@@ -269,7 +269,7 @@ class Xorshift
     }
 
     long min() { return 0; }
-    long max() { return Long.MAX_VALUE; }
+    long max() { return Long.MAX_VALUE; } //java UINT64_MAXからINT64_MAX相当
 
     long x_;
 }
@@ -380,7 +380,7 @@ double get_time()
     // 2回目以降のget_time()の呼び出しでも
     // プログラムが始まってからの時間を計測できる
     long now = System.currentTimeMillis();
-    return (now - start) / 1000.0;
+    return (now - start) / 1000.0; //java ミリ秒単位の整数を秒単位の小数
 }
 
 Input read_input()
@@ -1273,8 +1273,8 @@ void simulated_annealing(
             int dj = dij[1];
             int i2 = state.top_lefts.get(oil_id) / input.n + di;
             int j2 = state.top_lefts.get(oil_id) % input.n + dj;
-            if (i2 < 0) i2 += Integer.MAX_VALUE;
-            if (j2 < 0) j2 += Integer.MAX_VALUE;
+            if (i2 < 0) i2 += Integer.MAX_VALUE; //java size_tは負の数にならない
+            if (j2 < 0) j2 += Integer.MAX_VALUE; //java size_tは負の数にならない
             if (i2 < input.n - oil.max_i && j2 < input.n - oil.max_j)
             {
                 int bk = state.top_lefts.get(oil_id);
@@ -1355,16 +1355,16 @@ void simulated_annealing(
             int dbj = dbij.second;
             int ai2 = bi + dai;
             int aj2 = bj + daj;
-            if (ai2 < 0) ai2 += Integer.MAX_VALUE;
-            if (aj2 < 0) aj2 += Integer.MAX_VALUE;
+            if (ai2 < 0) ai2 += Integer.MAX_VALUE; //java size_tは負の数にならない
+            if (aj2 < 0) aj2 += Integer.MAX_VALUE; //java size_tは負の数にならない
             if (ai2 >= input.n - oil_a.max_i || aj2 >= input.n - oil_a.max_j)
             {
                 continue;
             }
             int bi2 = ai + dbi;
             int bj2 = aj + dbj;
-            if (bi2 < 0) bi2 += Integer.MAX_VALUE;
-            if (bj2 < 0) bj2 += Integer.MAX_VALUE;
+            if (bi2 < 0) bi2 += Integer.MAX_VALUE; //java size_tは負の数にならない
+            if (bj2 < 0) bj2 += Integer.MAX_VALUE; //java size_tは負の数にならない
             if (bi2 >= input.n - oil_b.max_i || bj2 >= input.n - oil_b.max_j)
             {
                 continue;

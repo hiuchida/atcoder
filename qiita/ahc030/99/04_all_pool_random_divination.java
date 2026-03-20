@@ -176,7 +176,7 @@ class Xorshift
     double random()
     {
         next();
-        return (double)(x_) * (1.0 / (double)(Long.MAX_VALUE));
+        return (double)(x_) * (1.0 / (double)(Long.MAX_VALUE)); //java UINT64_MAXからINT64_MAX相当
     }
 
     // [a, b] or [b, a]
@@ -185,9 +185,9 @@ class Xorshift
     long next()
     {
         x_ ^= x_ << 13;
-        x_ ^= x_ >> 17;
+        x_ ^= x_ >>> 17; //java 論理シフト
         x_ ^= x_ << 5;
-        x_ &= max();
+        x_ &= max(); //java 64ビットを63ビット
         return x_;
     }
 
@@ -198,7 +198,7 @@ class Xorshift
     }
 
     long min() { return 0; }
-    long max() { return Long.MAX_VALUE; }
+    long max() { return Long.MAX_VALUE; } //java UINT64_MAXからINT64_MAX相当
 
     long x_;
 }
@@ -281,7 +281,7 @@ double get_time()
     // 2回目以降のget_time()の呼び出しでも
     // プログラムが始まってからの時間を計測できる
     long now = System.currentTimeMillis();
-    return (now - start) / 1000.0;
+    return (now - start) / 1000.0; //java ミリ秒単位の整数を秒単位の小数
 }
 
 Input read_input()
