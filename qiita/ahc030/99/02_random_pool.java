@@ -246,7 +246,7 @@ class Xorshift
         return x_;
     }
 
-    boolean gen_boolean(double p)
+    boolean gen_bool(double p)
     {
         return random() < p;
     }

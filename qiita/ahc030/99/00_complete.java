@@ -258,7 +258,7 @@ class Xorshift
         return x_;
     }
 
-    boolean gen_boolean(double p)
+    boolean gen_bool(double p)
     {
         return random() < p;
     }
@@ -1274,7 +1274,7 @@ void simulated_annealing(
                                 new OilLayout(state.hash, next, 0.0, state.top_lefts, state.volumes));
                     }
                 }
-                if (crt <= next || rng.gen_boolean(exp((next - crt) / temp)))
+                if (crt <= next || rng.gen_bool(exp((next - crt) / temp)))
                 {
                     crt = next;
                 }
@@ -1303,7 +1303,7 @@ void simulated_annealing(
                             new OilLayout(state.hash, next, 0.0, state.top_lefts, state.volumes));
                 }
             }
-            if (crt <= next || rng.gen_boolean(exp((next - crt) / temp)))
+            if (crt <= next || rng.gen_bool(exp((next - crt) / temp)))
             {
                 crt = next;
             }
@@ -1361,7 +1361,7 @@ void simulated_annealing(
                         new OilLayout(state.hash, next, 0.0, state.top_lefts, state.volumes));
                 }
             }
-            if (crt <= next || rng.gen_boolean(exp((next - crt) / temp)))
+            if (crt <= next || rng.gen_bool(exp((next - crt) / temp)))
             {
                 crt = next;
             }

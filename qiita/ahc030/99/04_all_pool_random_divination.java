@@ -191,7 +191,7 @@ class Xorshift
         return x_;
     }
 
-    boolean gen_boolean(double p)
+    boolean gen_bool(double p)
     {
         double r = random();
         return r < p;
@@ -891,7 +891,7 @@ IntList getDivinationQuery(
     IntList query_coordinates = new IntList();
     for (int ij = 0; ij < input.n2; ++ij)
     {
-        if (rng.gen_boolean(0.5))
+        if (rng.gen_bool(0.5))
         {
             query_coordinates.add(ij);
         }
