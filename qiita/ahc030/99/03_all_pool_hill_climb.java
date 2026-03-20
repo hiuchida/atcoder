@@ -1,7 +1,6 @@
 import java.util.*;
 public class Main {
     Scanner sc = new Scanner(System.in);
-    Random rand = new Random(0);
     long start = System.currentTimeMillis();
     double erf0(double x) {
         // 誤差関数の近似
@@ -17,6 +16,14 @@ public class Main {
     double log(double a) { return Math.log(a); }
     int max(int a, int b) { return Math.max(a, b); }
     long round(double a) { return Math.round(a); }
+    void shuffle(List<OilLayout> list, Xorshift rnd) {
+        int size = list.size();
+        for (int i=size; i>1; i--) {
+            int p=i-1;
+            int q=(int)rnd.randrange(i);
+            list.set(p, list.set(q, list.get(p)));
+        }
+    }
     double sqrt(double a) { return Math.sqrt(a); }
     class PairDouble {
         double first;
@@ -1072,7 +1079,7 @@ int main()
             layout.ln_pR_if_x = sim.get_ln_pR_if_x(state.oil_states, layout.volume, layout.top_lefts);
         }
         // 同じ尤度の配置を散らすためにシャッフル
-        Collections.shuffle(pool, rand);
+        shuffle(pool, rng);
         // 対数尤度が高い順に配置候補をソート
         sort_pool(pool);
 
