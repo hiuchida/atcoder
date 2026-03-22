@@ -243,6 +243,31 @@ public class Main {
             return list.iterator();
         }
     }
+    class PairIntList implements Iterable<PairInt> {
+        ArrayList<PairInt> list;
+        PairIntList() {
+            this.list = new ArrayList<>();
+        }
+        PairIntList(int size, PairInt def) {
+            this.list = new ArrayList<>(size);
+            for (int i = 0; i < size; i++) {
+                list.add(def);
+            }
+        }
+        void add(PairInt val) {
+            list.add(val);
+        }
+        PairInt get(int idx) {
+            return list.get(idx);
+        }
+        int size() {
+            return list.size();
+        }
+        @Override
+        public Iterator<PairInt> iterator() {
+            return list.iterator();
+        }
+    }
 /*
 ランダムに占ってベイズ推定
 */
@@ -332,7 +357,7 @@ class OilShape
 {
     int max_i, max_j;                      // 油田が収まる正方形の大きさ
     IntList coordinate_ids;            // 座標(i,j)の組を1変数で表したもの
-    ArrayList<PairInt> coordinates; // 座標(i,j)の組
+    PairIntList coordinates; // 座標(i,j)の組
     // 座標(i,j)の組をマスクしたもの
     // 島の大きさN<=20なので、20*20のビットセットで表現できる
     BitSet mask = new BitSet(20 * 20);
@@ -402,7 +427,7 @@ Input read_input()
     {
         int t_size;
         t_size = sc.nextInt();
-        input.oils.get(oil_id).coordinates = new ArrayList<>(t_size);
+        input.oils.get(oil_id).coordinates = new PairIntList();
         for (int i = 0; i < t_size; ++i)
         {
             int x, y;

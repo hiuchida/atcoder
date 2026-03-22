@@ -307,6 +307,47 @@ public class Main {
             return list.get(idx);
         }
     }
+    class PairIntList implements Comparable<PairIntList>, Iterable<PairInt> {
+        ArrayList<PairInt> list;
+        PairIntList() {
+            this.list = new ArrayList<>();
+        }
+        PairIntList(int size, PairInt def) {
+            this.list = new ArrayList<>(size);
+            for (int i = 0; i < size; i++) {
+                list.add(def);
+            }
+        }
+        void add(PairInt val) {
+            list.add(val);
+        }
+        void clear() {
+            list.clear();
+        }
+        PairInt get(int idx) {
+            return list.get(idx);
+        }
+        int size() {
+            return list.size();
+        }
+        public void sort(Comparator<PairInt> c) {
+            list.sort(c);
+        }
+        @Override
+        public int compareTo(PairIntList that) {
+            for (int i = 0; i < size(); i++) {
+                PairInt pi1 = this.get(i);
+                PairInt pi2 = that.get(i);
+                int cmp = PairInt.compare(pi1, pi2);
+                if (cmp!=0) return cmp;
+            }
+            return 0;
+        }
+        @Override
+        public Iterator<PairInt> iterator() {
+            return list.iterator();
+        }
+    }
     class LongDoubleMap {
         HashMap<Long, Double> map = new HashMap<>();
         void put(long key, double val) {
@@ -415,19 +456,13 @@ class OilShape implements Comparable<OilShape>
 {
     int max_i, max_j;                      // 油田が収まる正方形の大きさ
     IntList coordinate_ids;            // 座標(i,j)の組を1変数で表したもの
-    ArrayList<PairInt> coordinates; // 座標(i,j)の組
+    PairIntList coordinates; // 座標(i,j)の組
     // 座標(i,j)の組をマスクしたもの
     // 島の大きさN<=20なので、20*20のビットセットで表現できる
     BitSet mask = new BitSet(20 * 20);
     @Override
     public int compareTo(OilShape that) {
-        for (int i = 0; i < coordinates.size(); i++) {
-            PairInt pi1 = that.coordinates.get(i);
-            PairInt pi2 = this.coordinates.get(i);
-            int cmp = PairInt.compare(pi1, pi2);
-            if (cmp!=0) return cmp;
-        }
-        return 0;
+        return this.coordinates.compareTo(that.coordinates);
     }
 }
 
@@ -510,7 +545,7 @@ Input read_input()
     {
         int t_size;
         t_size = sc.nextInt();
-        input.oils.get(oil_id).coordinates = new ArrayList<>(t_size);
+        input.oils.get(oil_id).coordinates = new PairIntList();
         for (int i = 0; i < t_size; ++i)
         {
             int x, y;
@@ -1248,7 +1283,7 @@ IntList getDivinationQuery(
     }
 
     // クエリに含める座標をランダムにソート
-    ArrayList<PairInt> evaluation_values = new ArrayList<>();
+    PairIntList evaluation_values = new PairIntList();
     for (int ij : no_info_coordinates)
     {
         int evaluation_value = (int)(pool.get(0).volume.get(ij) * 1000 + rng.randrange(1000));
@@ -1343,7 +1378,7 @@ void simulated_annealing(
     final Input input,
     final Sim sim,
     State state,
-    final ArrayList<ArrayList<ArrayList<PairInt>>> swaps,
+    final ArrayList<ArrayList<PairIntList>> swaps,
     LongDoubleMap hash_ln_lilelihood,
     int ITER)
 {
@@ -1503,7 +1538,7 @@ void simulated_annealing(
     sort_pool(pool);
 }
 
-ArrayList<ArrayList<ArrayList<PairInt>>> get_swaps(final Input input)
+ArrayList<ArrayList<PairIntList>> get_swaps(final Input input)
 {
     // 2つのポリオミノの位置を入れ替える操作を行うために、入れ替えた際にどれだけ位置をずらせばよいかを予め計算しておく
     // swaps[oil_id_a][oil_id_b] := oil_id_aとoil_id_b+Δが出来るだけ一致するようなΔ
@@ -1530,11 +1565,11 @@ ArrayList<ArrayList<ArrayList<PairInt>>> get_swaps(final Input input)
     // .c.
     // となり、元の配置からのずれを減らすことができる。
 
-    ArrayList<ArrayList<ArrayList<PairInt>>> swaps = new ArrayList<>();
+    ArrayList<ArrayList<PairIntList>> swaps = new ArrayList<>(input.m);
     for (int i = 0; i < input.m; i++) {
-        swaps.add(new ArrayList<>());
+        swaps.add(new ArrayList<>(input.m));
         for (int j = 0; j < input.m; j++) {
-            swaps.get(i).add(new ArrayList<>());
+            swaps.get(i).add(new PairIntList());
         }
     }
     for (int oil_id_a = 0; oil_id_a < input.m; ++oil_id_a)

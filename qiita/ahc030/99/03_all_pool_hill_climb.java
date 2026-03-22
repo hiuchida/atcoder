@@ -270,6 +270,41 @@ public class Main {
             return list.iterator();
         }
     }
+    class PairIntList implements Comparable<PairIntList>, Iterable<PairInt> {
+        ArrayList<PairInt> list;
+        PairIntList() {
+            this.list = new ArrayList<>();
+        }
+        PairIntList(int size, PairInt def) {
+            this.list = new ArrayList<>(size);
+            for (int i = 0; i < size; i++) {
+                list.add(def);
+            }
+        }
+        void add(PairInt val) {
+            list.add(val);
+        }
+        PairInt get(int idx) {
+            return list.get(idx);
+        }
+        int size() {
+            return list.size();
+        }
+        @Override
+        public int compareTo(PairIntList that) {
+            for (int i = 0; i < size(); i++) {
+                PairInt pi1 = this.get(i);
+                PairInt pi2 = that.get(i);
+                int cmp = PairInt.compare(pi1, pi2);
+                if (cmp!=0) return cmp;
+            }
+            return 0;
+        }
+        @Override
+        public Iterator<PairInt> iterator() {
+            return list.iterator();
+        }
+    }
 /*
 相互情報量を用いて占う
 */
@@ -358,19 +393,13 @@ class OilShape implements Comparable<OilShape>
 {
     int max_i, max_j;                      // 油田が収まる正方形の大きさ
     IntList coordinate_ids;            // 座標(i,j)の組を1変数で表したもの
-    ArrayList<PairInt> coordinates; // 座標(i,j)の組
+    PairIntList coordinates; // 座標(i,j)の組
     // 座標(i,j)の組をマスクしたもの
     // 島の大きさN<=20なので、20*20のビットセットで表現できる
     BitSet mask = new BitSet(20 * 20);
     @Override
     public int compareTo(OilShape that) {
-        for (int i = 0; i < coordinates.size(); i++) {
-            PairInt pi1 = that.coordinates.get(i);
-            PairInt pi2 = this.coordinates.get(i);
-            int cmp = PairInt.compare(pi1, pi2);
-            if (cmp!=0) return cmp;
-        }
-        return 0;
+        return this.coordinates.compareTo(that.coordinates);
     }
 }
 
@@ -438,7 +467,7 @@ Input read_input()
     {
         int t_size;
         t_size = sc.nextInt();
-        input.oils.get(oil_id).coordinates = new ArrayList<>(t_size);
+        input.oils.get(oil_id).coordinates = new PairIntList();
         for (int i = 0; i < t_size; ++i)
         {
             int x, y;
