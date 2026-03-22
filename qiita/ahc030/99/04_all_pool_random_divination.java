@@ -163,6 +163,27 @@ public class Main {
             return list.get(idx);
         }
     }
+    class DoubleListList {
+        ArrayList<DoubleList> list;
+        DoubleListList() {
+            this.list = new ArrayList<>();
+        }
+        DoubleListList(int size1, int size2, double def) {
+            this.list = new ArrayList<>(size1);
+            for (int i = 0; i < size1; i++) {
+                list.add(new DoubleList(size2, def));
+            }
+        }
+        void add(DoubleList val) {
+            list.add(val);
+        }
+        double get(int idx1, int idx2) {
+            return list.get(idx1).get(idx2);
+        }
+        int size() {
+            return list.size();
+        }
+    }
     class IntList implements Iterable<Integer> {
         ArrayList<Integer> list;
         IntList() {
@@ -538,7 +559,7 @@ class Sim
     ArrayList<ArrayList<ArrayList<PairDouble>>> pr_if_x;
     // クエリごとにあり得る埋蔵量総量Sごとに
     // 埋蔵量Sのときにそのクエリで得られた結果になる確率P(r|S)の対数を記録
-    ArrayList<DoubleList> ln_pr_if_s_query;
+    DoubleListList ln_pr_if_s_query;
     // 残りクエリ回数. 2*N*N回までクエリを投げられる
     int rem;
 
@@ -559,7 +580,7 @@ class Sim
             pr_if_x.add(new ArrayList<>(total + 1));
             for (int S = 0; S <= total; ++S) pr_if_x.get(k).add(new ArrayList<>());
         }
-        this.ln_pr_if_s_query = new ArrayList<>();
+        this.ln_pr_if_s_query = new DoubleListList();
         for (int k = 1; k <= n * n; ++k)
         {
             for (int S = 0; S <= total; ++S)
@@ -848,7 +869,7 @@ class Sim
             // 配置xにおけるSを求めることで、
             // log(P(ret|x)) = log(P(ret|S))を求めることができる
             byte S = get_query_volume(oil_states, q, top_lefts);
-            ln_pR_if_x += ln_pr_if_s_query.get(q).get(S);
+            ln_pR_if_x += ln_pr_if_s_query.get(q, S);
         }
         return ln_pR_if_x;
     }
@@ -877,7 +898,7 @@ class Sim
         double prob = 0.0;
         for (int q = 0; q < ln_pr_if_s_query.size(); ++q)
         {
-            prob += ln_pr_if_s_query.get(q).get(state.query_volumes.get(q));
+            prob += ln_pr_if_s_query.get(q, state.query_volumes.get(q));
         }
         return prob;
     }
