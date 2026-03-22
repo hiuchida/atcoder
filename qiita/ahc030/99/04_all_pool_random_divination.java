@@ -16,14 +16,6 @@ public class Main {
     double log(double a) { return Math.log(a); }
     int max(int a, int b) { return Math.max(a, b); }
     long round(double a) { return Math.round(a); }
-    void shuffle(List<OilLayout> list, Xorshift rnd) {
-        int size = list.size();
-        for (int i=size; i>1; i--) {
-            int p=i-1;
-            int q=(int)rnd.randrange(i);
-            list.set(p, list.set(q, list.get(p)));
-        }
-    }
     double sqrt(double a) { return Math.sqrt(a); }
     class PairDouble {
         double first;
@@ -367,6 +359,45 @@ class Xorshift
 }
 Xorshift rng = new Xorshift(1);
 
+class OilLayoutList implements Iterable<OilLayout> {
+    ArrayList<OilLayout> list;
+    OilLayoutList() {
+        this.list = new ArrayList<>();
+    }
+    OilLayoutList(int size) {
+        this.list = new ArrayList<>(size);
+    }
+    void add(OilLayout val) {
+        list.add(val);
+    }
+    void remove(int idx) {
+        list.remove(idx);
+    }
+    OilLayout get(int idx) {
+        return list.get(idx);
+    }
+    int size() {
+        return list.size();
+    }
+    void resize(int size) {
+        while (list.size() > size) list.remove(list.size() - 1);
+    }
+    void shuffle(Xorshift rnd) {
+        int size = list.size();
+        for (int i=size; i>1; i--) {
+            int p=i-1;
+            int q=(int)rnd.randrange(i);
+            list.set(p, list.set(q, list.get(p)));
+        }
+    }
+    public void sort(Comparator<OilLayout> c) {
+        list.sort(c);
+    }
+    @Override
+    public Iterator<OilLayout> iterator() {
+        return list.iterator();
+    }
+}
 // 油田の配置についての情報
 class OilLayout
 {
@@ -987,9 +1018,9 @@ class Query
     BoolList in_query;  // ある位置の油の埋蔵量がクエリされているか : N*N個
     ByteList volume; // 油田の埋蔵量のリスト : M個
     int coordinate_size; // クエリに含めるマスの数
-    ArrayList<OilLayout> pool; // 油田の状態についてのリスト
+    OilLayoutList pool; // 油田の状態についてのリスト
 
-    Query(final Input input, ArrayList<OilLayout> pool)
+    Query(final Input input, OilLayoutList pool)
     {
         this.in_query = new BoolList(input.n2, false);
         this.volume = new ByteList(pool.size(), (byte)0);
@@ -1034,7 +1065,7 @@ class Query
 }
 
 // プールの確率を正規化する
-void normalize_pool(ArrayList<OilLayout> pool)
+void normalize_pool(OilLayoutList pool)
 {
     double total = 0;
     for (final var layout : pool)
@@ -1048,7 +1079,7 @@ void normalize_pool(ArrayList<OilLayout> pool)
 }
 
 // プールの油田配置の全座標の埋蔵量を計算する
-void set_volume(ArrayList<OilLayout> pool, final Input input)
+void set_volume(OilLayoutList pool, final Input input)
 {
     for (var layout : pool)
     {
@@ -1058,7 +1089,7 @@ void set_volume(ArrayList<OilLayout> pool, final Input input)
 
 // 占いクエリを取得する
 IntList getDivinationQuery(
-    final Input input, ArrayList<OilLayout> pool)
+    final Input input, OilLayoutList pool)
 {
     // クエリを作成
     IntList query_coordinates = new IntList();
@@ -1074,7 +1105,7 @@ IntList getDivinationQuery(
     return query_coordinates;
 }
 
-void sort_pool(ArrayList<OilLayout> pool)
+void sort_pool(OilLayoutList pool)
 {
     pool.sort((a, b) -> Double.compare(b.ln_pR_if_x, a.ln_pR_if_x));
 }
@@ -1085,7 +1116,7 @@ int main()
 
     Sim sim = new Sim(input);
     State state = new State(input);
-    ArrayList<OilLayout> pool = new ArrayList<>();
+    OilLayoutList pool = new OilLayoutList();
     int ITER = 4000000 / (2 * input.n2);
     // 全ての配置を生成
     assert(input.m == 2);
@@ -1131,7 +1162,7 @@ int main()
             layout.ln_pR_if_x = sim.get_ln_pR_if_x(state.oil_states, layout.volume, layout.top_lefts);
         }
         // 同じ尤度の配置を散らすためにシャッフル
-        shuffle(pool, rng);
+        pool.shuffle(rng);
         // 対数尤度が高い順に配置候補をソート
         sort_pool(pool);
 
