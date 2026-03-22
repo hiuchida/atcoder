@@ -70,6 +70,27 @@ public class Main {
             return list.size();
         }
     }
+    class BoolListList {
+        ArrayList<ArrayList<Boolean>> list;
+        BoolListList() {
+            list = new ArrayList<>();
+        }
+        BoolListList(int size1, int size2, boolean def) {
+            list = new ArrayList<>(size1);
+            for (int i = 0; i < size1; i++) {
+                list.add(new ArrayList<>(size2));
+                for (int j = 0; j < size2; j++) {
+                    list.get(i).add(def);
+                }
+            }
+        }
+        void set(int i, int j, boolean val) {
+            list.get(i).set(j, val);
+        }
+        boolean get(int i, int j) {
+            return list.get(i).get(j);
+        }
+    }
     class ByteList {
         ArrayList<Byte> list;
         ByteList() {
@@ -661,20 +682,16 @@ class Sim
         que.add(new PairInt(n / 2, n / 2));
         IntList list = new IntList();
         int rem = total;
-        ArrayList<ArrayList<Boolean>> used = new ArrayList<>(n);
-        for (int i = 0; i < n; i++) {
-            used.add(new ArrayList<>(n));
-            for (int j = 0; j < n; j++) used.get(i).add(false);
-        }
+        BoolListList used = new BoolListList(n, n, false);
 
         while (!que.isEmpty())
         {
             PairInt pi = que.poll();
             int i = pi.first;
             int j = pi.second;
-            if (used.get(i).get(j))
+            if (used.get(i, j))
                 continue;
-            used.get(i).set(j, true);
+            used.set(i, j, true);
 
             int ret = mine(i, j);
             if (ret > 0)
