@@ -322,6 +322,28 @@ public class Main {
             Collections.reverse(list);
         }
     }
+    class PairDoubleIntList implements Iterable<PairDoubleInt> {
+        ArrayList<PairDoubleInt> list;
+        PairDoubleIntList() {
+            this.list = new ArrayList<>();
+        }
+        PairDoubleIntList(int size, PairDoubleInt def) {
+            this.list = new ArrayList<>(size);
+            for (int i = 0; i < size; i++) {
+                list.add(def);
+            }
+        }
+        void add(PairDoubleInt val) {
+            list.add(val);
+        }
+        public void sort(Comparator<PairDoubleInt> c) {
+            list.sort(c);
+        }
+        @Override
+        public Iterator<PairDoubleInt> iterator() {
+            return list.iterator();
+        }
+    }
     class PairIntList implements Comparable<PairIntList>, Iterable<PairInt> {
         ArrayList<PairInt> list;
         PairIntList() {
@@ -1232,7 +1254,7 @@ IntList getDivinationQuery(
     // クエリを作成
     Query query = new Query(input, pool);
     // 全ての配置が同じ埋蔵量だと想定される座標以外で1点だけ占うクエリを評価する
-    ArrayList<PairDoubleInt> query_coordinate_evals = new ArrayList<>(input.n2);
+    PairDoubleIntList query_coordinate_evals = new PairDoubleIntList();
     for (int ij = 0; ij < input.n2; ++ij)
     {
         if (!same.get(ij))
