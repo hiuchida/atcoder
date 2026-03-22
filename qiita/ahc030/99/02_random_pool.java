@@ -298,6 +298,30 @@ public class Main {
             return list.get(idx);
         }
     }
+    class PairDoubleList {
+        ArrayList<PairDouble> list;
+        PairDoubleList() {
+            this.list = new ArrayList<>();
+        }
+        PairDoubleList(int size, PairDouble def) {
+            this.list = new ArrayList<>(size);
+            for (int i = 0; i < size; i++) {
+                list.add(def);
+            }
+        }
+        void add(PairDouble val) {
+            list.add(val);
+        }
+        PairDouble get(int idx) {
+            return list.get(idx);
+        }
+        int size() {
+            return list.size();
+        }
+        void reverse() {
+            Collections.reverse(list);
+        }
+    }
     class PairIntList implements Comparable<PairIntList>, Iterable<PairInt> {
         ArrayList<PairInt> list;
         PairIntList() {
@@ -695,7 +719,7 @@ class Sim
     // クエリサイズk、埋蔵量総量Sの時に占い結果がrになる確率を記録しておけばいい
     // 小さすぎる確率は無視するため、配列はr=lb以上のものだけ格納する。
     // pr_if_x[k][S][r-lb] = (prob, log(prob))
-    ArrayList<ArrayList<ArrayList<PairDouble>>> pr_if_x;
+    ArrayList<ArrayList<PairDoubleList>> pr_if_x;
     // クエリごとにあり得る埋蔵量総量Sごとに
     // 埋蔵量Sのときにそのクエリで得られた結果になる確率P(r|S)の対数を記録
     DoubleListList ln_pr_if_s_query;
@@ -717,7 +741,7 @@ class Sim
         this.pr_if_x = new ArrayList<>(n * n + 1);
         for (int k = 0; k <= n * n; ++k) {
             pr_if_x.add(new ArrayList<>(total + 1));
-            for (int S = 0; S <= total; ++S) pr_if_x.get(k).add(new ArrayList<>());
+            for (int S = 0; S <= total; ++S) pr_if_x.get(k).add(new PairDoubleList());
         }
         this.ln_pr_if_s_query = new DoubleListList();
         for (int k = 1; k <= n * n; ++k)
@@ -741,7 +765,7 @@ class Sim
                     pr_if_x.get(k).get(S).add(new PairDouble(prob, log(prob)));
                 }
                 // rの値について降順になっているため、昇順になおす
-                Collections.reverse(pr_if_x.get(k).get(S));
+                pr_if_x.get(k).get(S).reverse();
                 // muを基準に対称なので、muより大きいrについても同様に計算する
                 for (int r = (int)(round(mu)) + 1;; ++r)
                 {
