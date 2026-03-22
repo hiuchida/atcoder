@@ -267,6 +267,24 @@ public class Main {
             Collections.reverse(list);
         }
     }
+    class PairDoubleListListList {
+        ArrayList<ArrayList<PairDoubleList>> list;
+        PairDoubleListListList() {
+            this.list = new ArrayList<>();
+        }
+        PairDoubleListListList(int size1, int size2) {
+            this.list = new ArrayList<>(size1);
+            for (int i = 0; i < size1; i++) {
+                list.add(new ArrayList<>(size2));
+                for (int j = 0; j < size2; j++) {
+                    list.get(i).add(new PairDoubleList());
+                }
+            }
+        }
+        PairDoubleList get(int i, int j) {
+            return list.get(i).get(j);
+        }
+    }
     class PairIntList implements Iterable<PairInt> {
         ArrayList<PairInt> list;
         PairIntList() {
@@ -605,7 +623,7 @@ class Sim
     // クエリサイズk、埋蔵量総量Sの時に占い結果がrになる確率を記録しておけばいい
     // 小さすぎる確率は無視するため、配列はr=lb以上のものだけ格納する。
     // pr_if_x[k][S][r-lb] = (prob, log(prob))
-    ArrayList<ArrayList<PairDoubleList>> pr_if_x;
+    PairDoubleListListList pr_if_x;
     // クエリごとにあり得る埋蔵量総量Sごとに
     // 埋蔵量Sのときにそのクエリで得られた結果になる確率P(r|S)の対数を記録
     DoubleListList ln_pr_if_s_query;
@@ -624,11 +642,7 @@ class Sim
         this.failed = new IntListList();
         // クエリサイズk、埋蔵量総量S、クエリの結果rに対する尤度は事前に計算しておく
         this.pr_if_x_lb = new IntListList(n * n + 1, total + 1, 0);
-        this.pr_if_x = new ArrayList<>(n * n + 1);
-        for (int k = 0; k <= n * n; ++k) {
-            pr_if_x.add(new ArrayList<>(total + 1));
-            for (int S = 0; S <= total; ++S) pr_if_x.get(k).add(new PairDoubleList());
-        }
+        this.pr_if_x = new PairDoubleListListList(n * n + 1, total + 1);
         this.ln_pr_if_s_query = new DoubleListList();
         for (int k = 1; k <= n * n; ++k)
         {
@@ -648,10 +662,10 @@ class Sim
                         pr_if_x_lb.set(k, S, r + 1);
                         break;
                     }
-                    pr_if_x.get(k).get(S).add(new PairDouble(prob, log(prob)));
+                    pr_if_x.get(k, S).add(new PairDouble(prob, log(prob)));
                 }
                 // rの値について降順になっているため、昇順になおす
-                pr_if_x.get(k).get(S).reverse();
+                pr_if_x.get(k, S).reverse();
                 // muを基準に対称なので、muより大きいrについても同様に計算する
                 for (int r = (int)(round(mu)) + 1;; ++r)
                 {
@@ -660,7 +674,7 @@ class Sim
                     {
                         break;
                     }
-                    pr_if_x.get(k).get(S).add(new PairDouble(prob, log(prob)));
+                    pr_if_x.get(k, S).add(new PairDouble(prob, log(prob)));
                 }
             }
         }
