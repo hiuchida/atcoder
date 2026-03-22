@@ -661,6 +661,22 @@ Input read_input()
 
 final double SMALL_VALUE = 1e-6; // すごく小さい値
 
+class OilStateList implements Iterable<OilState> {
+    ArrayList<OilState> list;
+    OilStateList(final Input input, int size) {
+        this.list = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            list.add(new OilState(input));
+        }
+    }
+    OilState get(int idx) {
+        return list.get(idx);
+    }
+    @Override
+    public Iterator<OilState> iterator() {
+        return list.iterator();
+    }
+}
 // 油田1個分の状態
 class OilState
 {
@@ -679,7 +695,7 @@ class OilState
 
 class State
 {
-    ArrayList<OilState> oil_states;   // 油田の状態についてのリスト: M個
+    OilStateList oil_states;   // 油田の状態についてのリスト: M個
     IntList top_lefts;      // 油田の左上の座標. oil_satesに含めたかったが、OilLayoutにコピーして使うので別で持つ: M個
     ByteList volumes;       // ある位置の油の埋蔵量: N*N個
     ByteList query_volumes; // q番目のクエリで占った座標集合の埋蔵量の合計
@@ -690,8 +706,7 @@ class State
     State(final Input input)
     {
         this.input = input;
-        this.oil_states = new ArrayList<>(input.m);
-        for (int oil_id = 0; oil_id < input.m; ++oil_id) oil_states.add(new OilState(input));
+        this.oil_states = new OilStateList(input, input.m);
         top_lefts = new IntList(input.m, 0);
         volumes = new ByteList();
         query_volumes = new ByteList();
@@ -1087,7 +1102,7 @@ class Sim
 
     // 油田配置がtop_leftsにある場合、
     // q番目のクエリで占った油田集合の埋蔵量合計
-    byte get_query_volume(final ArrayList<OilState> oil_states, int q, final IntList top_lefts)
+    byte get_query_volume(final OilStateList oil_states, int q, final IntList top_lefts)
     {
         byte S = 0;
         for (int oil_id = 0; oil_id < top_lefts.size(); ++oil_id)
@@ -1106,7 +1121,7 @@ class Sim
     // 油田配置がこの状態になる確率を求める
     // vs: 各座標の埋蔵量
     // top_lefts: 油田の左上座標郡
-    double get_ln_pR_if_x(final ArrayList<OilState> oil_states, final ByteList volumes, final IntList top_lefts)
+    double get_ln_pR_if_x(final OilStateList oil_states, final ByteList volumes, final IntList top_lefts)
     {
         // 既に失敗した油田配置の集合に含まれる油田配置の場合、対数尤度を非常に小さい値にする
         for (final var failed_coordinates : failed)
