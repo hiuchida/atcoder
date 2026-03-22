@@ -209,6 +209,37 @@ public class Main {
             return list.iterator();
         }
     }
+    class IntListList implements Iterable<IntList> {
+        ArrayList<IntList> list;
+        IntListList() {
+            this.list = new ArrayList<>();
+        }
+        IntListList(int size1, int size2, int def) {
+            this.list = new ArrayList<>(size1);
+            for (int i = 0; i < size1; i++) {
+                list.add(new IntList(size2, def));
+            }
+        }
+        void add(IntList val) {
+            list.add(val);
+        }
+        void set(int i, int j, int val) {
+            list.get(i).set(j, val);
+        }
+        int get(int idx1, int idx2) {
+            return list.get(idx1).get(idx2);
+        }
+        int size() {
+            return list.size();
+        }
+        boolean empty() {
+            return list.isEmpty();
+        }
+        @Override
+        public Iterator<IntList> iterator() {
+            return list.iterator();
+        }
+    }
 /*
 相互情報量を用いて占う
 */
@@ -525,10 +556,10 @@ class Sim
     // 過去の占いの(油田配置、占い結果)の集合
     ArrayList<PairListInt> queries;
     // 既に油田配置を答えるクエリを投げて失敗した油田配置の集合
-    ArrayList<IntList> failed;
+    IntListList failed;
     // クエリサイズk、埋蔵量総量Sに対して、
     // pr_if_xがもつrの値の下限
-    ArrayList<ArrayList<Integer>> pr_if_x_lb;
+    IntListList pr_if_x_lb;
     // 真の配置xを過程したときに占い結果がrになる確率(尤度とも呼ぶ)
     // 真の配置xを過程したときはクエリサイズk、埋蔵量総量Sも固定されるため、
     // クエリサイズk、埋蔵量総量Sの時に占い結果がrになる確率を記録しておけばいい
@@ -550,13 +581,9 @@ class Sim
         this.eps = input.eps;
         this.rem = input.n * input.n * 2;
         this.queries = new ArrayList<>();
-        this.failed = new ArrayList<>();
+        this.failed = new IntListList();
         // クエリサイズk、埋蔵量総量S、クエリの結果rに対する尤度は事前に計算しておく
-        this.pr_if_x_lb = new ArrayList<>(n * n + 1);
-        for (int k = 0; k <= n * n; ++k) {
-            pr_if_x_lb.add(new ArrayList<>(total + 1));
-            for (int S = 0; S <= total; ++S) pr_if_x_lb.get(k).add(0);
-        }
+        this.pr_if_x_lb = new IntListList(n * n + 1, total + 1, 0);
         this.pr_if_x = new ArrayList<>(n * n + 1);
         for (int k = 0; k <= n * n; ++k) {
             pr_if_x.add(new ArrayList<>(total + 1));
@@ -578,7 +605,7 @@ class Sim
                     double prob = likelihood(mu, sigma, r);
                     if (prob < SMALL_VALUE)
                     {
-                        pr_if_x_lb.get(k).set(S, r + 1);
+                        pr_if_x_lb.set(k, S, r + 1);
                         break;
                     }
                     pr_if_x.get(k).get(S).add(new PairDouble(prob, log(prob)));
@@ -945,7 +972,7 @@ class Query
         for (int x = 0; x < pool.size(); ++x)
         {
             int v = volume.get(x);
-            int lb = sim.pr_if_x_lb.get(k).get(v);
+            int lb = sim.pr_if_x_lb.get(k, v);
             while (ln_pr.size() < lb + sim.pr_if_x.get(k).get(v).size())
             {
                 ln_pr.add(0.0);
@@ -973,7 +1000,7 @@ class Query
         {
             double px = pool.get(x).px_if_R;
             int v = volume.get(x);
-            int lb = sim.pr_if_x_lb.get(k).get(v);
+            int lb = sim.pr_if_x_lb.get(k, v);
             for (int pi = 0; pi < sim.pr_if_x.get(k).get(v).size(); ++pi)
             {
                 final var pr_if_x = sim.pr_if_x.get(k).get(v).get(pi).first;
@@ -1115,7 +1142,7 @@ int main()
         // t=0のときはpoolになにも入っていないので何もしない
         for (var layout : pool)
         {
-            if (layout.volume.empty() && !sim.failed.isEmpty())
+            if (layout.volume.empty() && !sim.failed.empty())
             {
                 layout.volume = input.get_volume(layout.top_lefts);
             }
