@@ -177,6 +177,12 @@ public class Main {
                 list.add(def);
             }
         }
+        void add(double val) {
+            list.add(val);
+        }
+        void add(int idx, double val) {
+            list.set(idx, list.get(idx) + val);
+        }
         void set(int idx, double val) {
             list.set(idx, val);
         }
@@ -1080,7 +1086,7 @@ class Query
         int k = coordinate_size + add_k;
         // ln_pr[r] = クエリ結果がrとなる確率の対数
         // 最後にlogをとるまで、普通の確率として計算する
-        ArrayList<Double> ln_pr = new ArrayList<>();
+        DoubleList ln_pr = new DoubleList();
         for (int x = 0; x < pool.size(); ++x)
         {
             int v = volume.get(x) + add_v;
@@ -1095,7 +1101,7 @@ class Query
             for (int pi = 0; pi < sim.pr_if_x.get(k).get(v).size(); ++pi)
             {
                 final var pr_if_x = sim.pr_if_x.get(k).get(v).get(pi).first;
-                ln_pr.set(lb + pi, ln_pr.get(lb + pi) + pr_if_x * px);
+                ln_pr.add(lb + pi, pr_if_x * px);
             }
         }
         for (int x = 0; x < ln_pr.size(); ++x)
