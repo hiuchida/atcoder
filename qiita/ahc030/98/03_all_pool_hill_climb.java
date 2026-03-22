@@ -874,7 +874,7 @@ class Sim
         if (rem == 0)
         {
             System.err.println("!log giveup because rem==0");
-            System.exit(0);
+            throw new RuntimeException();
         }
         --rem;
         System.out.print("a " + T.size() + " ");
@@ -899,7 +899,7 @@ class Sim
         if (rem == 0)
         {
             System.err.println("!log giveup because rem==0");
-            System.exit(0);
+            throw new RuntimeException();
         }
         --rem;
         System.out.print("q " + query_coordinates.size() + " ");
@@ -939,7 +939,7 @@ class Sim
         if (rem == 0)
         {
             System.err.println("!log giveup because rem==0");
-            System.exit(0);
+            throw new RuntimeException();
         }
         --rem;
         System.out.println("q 1 " + i + " " + j);
@@ -1411,12 +1411,17 @@ int main()
         }
     }
 
-    System.err.println("!Time = " + get_time());
-    System.err.println("!log miss " + sim.failed.size());
-    System.err.println("!main end");
     return 0;
 }
 public static void main(String[] args) {
-    new Main().main();
+    Main main=new Main();
+    try {
+        main.main();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    System.err.println("!Time = " + main.get_time());
+    System.err.println("!log miss " + main.sim.failed.size());
+    System.err.println("!main end");
 }
 }
