@@ -87,62 +87,6 @@ public class Main {
             return ary[i][j];
         }
     }
-    class ByteAry {
-        byte[] ary;
-        ByteAry(int size, byte def) {
-            this.ary = new byte[size];
-            if (def != 0) Arrays.fill(ary, def);
-        }
-        void add(int idx, byte val) {
-            ary[idx] += (byte)val;
-        }
-        byte get(int idx) {
-            return ary[idx];
-        }
-        int size() {
-            return ary.length;
-        }
-        boolean empty2() {
-            return false;
-        }
-    }
-    class ByteList {
-        ArrayList<Byte> list;
-        ByteList() {
-            this.list = new ArrayList<>();
-        }
-        void add(byte val) {
-            list.add(val);
-        }
-        void add(int idx, byte val) {
-            list.set(idx, (byte)(list.get(idx) + val));
-        }
-        byte get(int idx) {
-            return list.get(idx);
-        }
-        int size() {
-            return list.size();
-        }
-        boolean empty() {
-            return list.isEmpty();
-        }
-    }
-    class ByteListAry {
-        ArrayList<Byte>[] ary;
-        @SuppressWarnings("unchecked")
-        ByteListAry(int size1) {
-            this.ary = new ArrayList[size1];
-            for (int i = 0; i < size1; i++) {
-                ary[i] = new ArrayList<>();
-            }
-        }
-        void add(int idx1, byte val) {
-            ary[idx1].add(val);
-        }
-        byte get(int idx1, int idx2) {
-            return ary[idx1].get(idx2);
-        }
-    }
     class DoubleAry {
         double[] ary;
         DoubleAry(int size, double def) {
@@ -207,6 +151,9 @@ public class Main {
         IntAry(IntAry that) {
             this.ary = that.ary.clone();
         }
+        void add(int idx, int val) {
+            ary[idx] += val;
+        }
         void set(int idx, int val) {
             ary[idx] = val;
         }
@@ -224,6 +171,9 @@ public class Main {
         }
         void add(int val) {
             list.add(val);
+        }
+        void add(int idx, int val) {
+            list.set(idx, list.get(idx) + val);
         }
         void set(int idx, int val) {
             list.set(idx, val);
@@ -260,6 +210,22 @@ public class Main {
         }
         int size() {
             return ary.length;
+        }
+    }
+    class IntListAry {
+        ArrayList<Integer>[] ary;
+        @SuppressWarnings("unchecked")
+        IntListAry(int size1) {
+            this.ary = new ArrayList[size1];
+            for (int i = 0; i < size1; i++) {
+                ary[i] = new ArrayList<>();
+            }
+        }
+        void add(int idx1, int val) {
+            ary[idx1].add(val);
+        }
+        int get(int idx1, int idx2) {
+            return ary[idx1].get(idx2);
         }
     }
     class IntListList implements Iterable<IntList> {
@@ -563,8 +529,8 @@ class OilLayout
     // 今までのクエリの結果Rから計算した,この配置になる事後確率P(x|R)
     double px_if_R;
     IntAry top_lefts; // 油田の左上の座標
-    ByteAry volume;   // ある位置の油の埋蔵量
-    OilLayout(long h, double ln, double px, IntAry tl, ByteAry v) {
+    IntAry volume;   // ある位置の油の埋蔵量
+    OilLayout(long h, double ln, double px, IntAry tl, IntAry v) {
         this.hash = h;
         this.ln_pR_if_x = ln;
         this.px_if_R = px;
@@ -629,15 +595,15 @@ class Input
     }
 
     // M個の油田の左上の座標を受け取り、その位置の油の埋蔵量を返す
-    ByteAry get_volume(final IntAry top_lefts)
+    IntAry get_volume(final IntAry top_lefts)
     {
-        ByteAry volume = new ByteAry(n2, (byte)0);
+        IntAry volume = new IntAry(n2, 0);
         for (int oil_id = 0; oil_id < top_lefts.size(); ++oil_id)
         {
             int pij = top_lefts.get(oil_id);
             for (int ij : oils.get(oil_id).coordinate_ids)
             {
-                volume.add(ij + pij, (byte)1);
+                volume.add(ij + pij, 1);
             }
         }
         return volume;
@@ -737,12 +703,12 @@ class OilState
     // top_left_query_volumes[top_left][q]は、
     // この油田の左上座標がtop_leftにあるとき、
     // q番目のクエリで占った座標集合の埋蔵量の合計を示している
-    ByteListAry top_left_query_volumes;
+    IntListAry top_left_query_volumes;
     // この油田の左上座標ごとのzobrist hash
     LongAry hashes;
     OilState()
     {
-        top_left_query_volumes = new ByteListAry(input.n2);
+        top_left_query_volumes = new IntListAry(input.n2);
         hashes = new LongAry(input.n2, 0);
     }
 }
@@ -751,8 +717,8 @@ class State
 {
     OilStateList oil_states;   // 油田の状態についてのリスト: M個
     IntAry top_lefts;      // 油田の左上の座標. oil_satesに含めたかったが、OilLayoutにコピーして使うので別で持つ: M個
-    ByteAry volumes;       // ある位置の油の埋蔵量: N*N個
-    ByteList query_volumes; // q番目のクエリで占った座標集合の埋蔵量の合計
+    IntAry volumes;       // ある位置の油の埋蔵量: N*N個
+    IntList query_volumes; // q番目のクエリで占った座標集合の埋蔵量の合計
     long hash;
 
     // 全ての油田が0,0にあるときの状態を初期状態とする
@@ -761,7 +727,7 @@ class State
         this.oil_states = new OilStateList(input.m);
         top_lefts = new IntAry(input.m, 0);
         volumes = null;
-        query_volumes = new ByteList();
+        query_volumes = new IntList();
         for (int oil_id = 0; oil_id < input.m; ++oil_id)
         {
             var oil_state = oil_states.get(oil_id);
@@ -794,16 +760,16 @@ class State
         hash ^= oil_state.hashes.get(top_lefts.get(oil_id)) ^ oil_state.hashes.get(new_top_left);
         for (int q = 0; q < query_volumes.size(); ++q)
         {
-            query_volumes.add(q, (byte)
-                    (oil_state.top_left_query_volumes.get(new_top_left, q) 
-                    - oil_state.top_left_query_volumes.get(top_lefts.get(oil_id), q)));
+            query_volumes.add(q, 
+                    oil_state.top_left_query_volumes.get(new_top_left, q) 
+                    - oil_state.top_left_query_volumes.get(top_lefts.get(oil_id), q));
         }
         if (volumes != null)
         {
             for (int ij : input.oils.get(oil_id).coordinate_ids)
             {
-                volumes.add(ij + top_lefts.get(oil_id), (byte)(-1));
-                volumes.add(ij + new_top_left, (byte)(1));
+                volumes.add(ij + top_lefts.get(oil_id), -1);
+                volumes.add(ij + new_top_left, 1);
             }
         }
         top_lefts.set(oil_id, new_top_left);
@@ -826,7 +792,7 @@ class State
                 for (int dj = 0; dj < input.n - oil.max_j; ++dj)
                 {
                     int top_left = di * input.n + dj;
-                    byte c = 0;
+                    int c = 0;
                     for (int ij : input.oils.get(oil_id).coordinate_ids)
                     {
                         if (in_query.get(top_left + ij))
@@ -838,8 +804,8 @@ class State
                 }
             }
         }
-        ByteAry volume = input.get_volume(top_lefts);
-        byte c = 0;
+        IntAry volume = input.get_volume(top_lefts);
+        int c = 0;
         for (int ij : query_coordinates)
         {
             c += volume.get(ij);
@@ -1124,7 +1090,7 @@ class Sim
     }
 
     // volumesとfailed_coordinatesが異なるかどうかを返す
-    boolean is_different(final ByteAry volumes, final IntList failed_coordinates)
+    boolean is_different(final IntAry volumes, final IntList failed_coordinates)
     {
         for (final var ij : failed_coordinates)
         {
@@ -1138,9 +1104,9 @@ class Sim
 
     // 油田配置がtop_leftsにある場合、
     // q番目のクエリで占った油田集合の埋蔵量合計
-    byte get_query_volume(final OilStateList oil_states, int q, final IntAry top_lefts)
+    int get_query_volume(final OilStateList oil_states, int q, final IntAry top_lefts)
     {
-        byte S = 0;
+        int S = 0;
         for (int oil_id = 0; oil_id < top_lefts.size(); ++oil_id)
         {
             var oil_state_p = oil_states.get(oil_id);
@@ -1157,7 +1123,7 @@ class Sim
     // 油田配置がこの状態になる確率を求める
     // vs: 各座標の埋蔵量
     // top_lefts: 油田の左上座標郡
-    double get_ln_pR_if_x(final OilStateList oil_states, final ByteAry volumes, final IntAry top_lefts)
+    double get_ln_pR_if_x(final OilStateList oil_states, final IntAry volumes, final IntAry top_lefts)
     {
         // 既に失敗した油田配置の集合に含まれる油田配置の場合、対数尤度を非常に小さい値にする
         for (final var failed_coordinates : failed)
@@ -1196,7 +1162,7 @@ class Sim
             // q番目のクエリを打った時のlog(P(ret|S))は記録済みであり、
             // 配置xにおけるSを求めることで、
             // log(P(ret|x)) = log(P(ret|S))を求めることができる
-            byte S = get_query_volume(oil_states, q, top_lefts);
+            int S = get_query_volume(oil_states, q, top_lefts);
             ln_pR_if_x += ln_pr_if_s_query.get(q, S);
         }
         return ln_pR_if_x;
@@ -1236,13 +1202,13 @@ Sim sim;
 class Query
 {
     BoolAry in_query;  // ある位置の油の埋蔵量がクエリされているか : N*N個
-    ByteAry volume; // 油田の埋蔵量のリスト : M個
+    IntAry volume; // 油田の埋蔵量のリスト : M個
     int coordinate_size; // クエリに含めるマスの数
 
     Query()
     {
         this.in_query = new BoolAry(input.n2, false);
-        this.volume = new ByteAry(pool.size(), (byte)0);
+        this.volume = new IntAry(pool.size(), 0);
         this.coordinate_size = 0;
     }
     // 指定したマスをクエリに含めるかどうかを反転する
@@ -1253,7 +1219,7 @@ class Query
             in_query.set(ij, false);
             for (int x = 0; x < pool.size(); ++x)
             {
-                volume.add(x, (byte)(-pool.get(x).volume.get(ij)));
+                volume.add(x, -pool.get(x).volume.get(ij));
             }
             --coordinate_size;
         }
@@ -1262,7 +1228,7 @@ class Query
             in_query.set(ij, true);
             for (int x = 0; x < pool.size(); ++x)
             {
-                volume.add(x, (byte)(pool.get(x).volume.get(ij)));
+                volume.add(x, pool.get(x).volume.get(ij));
             }
             ++coordinate_size;
         }
@@ -1283,7 +1249,7 @@ class Query
     // 占いの良さを評価する
     // add_k: クエリに含める座標の数. 0ならすでにインスタンスに含めているものだけ使う
     // add_v: クエリに含める座標の埋蔵量合計. 0ならすでにインスタンスに含めているものだけ使う
-    double eval(int add_k, byte add_v)
+    double eval(int add_k, int add_v)
     {
         int k = coordinate_size + add_k;
         // ln_pr[r] = クエリ結果がrとなる確率の対数
@@ -1362,7 +1328,7 @@ IntList getDivinationQuery()
             // 評価前後にflipを挟むことで、
             // この座標1個だけでクエリを作成するときの情報量を計算する
             query.flip(ij);                    // クエリにこの座標を含める
-            double ev = query.eval(0, (byte)0); // クエリにこの座標を含めたときの情報量を計算
+            double ev = query.eval(0, 0); // クエリにこの座標を含めたときの情報量を計算
             query.flip(ij);                    // クエリにこの座標を含めない
             query_coordinate_evals.add(new PairDoubleInt(ev, ij));
         }
@@ -1395,7 +1361,7 @@ IntList getDivinationQuery()
 
     double crt = -1e100;
     int add_k = 0; // 情報量0のマスを追加する数
-    byte add_v = 0; // 情報量0のマスを追加することで増える埋蔵量
+    int add_v = 0; // 情報量0のマスを追加することで増える埋蔵量
     final var best_layout = pool.get(0);
     for (int _i = 0; _i < 3; ++_i)
     {
@@ -1422,7 +1388,7 @@ IntList getDivinationQuery()
             // 情報量0のマスの追加
             while (add_k < no_info_coordinates.size())
             {
-                double eval = query.eval(add_k + 1, (byte)(add_v + best_layout.volume.get(no_info_coordinates.get(add_k))));
+                double eval = query.eval(add_k + 1, add_v + best_layout.volume.get(no_info_coordinates.get(add_k)));
                 if (crt < eval)
                 {
                     crt = eval;
@@ -1437,7 +1403,7 @@ IntList getDivinationQuery()
             }
             while (add_k > 0)
             {
-                double eval = query.eval(add_k - 1, (byte)(add_v - best_layout.volume.get(no_info_coordinates.get(add_k - 1))));
+                double eval = query.eval(add_k - 1, add_v - best_layout.volume.get(no_info_coordinates.get(add_k - 1)));
                 if (crt < eval)
                 {
                     crt = eval;
