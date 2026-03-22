@@ -59,14 +59,6 @@ public class Main {
             return 0;
         }
     }
-    class PairIntPairInt {
-        int volume;
-        PairInt pair;
-        PairIntPairInt(int v, PairInt pi) {
-            this.volume = v;
-            this.pair = pi;
-        }
-    }
     class BoolList {
         ArrayList<Boolean> list;
         BoolList() {
@@ -1611,6 +1603,36 @@ void simulated_annealing(
     sort_pool(pool);
 }
 
+class SwapsPairList implements Iterable<SwapsPair> {
+    ArrayList<SwapsPair> list;
+    SwapsPairList() {
+        list = new ArrayList<>();
+    }
+    void add(SwapsPair val) {
+        list.add(val);
+    }
+    int size() {
+        return list.size();
+    }
+    void resize(int size) {
+        while (list.size() > size) list.remove(list.size() - 1);
+    }
+    public void sort(Comparator<SwapsPair> c) {
+        list.sort(c);
+    }
+    @Override
+    public Iterator<SwapsPair> iterator() {
+        return list.iterator();
+    }
+}
+class SwapsPair {
+    int volume;
+    PairInt pair;
+    SwapsPair(int v, PairInt pi) {
+        this.volume = v;
+        this.pair = pi;
+    }
+}
 PairIntListListList get_swaps(final Input input)
 {
     // 2つのポリオミノの位置を入れ替える操作を行うために、入れ替えた際にどれだけ位置をずらせばよいかを予め計算しておく
@@ -1656,7 +1678,7 @@ PairIntListListList get_swaps(final Input input)
                 continue;
             }
             // 二つのポリオミノが重なっているマスの数と、そのときの位置のずれのリストを計算
-            ArrayList<PairIntPairInt> list = new ArrayList<>();
+            SwapsPairList list = new SwapsPairList();
             for (int di = -(int)oil_b.max_i; di <= (int)oil_a.max_i; ++di)
             {
                 for (int dj = -(int)oil_b.max_j; dj <= (int)oil_a.max_j; ++dj)
@@ -1671,17 +1693,17 @@ PairIntListListList get_swaps(final Input input)
                             ++volume;
                         }
                     }
-                    list.add(new PairIntPairInt((int)volume, new PairInt(di, dj)));
+                    list.add(new SwapsPair((int)volume, new PairInt(di, dj)));
                 }
             }
             // 重なっているマスの数が多い順にソート
             list.sort((a, b) -> Integer.compare(b.volume, a.volume));
             // 4個である必要はないが、近傍の多様性のために複数持っておく
-            while (list.size() > 4) list.remove(list.size() - 1);
+            list.resize(4);
             swaps.get(oil_id_a, oil_id_b).clear();
-            for (final var pipi : list)
+            for (final var sp : list)
             {
-                PairInt i_j = pipi.pair;
+                PairInt i_j = sp.pair;
                 swaps.get(oil_id_a, oil_id_b).add(i_j);
             }
         }
