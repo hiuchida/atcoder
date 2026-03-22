@@ -412,6 +412,24 @@ public class Main {
             return list.iterator();
         }
     }
+    class PairIntListListList {
+        ArrayList<ArrayList<PairIntList>> list;
+        PairIntListListList() {
+            this.list = new ArrayList<>();
+        }
+        PairIntListListList(int size1, int size2) {
+            this.list = new ArrayList<>(size1);
+            for (int i = 0; i < size1; i++) {
+                list.add(new ArrayList<>(size2));
+                for (int j = 0; j < size2; j++) {
+                    list.get(i).add(new PairIntList());
+                }
+            }
+        }
+        PairIntList get(int i, int j) {
+            return list.get(i).get(j);
+        }
+    }
     class LongDoubleMap {
         HashMap<Long, Double> map = new HashMap<>();
         void put(long key, double val) {
@@ -1438,7 +1456,7 @@ void simulated_annealing(
     final Input input,
     final Sim sim,
     State state,
-    final ArrayList<ArrayList<PairIntList>> swaps,
+    final PairIntListListList swaps,
     LongDoubleMap hash_ln_lilelihood,
     int ITER)
 {
@@ -1546,8 +1564,8 @@ void simulated_annealing(
             int aj = state.top_lefts.get(oil_id_a) % input.n;
             int bi = state.top_lefts.get(oil_id_b) / input.n;
             int bj = state.top_lefts.get(oil_id_b) % input.n;
-            var daij = swaps.get(oil_id_b).get(oil_id_a).get((int)rng.randrange(swaps.get(oil_id_a).get(oil_id_b).size()));
-            var dbij = swaps.get(oil_id_a).get(oil_id_b).get((int)rng.randrange(swaps.get(oil_id_b).get(oil_id_a).size()));
+            var daij = swaps.get(oil_id_b, oil_id_a).get((int)rng.randrange(swaps.get(oil_id_a, oil_id_b).size()));
+            var dbij = swaps.get(oil_id_a, oil_id_b).get((int)rng.randrange(swaps.get(oil_id_b, oil_id_a).size()));
             int dai = daij.first;
             int daj = daij.second;
             int dbi = dbij.first;
@@ -1598,7 +1616,7 @@ void simulated_annealing(
     sort_pool(pool);
 }
 
-ArrayList<ArrayList<PairIntList>> get_swaps(final Input input)
+PairIntListListList get_swaps(final Input input)
 {
     // 2つのポリオミノの位置を入れ替える操作を行うために、入れ替えた際にどれだけ位置をずらせばよいかを予め計算しておく
     // swaps[oil_id_a][oil_id_b] := oil_id_aとoil_id_b+Δが出来るだけ一致するようなΔ
@@ -1625,13 +1643,7 @@ ArrayList<ArrayList<PairIntList>> get_swaps(final Input input)
     // .c.
     // となり、元の配置からのずれを減らすことができる。
 
-    ArrayList<ArrayList<PairIntList>> swaps = new ArrayList<>(input.m);
-    for (int i = 0; i < input.m; i++) {
-        swaps.add(new ArrayList<>(input.m));
-        for (int j = 0; j < input.m; j++) {
-            swaps.get(i).add(new PairIntList());
-        }
-    }
+    PairIntListListList swaps = new PairIntListListList(input.m, input.m);
     for (int oil_id_a = 0; oil_id_a < input.m; ++oil_id_a)
     {
         final var oil_a = input.oils.get(oil_id_a);
@@ -1671,11 +1683,11 @@ ArrayList<ArrayList<PairIntList>> get_swaps(final Input input)
             list.sort((a, b) -> Integer.compare(b.volume, a.volume));
             // 4個である必要はないが、近傍の多様性のために複数持っておく
             while (list.size() > 4) list.remove(list.size() - 1);
-            swaps.get(oil_id_a).get(oil_id_b).clear();
+            swaps.get(oil_id_a, oil_id_b).clear();
             for (final var pipi : list)
             {
                 PairInt i_j = pipi.pair;
-                swaps.get(oil_id_a).get(oil_id_b).add(i_j);
+                swaps.get(oil_id_a, oil_id_b).add(i_j);
             }
         }
     }
