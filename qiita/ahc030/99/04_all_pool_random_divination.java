@@ -41,14 +41,6 @@ public class Main {
             this.second = s;
         }
     }
-    class PairListInt {
-        IntList query_coordinates;
-        int ret;
-        PairListInt(IntList q, int r) {
-            this.query_coordinates = q;
-            this.ret = r;
-        }
-    }
     class BoolList {
         ArrayList<Boolean> list;
         BoolList() {
@@ -607,12 +599,35 @@ class State
     }
 }
 
+class QueryHistoryList {
+    ArrayList<QueryHistory> list;
+    QueryHistoryList() {
+        list = new ArrayList<>();
+    }
+    void add(QueryHistory val) {
+        list.add(val);
+    }
+    QueryHistory get(int idx) {
+        return list.get(idx);
+    }
+    int size() {
+        return list.size();
+    }
+}
+class QueryHistory {
+    IntList query_coordinates;
+    int ret;
+    QueryHistory(IntList q, int r) {
+        this.query_coordinates = q;
+        this.ret = r;
+    }
+}
 class Sim
 {
     int n, n2, m, total;
     double eps;
     // 過去の占いの(油田配置、占い結果)の集合
-    ArrayList<PairListInt> queries;
+    QueryHistoryList queries;
     // 既に油田配置を答えるクエリを投げて失敗した油田配置の集合
     IntListList failed;
     // クエリサイズk、埋蔵量総量Sに対して、
@@ -638,7 +653,7 @@ class Sim
         this.total = input.total;
         this.eps = input.eps;
         this.rem = input.n * input.n * 2;
-        this.queries = new ArrayList<>();
+        this.queries = new QueryHistoryList();
         this.failed = new IntListList();
         // クエリサイズk、埋蔵量総量S、クエリの結果rに対する尤度は事前に計算しておく
         this.pr_if_x_lb = new IntListList(n * n + 1, total + 1, 0);
@@ -724,7 +739,7 @@ class Sim
         int ret;
         ret = sc.nextInt();
         // クエリの結果を記録する
-        queries.add(new PairListInt(query_coordinates, ret));
+        queries.add(new QueryHistory(query_coordinates, ret));
         // 結果retが得られた.
         // 指定したマス集合の真の埋蔵量総量がわからないため、
         // あり得る埋蔵量総量全てについて、
