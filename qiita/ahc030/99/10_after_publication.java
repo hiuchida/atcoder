@@ -548,6 +548,21 @@ class OilLayout
 }
 OilLayoutList pool;
 
+class OilShapeList {
+    ArrayList<OilShape> list;
+    OilShapeList(int size) {
+        this.list = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            list.add(new OilShape());
+        }
+    }
+    OilShape get(int idx) {
+        return list.get(idx);
+    }
+    void sort() {
+        Collections.sort(list);
+    }
+}
 // 油田の形についての情報
 class OilShape implements Comparable<OilShape>
 {
@@ -569,7 +584,7 @@ class Input
     int n2;             // n*n
     int m;              // 油田の数 2<=M<=10
     double eps;            // 占い結果に用いるエラーパラメータ 0.01<=eps<=0.2
-    ArrayList<OilShape> oils; // 油田の形に関する情報 .size()==M
+    OilShapeList oils; // 油田の形に関する情報 .size()==M
     int total;          // 島全体の油田の埋蔵量の合計
     double difficulty;
 
@@ -635,8 +650,7 @@ Input read_input()
     input.m = sc.nextInt();
     input.eps = sc.nextDouble();
     input.n2 = input.n * input.n;
-    input.oils = new ArrayList<>(input.m);
-    for (int oil_id = 0; oil_id < input.m; ++oil_id) input.oils.add(new OilShape());
+    input.oils = new OilShapeList(input.m);
 
     for (int oil_id = 0; oil_id < input.m; ++oil_id)
     {
@@ -658,7 +672,7 @@ Input read_input()
     }
 
     // 同じ図形かの判定を行うためにポリオミノをソートしてく
-    Collections.sort(input.oils);
+    input.oils.sort();
 
     for (int oil_id = 0; oil_id < input.m; ++oil_id)
     {
