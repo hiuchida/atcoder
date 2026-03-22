@@ -147,6 +147,33 @@ public class Main {
             return list.isEmpty();
         }
     }
+    class ByteListList {
+        ArrayList<ArrayList<Byte>> list;
+        ByteListList() {
+            this.list = new ArrayList<>();
+        }
+        ByteListList(int size1) {
+            this.list = new ArrayList<>();
+            for (int i = 0; i < size1; i++) {
+                list.add(new ArrayList<>());
+            }
+        }
+        ByteListList(int size1, int size2, byte def) {
+            this.list = new ArrayList<>(size1);
+            for (int i = 0; i < size1; i++) {
+                list.add(new ArrayList<>(size2));
+                for (int j = 0; j < size2; j++) {
+                    list.get(i).add(def);
+                }
+            }
+        }
+        void add(int idx1, byte val) {
+            list.get(idx1).add(val);
+        }
+        byte get(int idx1, int idx2) {
+            return list.get(idx1).get(idx2);
+        }
+    }
     class DoubleList {
         ArrayList<Double> list;
         DoubleList() {
@@ -457,13 +484,12 @@ class OilState
     // top_left_query_volumes[top_left][q]は、
     // この油田の左上座標がtop_leftにあるとき、
     // q番目のクエリで占った座標集合の埋蔵量の合計を示している
-    ArrayList<ArrayList<Byte>> top_left_query_volumes;
+    ByteListList top_left_query_volumes;
     // この油田の左上座標ごとのzobrist hash
     LongList hashes;
     OilState(final Input input)
     {
-        top_left_query_volumes = new ArrayList<>(input.n2);
-        for (int ij = 0; ij < input.n2; ij++) top_left_query_volumes.add(new ArrayList<>());
+        top_left_query_volumes = new ByteListList(input.n2);
         hashes = new LongList(input.n2, 0);
     }
 }
@@ -519,8 +545,8 @@ class State
         for (int q = 0; q < query_volumes.size(); ++q)
         {
             query_volumes.add(q, (byte)
-                    (oil_state.top_left_query_volumes.get(new_top_left).get(q) 
-                    - oil_state.top_left_query_volumes.get(top_lefts.get(oil_id)).get(q)));
+                    (oil_state.top_left_query_volumes.get(new_top_left, q) 
+                    - oil_state.top_left_query_volumes.get(top_lefts.get(oil_id), q)));
         }
         if (!volumes.empty())
         {
@@ -558,7 +584,7 @@ class State
                             c += 1;
                         }
                     }
-                    oil_state.top_left_query_volumes.get(top_left).add(c);
+                    oil_state.top_left_query_volumes.add(top_left, c);
                 }
             }
         }
@@ -870,7 +896,7 @@ class Sim
         {
             var oil_state_p = oil_states.get(oil_id);
             var ij = top_lefts.get(oil_id);
-            int p_volume = oil_state_p.top_left_query_volumes.get(ij).get(q);
+            int p_volume = oil_state_p.top_left_query_volumes.get(ij, q);
             if (p_volume > 0)
             {
                 S += p_volume;
