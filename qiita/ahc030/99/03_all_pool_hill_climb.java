@@ -15,6 +15,7 @@ public class Main {
     double exp(double a) { return Math.exp(a); }
     double log(double a) { return Math.log(a); }
     int max(int a, int b) { return Math.max(a, b); }
+    int min(int a, int b) { return Math.min(a, b); }
     long round(double a) { return Math.round(a); }
     double sqrt(double a) { return Math.sqrt(a); }
     class PairDouble {
@@ -340,13 +341,14 @@ public class Main {
         }
         @Override
         public int compareTo(PairIntList that) {
-            for (int i = 0; i < size(); i++) {
+            for (int i = 0; i < min(this.size(), that.size()); i++) {
                 PairInt pi1 = this.get(i);
                 PairInt pi2 = that.get(i);
                 int cmp = PairInt.compare(pi1, pi2);
                 if (cmp!=0) return cmp;
             }
-            return 0;
+            int cmp = Integer.compare(this.size(), that.size());
+            return cmp;
         }
         @Override
         public Iterator<PairInt> iterator() {
