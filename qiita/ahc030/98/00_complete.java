@@ -748,7 +748,7 @@ class State
         hash = 0;
         for (var oil_state : oil_states)
         {
-            hash ^= oil_state.hashes.get(0);
+            hash += oil_state.hashes.get(0);
         }
     }
 
@@ -758,7 +758,7 @@ class State
     void move_to(int oil_id, int new_top_left)
     {
         var oil_state = oil_states.get(oil_id);
-        hash ^= oil_state.hashes.get(top_lefts.get(oil_id)) ^ oil_state.hashes.get(new_top_left);
+        hash += -oil_state.hashes.get(top_lefts.get(oil_id)) + oil_state.hashes.get(new_top_left);
         for (int q = 0; q < query_volumes.size(); ++q)
         {
             query_volumes.add(q, 
