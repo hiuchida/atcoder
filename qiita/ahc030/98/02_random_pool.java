@@ -12,9 +12,9 @@ public class Main {
         return sign * y;
     }
     double erf(double a) { return erf0(a); }
-    double exp(double a) { return Math.exp(a); }
+    double exp(double a) { return (a <= -20.8) ? 0 : Math.exp(a); }
     boolean isinf(double a) { return Double.isInfinite(a); }
-    double log(double a) { return Math.log(a); }
+    double log(double a) { return (a == 0.0) ? -999 : Math.log(a); }
     int max(int a, int b) { return Math.max(a, b); }
     double min(double a, double b) { return Math.min(a, b); }
     int min(int a, int b) { return Math.min(a, b); }
@@ -106,27 +106,27 @@ public class Main {
             return ary.length;
         }
     }
-    class DoubleList {
-        ArrayList<Double> list;
-        DoubleList() {
-            this.list = new ArrayList<>();
-        }
-        void add(double val) {
-            list.add(val);
-        }
-        void add(int idx, double val) {
-            list.set(idx, list.get(idx) + val);
-        }
-        void set(int idx, double val) {
-            list.set(idx, val);
-        }
-        double get(int idx) {
-            return list.get(idx);
-        }
-        int size() {
-            return list.size();
-        }
-    }
+//    class DoubleList {
+//        ArrayList<Double> list;
+//        DoubleList() {
+//            this.list = new ArrayList<>();
+//        }
+//        void add(double val) {
+//            list.add(val);
+//        }
+//        void add(int idx, double val) {
+//            list.set(idx, list.get(idx) + val);
+//        }
+//        void set(int idx, double val) {
+//            list.set(idx, val);
+//        }
+//        double get(int idx) {
+//            return list.get(idx);
+//        }
+//        int size() {
+//            return list.size();
+//        }
+//    }
     class DoubleAryList {
         ArrayList<DoubleAry> list;
         DoubleAryList() {
@@ -1255,27 +1255,23 @@ class Query
         int k = coordinate_size + add_k;
         // ln_pr[r] = クエリ結果がrとなる確率の対数
         // 最後にlogをとるまで、普通の確率として計算する
-        DoubleList ln_pr = new DoubleList();
+        double[] ln_pr = new double[input.total + 50];
         for (int x = 0; x < pool.size(); ++x)
         {
             int v = volume.get(x) + add_v;
             int lb = sim.pr_if_x_lb.get(k, v);
-            while (ln_pr.size() < lb + sim.pr_if_x.get(k, v).size())
-            {
-                ln_pr.add(0.0);
-            }
             double px = pool.get(x).px_if_R;
             // 公式 p(r)=Σp(r|x)p(x)
             // この公式を使って、p(r)を求める
             for (int pi = 0; pi < sim.pr_if_x.get(k, v).size(); ++pi)
             {
                 final var pr_if_x = sim.pr_if_x.get(k, v).get(pi).first;
-                ln_pr.add(lb + pi, pr_if_x * px);
+                ln_pr[lb + pi] += pr_if_x * px;
             }
         }
-        for (int x = 0; x < ln_pr.size(); ++x)
+        for (int x = 0; x < ln_pr.length; ++x)
         {
-            ln_pr.set(x, log(ln_pr.get(x)));
+            ln_pr[x] = log(ln_pr[x]);
         }
         // I(X;R) = ΣΣp(x,r)log(p(x,r)/(p(x)p(r))
         //        = ΣΣp(r|x)p(x)log(p(r|x)p(x)/p(x)p(r))
@@ -1292,7 +1288,7 @@ class Query
             {
                 final var pr_if_x = sim.pr_if_x.get(k, v).get(pi).first;
                 final var ln_pr_if_x = sim.pr_if_x.get(k, v).get(pi).second;
-                final var ln_prr = ln_pr.get(lb + pi);
+                final var ln_prr = ln_pr[lb + pi];
                 info += pr_if_x * px * (ln_pr_if_x - ln_prr);
             }
         }

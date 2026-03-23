@@ -12,9 +12,9 @@ public class Main {
         return sign * y;
     }
     double erf(double a) { return erf0(a); }
-    double exp(double a) { return Math.exp(a); }
+    double exp(double a) { return (a <= -20.8) ? 0 : Math.exp(a); }
     boolean isinf(double a) { return Double.isInfinite(a); }
-    double log(double a) { return Math.log(a); }
+    double log(double a) { return (a == 0.0) ? -999 : Math.log(a); }
     int max(int a, int b) { return Math.max(a, b); }
     double min(double a, double b) { return Math.min(a, b); }
     int min(int a, int b) { return Math.min(a, b); }
@@ -106,27 +106,27 @@ public class Main {
             return ary.length;
         }
     }
-    class DoubleList {
-        ArrayList<Double> list;
-        DoubleList() {
-            this.list = new ArrayList<>();
-        }
-        void add(double val) {
-            list.add(val);
-        }
-        void add(int idx, double val) {
-            list.set(idx, list.get(idx) + val);
-        }
-        void set(int idx, double val) {
-            list.set(idx, val);
-        }
-        double get(int idx) {
-            return list.get(idx);
-        }
-        int size() {
-            return list.size();
-        }
-    }
+//    class DoubleList {
+//        ArrayList<Double> list;
+//        DoubleList() {
+//            this.list = new ArrayList<>();
+//        }
+//        void add(double val) {
+//            list.add(val);
+//        }
+//        void add(int idx, double val) {
+//            list.set(idx, list.get(idx) + val);
+//        }
+//        void set(int idx, double val) {
+//            list.set(idx, val);
+//        }
+//        double get(int idx) {
+//            return list.get(idx);
+//        }
+//        int size() {
+//            return list.size();
+//        }
+//    }
     class DoubleAryList {
         ArrayList<DoubleAry> list;
         DoubleAryList() {
