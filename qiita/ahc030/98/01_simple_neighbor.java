@@ -861,6 +861,7 @@ class Sim
     DoubleAryList ln_pr_if_s_query;
     // 残りクエリ回数. 2*N*N回までクエリを投げられる
     int rem;
+    double cost;
 
     Sim()
     {
@@ -934,6 +935,7 @@ class Sim
         {
             return true;
         }
+        cost++;
         failed.add(T);
         return false;
     }
@@ -947,6 +949,7 @@ class Sim
             throw new RuntimeException();
         }
         --rem;
+        cost+=1.0/sqrt(query_coordinates.size());
         System.out.print("q " + query_coordinates.size() + " ");
         for (int ij : query_coordinates)
         {
@@ -1004,6 +1007,7 @@ class Sim
             throw new RuntimeException();
         }
         --rem;
+        cost++;
         System.out.println("q 1 " + i + " " + j);
         int ret;
         ret = sc.nextInt();
@@ -1635,6 +1639,7 @@ public static void main(String[] args) {
     }
     System.err.println("!Time = " + main.get_time());
     System.err.println("!log miss " + main.sim.failed.size());
+    System.err.println("!cost = " + main.sim.cost);
     System.err.println("!main end");
 }
 }
