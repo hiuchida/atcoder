@@ -515,7 +515,7 @@ class OilLayoutList implements Iterable<OilLayout> {
     {
         for (var layout : pool)
         {
-            if (layout.volume == null) layout.volume = input.get_volume(layout.top_lefts);
+            layout.volume = input.get_volume(layout.top_lefts);
         }
     }
     @Override
