@@ -1220,7 +1220,10 @@ int main()
     int ITER = 4000000 / (2 * input.n2);
     pool = new OilLayoutList(ITER * 2);
     // 全ての配置を生成
-    assert(input.m == 2);
+    if (input.m != 2) {
+        System.err.println("input.m != 2");
+        throw new RuntimeException();
+    }
     final var oil_a = input.oils.get(0);
     final var oil_b = input.oils.get(1);
     for (int i_a = 0; i_a < input.n - oil_a.max_i; ++i_a)
