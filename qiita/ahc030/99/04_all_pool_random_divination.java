@@ -1003,7 +1003,7 @@ class Sim
             // q番目のクエリを打った時のlog(P(ret|S))は記録済みであり、
             // 配置xにおけるSを求めることで、
             // log(P(ret|x)) = log(P(ret|S))を求めることができる
-            byte S = get_query_volume(oil_states, q, top_lefts);
+            int S = get_query_volume(oil_states, q, top_lefts) & 0xFF; //java byteを符号なしと扱う
             ln_pR_if_x += ln_pr_if_s_query.get(q, S);
         }
         return ln_pR_if_x;
@@ -1033,7 +1033,7 @@ class Sim
         double prob = 0.0;
         for (int q = 0; q < ln_pr_if_s_query.size(); ++q)
         {
-            prob += ln_pr_if_s_query.get(q, state.query_volumes.get(q));
+            prob += ln_pr_if_s_query.get(q, state.query_volumes.get(q) & 0xFF); //java byteを符号なしと扱う
         }
         return prob;
     }

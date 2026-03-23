@@ -1161,7 +1161,7 @@ class Sim
             // q番目のクエリを打った時のlog(P(ret|S))は記録済みであり、
             // 配置xにおけるSを求めることで、
             // log(P(ret|x)) = log(P(ret|S))を求めることができる
-            byte S = get_query_volume(oil_states, q, top_lefts);
+            int S = get_query_volume(oil_states, q, top_lefts) & 0xFF; //java byteを符号なしと扱う
             ln_pR_if_x += ln_pr_if_s_query.get(q, S);
         }
         return ln_pR_if_x;
@@ -1191,7 +1191,7 @@ class Sim
         double prob = 0.0;
         for (int q = 0; q < ln_pr_if_s_query.size(); ++q)
         {
-            prob += ln_pr_if_s_query.get(q, state.query_volumes.get(q));
+            prob += ln_pr_if_s_query.get(q, state.query_volumes.get(q) & 0xFF); //java byteを符号なしと扱う
         }
         return prob;
     }
@@ -1257,7 +1257,7 @@ class Query
         DoubleList ln_pr = new DoubleList();
         for (int x = 0; x < pool.size(); ++x)
         {
-            int v = volume.get(x) + add_v;
+            int v = (volume.get(x) & 0xFF) + add_v; //java byteを符号なしと扱う
             int lb = sim.pr_if_x_lb.get(k, v);
             while (ln_pr.size() < lb + sim.pr_if_x.get(k, v).size())
             {
@@ -1285,7 +1285,7 @@ class Query
         for (int x = 0; x < pool.size(); ++x)
         {
             double px = pool.get(x).px_if_R;
-            int v = volume.get(x) + add_v;
+            int v = (volume.get(x) & 0xFF) + add_v; //java byteを符号なしと扱う
             int lb = sim.pr_if_x_lb.get(k, v);
             for (int pi = 0; pi < sim.pr_if_x.get(k, v).size(); ++pi)
             {
