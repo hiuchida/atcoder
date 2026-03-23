@@ -1084,7 +1084,7 @@ class Sim
     void giveup()
     {
         System.err.println("!log giveup because timeup");
-        System.out.println("!log giveup because timeup");
+        //System.out.println("!log giveup because timeup"); //java Parse error回避
         ArrayDeque<PairInt> que = new ArrayDeque<>();
         que.add(new PairInt(n / 2, n / 2));
         IntList list = new IntList();
