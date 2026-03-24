@@ -1323,7 +1323,7 @@ public class Main {
 			int k = coordinate_size + add_k;
 			// ln_pr[r] = クエリ結果がrとなる確率の対数
 			// 最後にlogをとるまで、普通の確率として計算する
-			double[] ln_pr = new double[input.total + 50];
+			double[] ln_pr = new double[input.total + 60];
 			for (int x = 0; x < pool.size(); ++x) {
 				int v = volume.get(x) + add_v;
 				int lb = sim.pr_if_x_lb.get(k, v);
