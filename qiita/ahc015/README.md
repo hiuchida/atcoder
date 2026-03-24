@@ -2,6 +2,13 @@
 
 javaクラス名はすべてMainで、ファイル名とは一致しません。
 
+- MC1.java : 問題特性を利用しない、シンプルなモンテカルロ法
+- MC2.java : 問題特性を利用しない、探索部分のみに工夫を加えたモンテカルロ法
+- MC3.java : 問題特性に応じたルールベース手法
+- MC4.java : 問題特性に応じた工夫を加えたモンテカルロ法
+- MC4mkII.java : MC4.javaの高速化
+- PI.java : πの近似値
+
 ### 変数
 
 - Scanner sc : java独自、わざわざ引数に追加しないため。
@@ -24,4 +31,12 @@ javaクラス名はすべてMainで、ファイル名とは一致しません。
 - update(p_it[simulate_cnt][this.t_]);にて例外となる。cppでは範囲外のメモリを参照して動いているようだが、this.t_ \< END_TURNのチェックを追加する。
 - 制限時間を1950ミリ秒でローカルPCでは問題ないように見えるが、AtcoderサーバーではTLEとなるので、1900ミリ秒に変更する。
 - log_addメソッドとList\<String> log_listを追加する。各ターンの経過時間、ターン数、シミュレーション数を保管し、最後に出力する。
+
+## MC4mkII.java
+
+MC4.javaがcppと比べてスコアが悪いので、高速化を目指す。
+
+- ArrayDeque\<PairInt>をArrayDeque\<Integer>に置き換え。（あまり効果なし）
+- ArrayDeque\<PairInt>をMyDequeに置き換え。（あまり効果なし）
+- pos(),gety(),getx()の結果をpos\_tbl,gety\_tbl,getx\_tblに事前キャッシュ化。（効果あり）
 

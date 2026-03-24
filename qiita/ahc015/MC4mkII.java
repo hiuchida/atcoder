@@ -4,20 +4,135 @@ public class Main {
 	Scanner sc = new Scanner(System.in);
 	Random rand = new Random(0);
 
-	static class PairInt {
-		int first;
-		int second;
+	int pos(int y, int x) {
+		return pos_tbl[y][x];
+//		return y * W + x;
+	}
 
-		PairInt(int f, int s) {
-			this.first = f;
-			this.second = s;
+	int gety(int pos) {
+		return gety_tbl[pos];
+//		return pos / W;
+	}
+
+	int getx(int pos) {
+		return getx_tbl[pos];
+//		return pos % W;
+	}
+
+//	static class PairInt {
+//		int first;
+//		int second;
+//
+//		PairInt(int f, int s) {
+//			this.first = f;
+//			this.second = s;
+//		}
+//	}
+
+	static class MyDeque {
+		int[] ary;
+		int head;
+		int tail;
+
+		MyDeque() {
+			this(100, -1);
+		}
+
+		MyDeque(int n, int i) {
+			n++;
+			n += n % 2 == 0 ? 1 : 0;
+			if (i < 0)
+				i = n / 2;
+			ary = new int[n];
+			head = i;
+			tail = i;
+			Arrays.fill(ary, -1);
+		}
+
+		boolean isEmpty() {
+			return size() == 0;
+		}
+
+		int size() {
+			int t = tail;
+			if (head > t)
+				t += ary.length;
+			return t - head;
+		}
+
+		int get(int i) {
+			i += head;
+			if (i >= ary.length)
+				i -= ary.length;
+			return ary[i];
+		}
+
+		private void grow() {
+//			System.err.println("grow");
+			int s0 = ary.length - 1;
+			int[] tmp = new int[s0 * 2 + 1];
+			int s1 = ary.length / 2;
+			int s2 = ary.length - head;
+			int s3 = s1 + s2;
+			int s4 = tail;
+			Arrays.fill(tmp, 0, tmp.length, -1);
+			System.arraycopy(ary, head, tmp, s1, s2);
+			System.arraycopy(ary, 0, tmp, s3, s4);
+			ary = tmp;
+			head = s1;
+			tail = head + s0;
+		}
+
+		void addFirst(int x) {
+			if (size() == ary.length - 1)
+				grow();
+			head--;
+			if (head < 0)
+				head += ary.length;
+			ary[head] = x;
+		}
+
+		void addLast(int x) {
+			if (size() == ary.length - 1)
+				grow();
+			ary[tail] = x;
+			tail++;
+			if (tail >= ary.length)
+				tail -= ary.length;
+		}
+
+		int removeFirst() {
+			if (size() == 0)
+				return -1;
+			int x = ary[head];
+			ary[head] = -1;
+			head++;
+			if (head >= ary.length)
+				head -= ary.length;
+			return x;
+		}
+
+		int removeLast() {
+			if (size() == 0)
+				return -1;
+			tail--;
+			if (tail < 0)
+				tail += ary.length;
+			int x = ary[tail];
+			ary[tail] = -1;
+			return x;
+		}
+
+		@Override
+		public String toString() {
+			return Arrays.toString(ary) + " " + head + " " + tail;
 		}
 	}
 // 問題特性に応じた工夫を加えたモンテカルロ法のサンプルコード
 
 // 定数
-	int H = 10; // 箱の縦方向の大きさ
-	int W = 10; // 箱の横方向の大きさ
+	final int H = 10; // 箱の縦方向の大きさ
+	final int W = 10; // 箱の横方向の大きさ
 	int END_TURN = 100; // ゲーム終了ターン
 	final int F = 0; // 前方向に傾ける
 	final int B = 1; // 後ろ方向に傾ける
@@ -202,7 +317,7 @@ public class Main {
 		}
 
 		// 座標y,xを基準に連結成分の大きさを調べる。調査済みの座標はchekedをtrueにする。
-		int getGroupSize(int y, int x, boolean[][] checked) {
+		int getGroupSize(int y, int x, boolean[][] checked, MyDeque q) {
 			// 右、左、下、上への移動方向のx成分。BFSに利用するので順序はどうでもいい
 			int[] dx = { 1, -1, 0, 0 };
 			// 右、左、下、上への移動方向のy成分
@@ -210,14 +325,14 @@ public class Main {
 			int candy = this.board_[y][x];
 			checked[y][x] = true;
 
-			ArrayDeque<PairInt> q = new ArrayDeque<>();
-			q.add(new PairInt(y, x));
+//			MyDeque q = new MyDeque();
+			q.addLast(pos(y, x));
 			int cnt = 0;
 			while (!q.isEmpty()) {
 				++cnt;
-				PairInt pi = q.poll();
-				int now_y = pi.first;
-				int now_x = pi.second;
+				int pi = q.removeFirst();
+				int now_y = gety(pi);
+				int now_x = getx(pi);
 
 				for (int di = 0; di < 4; di++) {
 					int ty = now_y + dy[di];
@@ -225,7 +340,7 @@ public class Main {
 					if (0 <= ty && ty < H && 0 <= tx && tx < W && checked[ty][tx] != true
 							&& this.board_[ty][tx] == candy) {
 						checked[ty][tx] = true;
-						q.add(new PairInt(ty, tx));
+						q.addLast(pos(ty, tx));
 					}
 				}
 			}
@@ -236,10 +351,11 @@ public class Main {
 		double getScore() {
 			double score = 0;
 			boolean[][] checked = new boolean[H][W];
+			MyDeque q = new MyDeque(H * W, -1);
 			for (int y = 0; y < H; y++) {
 				for (int x = 0; x < W; x++) {
 					if (this.board_[y][x] != 0 && checked[y][x] == false) {
-						int group_size = getGroupSize(y, x, checked);
+						int group_size = getGroupSize(y, x, checked, q);
 						score += group_size * group_size;
 					}
 				}
@@ -356,6 +472,20 @@ public class Main {
 		return 0;
 	}
 
+	int[][] pos_tbl = new int[H][W];
+	int[] gety_tbl = new int[H * W];
+	int[] getx_tbl = new int[H * W];
+
+	void init() {
+		for (int i = 0; i < H; i++) {
+			for (int j = 0; j < W; j++) {
+				pos_tbl[i][j] = i * W + j;
+				gety_tbl[i * W + j] = i;
+				getx_tbl[i * W + j] = j;
+			}
+		}
+	}
+
 	static List<String> log_list = new ArrayList<>();
 	static int simulate_sum;
 
@@ -368,6 +498,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		Main main = new Main();
+		main.init();
 		try {
 			main.main();
 		} catch (Exception e) {
