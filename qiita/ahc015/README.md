@@ -40,3 +40,7 @@ MC4.javaがcppと比べてスコアが悪いので、高速化を目指す。
 - ArrayDeque\<PairInt>をMyDequeに置き換え。（あまり効果なし）
 - pos(),gety(),getx()の結果をpos\_tbl,gety\_tbl,getx\_tblに事前キャッシュ化。（効果あり）
 
+## MC4mkIII.java
+
+- update()のgetx(),gety()を適用
+
