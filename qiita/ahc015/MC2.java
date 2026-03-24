@@ -422,7 +422,7 @@ public class Main {
 		global_state = new State();
 		int[] pts = new int[END_TURN];
 		int[] actions = new int[END_TURN];
-		TimeKeeper time_keeper = new TimeKeeper(1950, END_TURN);
+		TimeKeeper time_keeper = new TimeKeeper(1900, END_TURN);
 		for (int t = 0; t < END_TURN; t++) {
 			time_keeper.setTurn(t);
 			pts[t] = sc.nextInt();
@@ -434,6 +434,7 @@ public class Main {
 			int action = mctsActionWithTimeThreshold(time_keeper);
 			actions[t] = action;
 			System.out.println(ACTION_CHARS.charAt(action));
+			System.out.flush();
 
 			if (t < 13) {
 				// global_state.printTrueScores();
@@ -491,7 +492,7 @@ public class Main {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		for (String s : log_list)
-			System.err.println(s);
+//		for (String s : log_list)
+//			System.err.println(s);
 	}
 }

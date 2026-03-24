@@ -210,7 +210,6 @@ public class Main {
 			int cnt = 0;
 			while (!q.isEmpty()) {
 				++cnt;
-				// c++17以降で利用できる、構造化束縛という構文。pairを分解して取り出せる。
 				PairInt pi = q.poll();
 				int now_y = pi.first;
 				int now_x = pi.second;
@@ -304,8 +303,8 @@ public class Main {
 		// メインループで使用するstateを初期化する
 		State state = new State();
 
-		// 制限時間を1950ミリ秒で設定する。（2秒ちょうどだとオーバーヘッドで超過するため）
-		TimeKeeper time_keeper = new TimeKeeper(1950, END_TURN);
+		// 制限時間を1900ミリ秒で設定する。（2秒ちょうどだとオーバーヘッドで超過するため）
+		TimeKeeper time_keeper = new TimeKeeper(1900, END_TURN);
 
 		// 処理のメインループ
 		for (int t = 0; t < END_TURN; t++) {
@@ -320,6 +319,7 @@ public class Main {
 			int action = primitiveMontecalro(time_keeper, state);
 			// 今回の操作を出力する
 			System.out.println(ACTION_CHARS.charAt(action));
+			System.out.flush();
 			// 今回の操作によってstateを更新する
 			state.advance(action);
 		}
@@ -341,7 +341,7 @@ public class Main {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		for (String s : log_list)
-			System.err.println(s);
+//		for (String s : log_list)
+//			System.err.println(s);
 	}
 }

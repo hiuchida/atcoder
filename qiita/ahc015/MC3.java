@@ -34,6 +34,7 @@ public class Main {
 			pt = sc.nextInt();
 			int action = rule_actions[t];
 			System.out.println(ACTION_CHARS.charAt(action));
+			System.out.flush();
 		}
 		return 0;
 	}
