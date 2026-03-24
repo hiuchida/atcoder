@@ -7,6 +7,7 @@ javaクラス名はすべてMainで、ファイル名とは一致しません。
 - MC3.java : 問題特性に応じたルールベース手法
 - MC4.java : 問題特性に応じた工夫を加えたモンテカルロ法
 - MC4mkII.java : MC4.javaの高速化
+- MC4mkIII.java : MC4.javaの高速化2
 - PI.java : πの近似値
 
 ### 変数
