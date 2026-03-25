@@ -8,6 +8,8 @@ javaクラス名はすべてMainで、ファイル名とは一致しません。
 - MC4.java : 問題特性に応じた工夫を加えたモンテカルロ法
 - MC4mkII.java : MC4.javaの高速化
 - MC4mkIII.java : MC4.javaの高速化2
+- MC4mkIV.java : MC4.javaの高速化3
+- MC4mkV.java : MC4IV.javaの調整
 - PI.java : πの近似値
 
 ### 変数
@@ -51,4 +53,8 @@ MC4.javaがcppと比べてスコアが悪いので、高速化を目指す。
 - boolean\[\]\[\] checkedをint\[\] visitedIdに変更し、常に異なるcurrentIdをチェックすることでgetScoreの度の初期化コストを無くす。
 - MyDeque queueを使いまわして、getScoreの度の生成コストを無くす。
 - int[]\[\] board_をint[] board_に変更し、(y,x)でなくposでループする。
+
+## MC4mkV.java
+
+- Scannerを止めて、BufferedReaderに変更する。
 
