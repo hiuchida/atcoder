@@ -3,6 +3,7 @@ import java.util.*;
 
 public class Main {
 	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
 	String readLine() {
 		try {
 			return br.readLine();
@@ -10,14 +11,17 @@ public class Main {
 			return null;
 		}
 	}
+
 	String[] readField() {
 		String s = readLine();
 		return s.split(" ");
 	}
+
 	int nextInt() {
 		String s = readLine();
 		return Integer.parseInt(s);
 	}
+
 	Random rand = new Random(0);
 
 	int pos(int y, int x) {
@@ -204,13 +208,14 @@ public class Main {
 			var now = System.currentTimeMillis();
 			// var whole_diff = now - this.start_time_;
 			var whole_diff = this.before_time_ - this.start_time_;
-			var whole_count = whole_diff;
 			var last_diff = now - this.before_time_;
-			var last_count = last_diff;
-
-			var remaining_time = time_threshold_ - whole_count;
-			var now_threshold = remaining_time / (end_turn_ - this.turn_);
-			return last_count >= now_threshold;
+			var remaining_time = time_threshold_ - whole_diff;
+			// 均等配分（残り時間 / 残りターン数）
+			double average_remaining = (double) remaining_time / (end_turn_ - this.turn_);
+			// 重みを 2.0 から 1.0 へ線形に減少させる
+			double weight = 2.0 - (double) this.turn_ / this.end_turn_;
+			long now_threshold = (long) (average_remaining * weight);
+			return last_diff >= now_threshold;
 		}
 	}
 
