@@ -58,4 +58,5 @@ MC4.javaがcppと比べてスコアが悪いので、高速化を目指す。
 
 - TimeKeeperの割り当てを、ターン数に対して重み2.0から1.0へ線形に減少させる。
 - Scannerを止めて、BufferedReaderに変更する。
+- mt()を止めて、rand.nextInt(reverse_t)に変更する。
 

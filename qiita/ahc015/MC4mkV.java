@@ -164,9 +164,9 @@ public class Main {
 // 出力に使う文字
 	final String ACTION_CHARS = "FBLR";
 
-	int mt() {
-		return rand.nextInt(Integer.MAX_VALUE);
-	}
+//	int mt() {
+//		return rand.nextInt(Integer.MAX_VALUE);
+//	}
 
 	int[] future_candies = new int[END_TURN]; // 各ターンで追加されるキャンディの種類
 // 探索で利用するキャンディの位置候補
@@ -457,7 +457,7 @@ public class Main {
 				int reverse_t = END_TURN - t;
 				int p = 1;
 				if (reverse_t != 0) {
-					p = mt() % reverse_t + 1;
+					p = rand.nextInt(reverse_t) + 1;
 				}
 				p_it[i][t] = p;
 			}
