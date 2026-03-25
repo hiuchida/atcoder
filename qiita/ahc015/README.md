@@ -43,5 +43,12 @@ MC4.javaがcppと比べてスコアが悪いので、高速化を目指す。
 
 ## MC4mkIII.java
 
-- update()のgetx(),gety()を適用
+- update()のgetx(),gety()を適用する。
+
+## MC4mkIV.java
+
+- 定数SIZE = H * Wを追加する。
+- boolean\[\]\[\] checkedをint\[\] visitedIdに変更し、常に異なるcurrentIdをチェックすることでgetScoreの度の初期化コストを無くす。
+- MyDeque queueを使いまわして、getScoreの度の生成コストを無くす。
+- int[]\[\] board_をint[] board_に変更し、(y,x)でなくposでループする。
 
